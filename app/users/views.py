@@ -5,7 +5,7 @@
     Views for users.
 """
 from datetime import datetime
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from app.extensions import db
 from app.users.models import User
@@ -25,3 +25,31 @@ def before_request():
 @login_required
 def home():
     return render_template('users/home.html')
+
+
+@users.route('/list')
+@login_required
+def list():
+    users = User.query.all()
+    return render_template('users/list.html', users=users)
+
+
+@users.route('/<username>/<action>')
+@login_required
+def user_action(username, action):
+    user = User.query.filter_by(username=username).first_or_404()
+    if user == current_user:
+        return redirect(url_for('users.home'))
+    full_name = user.get_full_name()
+
+    # Follow user.
+    if action == 'follow':
+        current_user.follow(user)
+        current_user.commit()
+
+    # Unfollow user.
+    if action == 'unfollow':
+        current_user.unfollow(user)
+        current_user.commit()
+
+    return redirect(request.referrer)

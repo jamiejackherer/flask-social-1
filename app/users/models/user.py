@@ -31,11 +31,6 @@ class User(UserMixin, db.Model, BaseModel):
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic')
 
-    def register(self):
-        self.set_default_username()
-        self.set_password(self.password)
-        self.commit()
-
     def set_default_username(self):
         self.username = hash_list([self.first_name, self.last_name,
                                   self.email])

@@ -1,0 +1,29 @@
+{% extends "/base.html" %}
+
+{% block content %}
+  <table style="margin-top: 4rem;">
+    <tr>
+      <th>Full name</th>
+      <th>Username</th>
+      <th>Followers</th>
+      <th>Following</th>
+    </th>
+    {% for user in users %}
+    <tr>
+      <td><a href="#">{{ user.get_full_name() }}</a></td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.followers.count() }}</td>
+      <td>{{ user.followed.count() }}</td>
+      <td>
+      {% if current_user != user %}
+        {% if current_user.is_following(user) %}
+        <a href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">Unfollow</a>
+        {% else %}
+        <a href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
+        {% endif %}
+      {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </ul>
+{% endblock %}

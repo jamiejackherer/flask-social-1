@@ -15,6 +15,7 @@
 {% if current_user.is_authenticated %}
 <ul>
   <li><a href="{{ url_for('static_views.logout') }}">Logout</a></li>
+  <li><a href="{{ url_for('users.list') }}">List</a></li>
 </ul>
 {% else %}
 Some other nav
