@@ -15,5 +15,8 @@ def register_user(User, email, first_name, last_name, password):
 
 def hash_list(hash_list, hash_type='md5'):
     string = '_'.join(map(str, hash_list)).encode('UTF-8')
-    digest = md5(string) if hash_type == 'md5' else sha256(string)
+    if hash_type == 'md5':
+        digest = md5(string)
+    else:
+        digest = sha256(string)
     return digest.hexdigest()
