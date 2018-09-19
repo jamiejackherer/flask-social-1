@@ -4,11 +4,13 @@
 
     Static views that do not require a user login.
 """
+from werkzeug.urls import url_parse
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from sqlalchemy import func
 from flask_login import current_user, login_user, logout_user
 from app.forms import LoginForm, RegisterForm
 from app.users.models import User
+from app.helpers import register_user
 
 
 static_views = Blueprint('static_views', __name__)
@@ -20,11 +22,8 @@ def index():
         return redirect(url_for('users.home'))
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    email=form.email.data,
-                    password=form.password.data)
-        user.register()
+        user = register_user(User, form.email.data, form.first_name.data,
+                             form.last_name.data, form.password.data)
         login_user(user)
         return redirect(url_for('users.home'))
     return render_template('index.html', form=form)
