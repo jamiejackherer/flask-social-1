@@ -1,0 +1,38 @@
+{% extends "/base.html" %}
+
+{% block content %}
+<h2>{{ user.full_name }}</h2>
+
+{%- if user.last_seen %}
+<p>Last seen: {{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
+{%- endif %}
+
+<h3>About</h3>
+<p>{{ user.about_me }}</p>
+
+{%- if current_user != user %}
+<p>
+  {%- if current_user.is_following(user) %}
+  <a href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">Unfollow</a>
+  {%- else %}
+  <a href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
+  {%- endif %}
+</p>
+{%- endif %}
+
+{%- if current_user != user %}
+<form method="post" novalidate>
+  <div>
+    {{ form.body }}
+  </div>
+  <div>
+    {{ form.submit }}
+    {{ form.hidden_tag() }}
+  </div>
+</form>
+{%- endif %}
+
+{%- for post in posts %}
+{% include "/users/_post.html" %}
+{%- endfor %}
+{% endblock %}

@@ -23,7 +23,7 @@ class Test:
                       'testing')
         register_user(User, 'sheree@testing.com', 'Sheree', 'Score',
                       'testing')
-        register_user(User, 'mike@johnson.com', 'Mike', 'Johnson',
+        register_user(User, 'mike@testing.com', 'Mike', 'Johnson',
                       'testing')
         register_user(User, 'susan@testing.com', 'Susan', 'Roberts',
                       'testing')

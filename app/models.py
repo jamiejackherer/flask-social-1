@@ -29,4 +29,4 @@ class BaseModel:
 
     def delete(self):
         self.active = False
-        self.deleted = datetime.utcnow
+        self.deleted = datetime.utcnow()
