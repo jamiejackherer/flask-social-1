@@ -11,6 +11,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class BaseConfig:
+    APP_NAME = 'social'
     DEBUG = False
     TESTING = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key'

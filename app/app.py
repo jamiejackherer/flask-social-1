@@ -10,9 +10,11 @@ from config import DefaultConfig
 
 def create_app(config=None):
     app = Flask(__name__)
-    configure_app(app, config)
-    configure_extensions(app)
-    configure_blueprints(app)
+    with app.app_context():
+        configure_app(app, config)
+        configure_extensions(app)
+        configure_blueprints(app)
+        configure_jinja_globals(app)
     return app
 
 
@@ -38,3 +40,7 @@ def configure_blueprints(app):
     from app.users.views import users
     for blueprint in [static_views, errors, users]:
         app.register_blueprint(blueprint)
+
+
+def configure_jinja_globals(app):
+    app.jinja_env.globals['APP_NAME'] = app.config['APP_NAME']
