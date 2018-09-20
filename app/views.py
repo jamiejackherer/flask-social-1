@@ -51,6 +51,11 @@ def login():
     return render_template('login.html', form=form)
 
 
+@static_views.route('/register', methods=['GET', 'POST'])
+def register():
+    pass
+
+
 @static_views.route('/logout')
 def logout():
     logout_user()

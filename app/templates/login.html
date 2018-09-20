@@ -1,32 +1,19 @@
 {% extends "base.html" %}
+{% block page_title %}Login to {{ APP_NAME }}{% endblock %}
 
 {% block content %}
-<div style="width: 960px; height: 400px; margin: 0 auto; background-color: blue;">
-  Testing
-</div>
-
-<form method="post" novalidate>
-  {{ form.email.label }}<br>
-  {{ form.email }}
-  {% if form.email.errors %}
-  <ul>
-    {% for error in form.email.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-  {{ form.password.label }}<br>
-  {{ form.password }}
-  {% if form.password.errors %}
-  <ul>
-    {% for error in form.password.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-  {{ form.remember_me }}
-  {{ form.remember_me.label }}
-  {{ form.submit() }}
-  {{ form.hidden_tag() }}
-</form>
+  <div class="login-form-container">
+    <p class="login-form-header">Log into {{ APP_NAME }}</p>
+    <form class="login-form" method="post" novalidate>
+      {{ form.email(placeholder="Email or username") }}
+      {{ form.password(placeholder="Password") }}
+      {{ form.submit }}
+      {{ form.hidden_tag() }}
+    </form>
+    <p class="register">
+      <a href="{{ url_for('static_views.register') }}">
+        Not a member? Register for {{ APP_NAME }}.
+      </a>
+    </p>
+  </div><!--//END .login-form-container-->
 {% endblock %}

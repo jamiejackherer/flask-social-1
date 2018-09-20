@@ -1,0 +1,211 @@
+/**
+ * CSS StyleSheet for mybook
+ *
+ * author: Daniel Lindegren
+ *
+ * Table of contents (s:toc):
+ * - Defaults (s:defaults)
+ * - Forms (s:forms)
+ * - Site header (s:site-header)
+ * - Login form (s:login-form)
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+
+/* Defaults (s:defaults) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+  font-size: 62.5%;
+}
+
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+  display: block;
+}
+
+body {
+  margin: 0;
+
+  color: #333;
+  font-size: 1.4rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 1rem 0;
+}
+
+p,
+ol,
+ul,
+dl {
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+a,
+a:link {
+  color: #1a6dc2;
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  color: #333;
+  text-decoration: underline;
+}
+
+.responsive-container {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+/* //END Default (s:default) */
+
+/* Forms (s:forms) */
+input,
+textarea {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 100%;
+
+  border: 1px solid #e3e3e3;
+  border-radius: 0.3rem;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+input[type=submit] {
+  background-color: #1a6dc2; 
+  border-color: #0f559c;
+  color: #fff;
+}
+
+input[type=submit]:hover,
+input[type=submit]:active {
+  background-color: #0f559c;
+  cursor: pointer;
+}
+/* //END Forms (s:forms) */
+
+/* Site Header (s:site-header) */
+.header-container {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.header-container .site-header {
+  display: flex;
+  align-items: center;
+}
+
+.branding {
+  margin: 0;
+  padding: 1rem 0;
+}
+
+.branding a {
+  font: 3rem "Fredoka One";
+  line-height: 3rem;
+  text-decoration: none;
+}
+
+.branding a:hover,
+.branding a:active {
+  color: #1a6dc2;
+}
+
+.primary-nav {
+  display: flex;
+  margin: 0 0 0 auto;
+}
+
+.primary-nav li {
+  padding: 0 1rem;
+}
+
+.primary-nav li:last-child {
+  padding-right: 0;
+}
+
+.primary-nav a {
+  color: #2d2d2d;
+}
+
+.primary-nav a:hover,
+.primary-nav a:active {
+  color: #1a6dc2;
+  text-decoration: none;
+}
+
+.site-header .login,
+.site-header .register {
+  margin: 0 0 0 auto;
+  padding: 0.4rem 0.9rem;
+
+  background-color: #1a6dc2;
+  border: 1px solid #0f559c;
+  border-radius: 0.3rem;
+  color: #fff;
+}
+
+.site-header .login:hover,
+.site-header .login:active,
+.site-header .register:hover,
+.site-header .register:active {
+  background-color: #0f559c;
+  color: #fff;
+  text-decoration: none;
+}
+/* // END Site Header (s:site-header) */
+
+/* Login Form (s:login-form) */
+.login-form-container {
+  margin: 5rem auto;
+  max-width: 400px;
+  padding: 2.5rem;
+  text-align: center;
+
+  background-color: #f9f9f9;
+  border: 1px solid #e3e3e3;
+}
+
+.login-form-header {
+  margin-bottom: 2.5rem;
+  font-weight: bold;
+}
+
+.login-form-container .register {
+  margin-bottom: 0;
+}
+/* //END Login Form (s:login-form) */
