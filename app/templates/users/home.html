@@ -2,4 +2,21 @@
 
 {% block content %}
 <h1>Hello {{ current_user.get_full_name() }}</h1>
+
+<form method="post" novalidate>
+  {{ form.body(placeholder="What's on your mind?") }}
+  {% if form.body.errors %}
+  <ul>
+    {% for error in form.body.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {{ form.submit }}
+  {{ form.csrf_token }}
+</form>
+
+{% for post in posts %}
+  {% include "/users/_post.html" %}
+{% endfor %}
 {% endblock %}

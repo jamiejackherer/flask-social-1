@@ -1,6 +1,6 @@
 from app.app import create_app
 from app.extensions import db
-from app.users.models import User
+from app.users.models import User, Post
 from app.helpers import register_user
 
 
@@ -45,4 +45,5 @@ def make_shell_context():
         'db': db,
         'User': User,
         'Test': Test,
+        'Post': Post,
     }

@@ -8,7 +8,8 @@ from datetime import datetime
 from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from app.extensions import db
-from app.users.models import User
+from app.users.models import User, Post
+from app.users.forms import PostForm
 
 
 users = Blueprint('users', __name__)
@@ -21,10 +22,17 @@ def before_request():
         current_user.commit()
 
 
-@users.route('/home')
+@users.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template('users/home.html')
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.body.data, author=current_user,
+                    recipient=current_user)
+        post.commit()
+        return redirect(url_for('users.home'))
+    posts = current_user.followed_posts()
+    return render_template('users/home.html', form=form, posts=posts)
 
 
 @users.route('/list')

@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
+from app.users.models.post import Post
 from app.users.models.followers import followers
 from app.helpers import hash_list
 
@@ -30,6 +31,14 @@ class User(UserMixin, db.Model, BaseModel):
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic')
+    post_author = db.relationship(
+        'Post',
+        foreign_keys='Post.author_id',
+        backref='author', lazy='dynamic')
+    post_recipient = db.relationship(
+        'Post',
+        foreign_keys='Post.recipient_id',
+        backref='recipient', lazy='dynamic')
 
     def set_default_username(self):
         self.username = hash_list([self.first_name, self.last_name,
@@ -55,6 +64,15 @@ class User(UserMixin, db.Model, BaseModel):
     def is_following(self, user):
         return self.followed.filter(
             followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        followed = Post.query.join(
+            followers,
+            (followers.c.followed_id == Post.author_id)).filter(
+                followers.c.follower_id == self.id,
+                Post.author_id == Post.recipient_id)
+        my_posts = Post.query.filter_by(recipient_id=self.id)
+        return followed.union(my_posts).order_by(Post.created.desc())
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
