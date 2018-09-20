@@ -13,7 +13,7 @@
 <body>
 
 <div class="header-container">
-  <div class="site-header responsive-container">
+  <header class="site-header responsive-container">
     <h1 class="branding"><a href="{{ url_for('static_views.index') }}">{{ APP_NAME }}</a></h1>
     {%- if current_user.is_authenticated %}
     <ul class="primary-nav">
@@ -31,7 +31,7 @@
     <a class="register" href="{{ url_for('static_views.register') }}">Register</a>
     {%- endif %}
     {%- endif %}
-  </div><!--//END .responsive-container-->
+  </header><!--//END .responsive-container-->
 </div><!--//END .header-container-->
 
 <div class="responsive-container">

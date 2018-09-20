@@ -1,6 +1,21 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<h1>Welcome!</h1>
-{% include "/_register-form.html" %}
+<div class="index-container">
+  <div class="content">
+    <span class="welcome-header">Welcome</span>
+    <p>
+      I created this social media website for fun, to test my skills. If you'd like, you
+      can <a href="#">view this website's code</a> on github.
+    </p>
+    <p>
+      This website was written in <a href="https://www.python.org/">Python</a>, using the
+      <a href="http://flask.pocoo.org">Flask microframework</a>.
+    </p>
+  </div>
+  <div class="registration">
+    <span class="sign-up">Sign up for {{ APP_NAME }}!</span>
+    {% include "/_register-form.html" %}
+  </div>
+</div><!--//END .index-container-->
 {% endblock %}

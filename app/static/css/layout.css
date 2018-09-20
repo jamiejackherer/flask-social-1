@@ -8,6 +8,7 @@
  * - Forms (s:forms)
  * - Site header (s:site-header)
  * - Login form (s:login-form)
+ * - Index (s:index)
  */
 
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One');
@@ -50,15 +51,19 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 10px 0;
 }
 
 p,
 ol,
 ul,
 dl {
-  margin: 0 0 1rem 0;
+  margin: 0 0 10px 0;
   padding: 0;
+}
+
+p {
+  line-height: 2;
 }
 
 ol,
@@ -89,12 +94,12 @@ a:active {
 input,
 textarea {
   display: inline-block;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  margin-bottom: 10px;
+  padding: 10px;
   width: 100%;
 
   border: 1px solid #e3e3e3;
-  border-radius: 0.3rem;
+  border-radius: 3px;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -131,12 +136,11 @@ input[type=submit]:active {
 
 .branding {
   margin: 0;
-  padding: 1rem 0;
+  padding: 10px 0;
 }
 
 .branding a {
-  font: 3rem "Fredoka One";
-  line-height: 3rem;
+  font: 30px "Fredoka One";
   text-decoration: none;
 }
 
@@ -151,7 +155,7 @@ input[type=submit]:active {
 }
 
 .primary-nav li {
-  padding: 0 1rem;
+  padding: 0 10px;
 }
 
 .primary-nav li:last-child {
@@ -171,11 +175,11 @@ input[type=submit]:active {
 .site-header .login,
 .site-header .register {
   margin: 0 0 0 auto;
-  padding: 0.4rem 0.9rem;
+  padding: 4px 9px;
 
   background-color: #1a6dc2;
   border: 1px solid #0f559c;
-  border-radius: 0.3rem;
+  border-radius: 3px;
   color: #fff;
 }
 
@@ -191,9 +195,9 @@ input[type=submit]:active {
 
 /* Login Form (s:login-form) */
 .login-form-container {
-  margin: 5rem auto;
+  margin: 50px auto;
   max-width: 400px;
-  padding: 2.5rem;
+  padding: 25px;
   text-align: center;
 
   background-color: #f9f9f9;
@@ -201,7 +205,7 @@ input[type=submit]:active {
 }
 
 .login-form-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 25px;
   font-weight: bold;
 }
 
@@ -209,3 +213,31 @@ input[type=submit]:active {
   margin-bottom: 0;
 }
 /* //END Login Form (s:login-form) */
+
+/* Index */
+.index-container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 500px 430px;
+  margin-top: 40px;
+}
+
+.index-container .registration {
+  padding: 20px;
+
+  background: #f9f9f9;
+}
+
+.index-container .welcome-header,
+.index-container .sign-up {
+  display: block;
+  margin-bottom: 20px;
+
+  font-size: 3rem;
+}
+
+.index-container .content p {
+  font-size: 2rem;
+  line-height: 1.5;
+}
+/* //END Index (s:index) */
