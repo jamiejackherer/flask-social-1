@@ -34,8 +34,55 @@ class Test:
         register_user(User, 'jordan@testing.com', 'Jordan', 'Green',
                       'testing')
         register_user(User, 'sam@testing.com', 'Sam', 'Jennings', 'testing')
-        
+
         print('Restart the python shell before doing anything else.')
+
+    def create_posts(self):
+        # ono
+        post1 = Post(
+            body='Hey guys, Daniel here. This is my first post!',
+            author=self.ono, recipient=self.ono)
+        post2 = Post(
+            body='Daniel here, what is the best way to flip a pancake?',
+            author=self.ono, recipient=self.ono)
+        post3 = Post(
+            body='Lindegren here, how many eggs are in a bakers dozen?',
+            author=self.ono, recipient=self.ono)
+        db.session.add(post1)
+        db.session.add(post2)
+        db.session.add(post3)
+
+        # sheree
+        post1 = Post(
+            body='Sheree here, what time is the game on tonight?',
+            author=self.sheree, recipient=self.sheree)
+        post2 = Post(
+            body='Hey guys, it is Sheree. Does anyone know what time it is?',
+            author=self.sheree, recipient=self.sheree)
+        post3 = Post(
+            body='My name is Sheree! Did everyone know that? :)',
+            author=self.sheree, recipient=self.sheree)
+        db.session.add(post1)
+        db.session.add(post2)
+        db.session.add(post3)
+
+        # mike
+        post1 = Post(
+            body='Hey guys, it is Mike! Where is the taco stand?',
+            author=self.mike, recipient=self.mike)
+        db.session.add(post1)
+
+        # susan
+        post1 = Post(
+            body='Susan here. This is my very first post!',
+            author=self.susan, recipient=self.susan)
+        post2 = Post(
+            body='Hey guys! My name is Susan. I like chicken.',
+            author=self.susan, recipient=self.susan)
+        db.session.add(post1)
+        db.session.add(post2)
+
+        db.session.commit()
 
 
 @app.shell_context_processor

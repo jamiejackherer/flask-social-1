@@ -16,7 +16,10 @@
   {{ form.csrf_token }}
 </form>
 
-{% for post in posts %}
-  {% include "/users/_post.html" %}
-{% endfor %}
+{%- for post in posts.items %}
+  {%- include "/users/_post.html" %}
+{%- endfor %}
+
+{%- from "/_macros.html" import render_pagination %}
+{{ render_pagination(posts, 'users.home') }}
 {% endblock %}

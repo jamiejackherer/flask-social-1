@@ -1,6 +1,6 @@
-    {% if post.active %}
+    {%- if post.active %}
       <div>
         <a href="#">{{ post.author.get_full_name() }}</a>
         <p>{{ post.body }}</p>
       </div>
-    {% endif %}
+    {%- endif %}
