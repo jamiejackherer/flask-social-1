@@ -7,6 +7,7 @@
 from datetime import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import column_property
 from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
@@ -26,6 +27,7 @@ class User(UserMixin, db.Model, BaseModel):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     posts_per_page = db.Column(db.Integer, default=10, nullable=False)
 
+    full_name = column_property(first_name + " " + last_name)
     followed = db.relationship(
         'User',
         secondary=followers,
@@ -51,9 +53,6 @@ class User(UserMixin, db.Model, BaseModel):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-
-    def get_full_name(self):
-        return '{} {}'.format(self.first_name, self.last_name)
 
     def follow(self, user):
         if not self.is_following(user):

@@ -7,7 +7,6 @@
 from datetime import datetime
 from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
-from app.extensions import db
 from app.users.models import User, Post
 from app.users.forms import PostForm
 
@@ -50,7 +49,6 @@ def user_action(username, action):
     user = User.query.filter_by(username=username).first_or_404()
     if user == current_user:
         return redirect(url_for('users.home'))
-    full_name = user.get_full_name()
 
     # Follow user.
     if action == 'follow':
