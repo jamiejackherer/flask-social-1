@@ -1,6 +1,11 @@
     {%- if post.active %}
       <div>
-        <a href="#">{{ post.author.get_full_name() }}</a>
-        <p>{{ post.body }}</p>
+        <div style="float: left; width: 5%">
+          <img style="border-radius: 50%;" src="{{ post.author.avatar(60) }}">
+        </div>
+        <div style="float: left; width: 95%">
+          <a href="#">{{ post.author.get_full_name() }}</a>
+          <p>{{ post.body }}</p>
+        </div>
       </div>
     {%- endif %}

@@ -5,6 +5,7 @@
     User model.
 """
 from datetime import datetime
+from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app.extensions import db, login
@@ -74,6 +75,11 @@ class User(UserMixin, db.Model, BaseModel):
                 Post.author_id == Post.recipient_id)
         my_posts = Post.query.filter_by(recipient_id=self.id)
         return followed.union(my_posts).order_by(Post.created.desc())
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
