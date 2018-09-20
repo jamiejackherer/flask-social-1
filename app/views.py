@@ -2,7 +2,7 @@
     app.views
     ~~~~~~~~~
 
-    Static views that do not require a user login.
+    Static views that do not require user login.
 """
 from werkzeug.urls import url_parse
 from flask import Blueprint, render_template, redirect, url_for, request, flash

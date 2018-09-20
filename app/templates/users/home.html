@@ -20,6 +20,8 @@
   {%- include "/users/_post.html" %}
 {%- endfor %}
 
+{%- if posts.pages > 1 %}
 {%- from "/_macros.html" import render_pagination %}
 {{ render_pagination(posts, 'users.home') }}
+{%- endif %}
 {% endblock %}
