@@ -71,8 +71,9 @@ class User(UserMixin, db.Model, BaseModel):
             followers,
             (followers.c.followed_id == Post.author_id)).filter(
                 followers.c.follower_id == self.id,
-                Post.author_id == Post.recipient_id)
-        my_posts = Post.query.filter_by(recipient_id=self.id)
+                Post.author_id == Post.recipient_id,
+                Post.active == True)
+        my_posts = Post.query.filter_by(recipient_id=self.id, active=True)
         return followed.union(my_posts).order_by(Post.created.desc())
 
     def avatar(self, size):
