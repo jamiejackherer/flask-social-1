@@ -32,7 +32,12 @@
 </form>
 {%- endif %}
 
-{%- for post in posts %}
+{%- for post in posts.items %}
 {% include "/users/_post.html" %}
 {%- endfor %}
+
+{%- if posts.pages > 1 %}
+{%- from "/_macros.html" import render_pagination %}
+{{ render_pagination(posts, 'users.profile', user.username) }}
+{%- endif %}
 {% endblock %}
