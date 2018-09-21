@@ -8,6 +8,7 @@ from app.extensions import db
 
 
 class BaseModel:
+    id = db.Column(db.Integer, primary_key=True)
     active = db.Column(db.Boolean, default=True, nullable=False)
     created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     deleted = db.Column(db.DateTime)

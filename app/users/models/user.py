@@ -17,7 +17,6 @@ from app.helpers import hash_list
 
 
 class User(UserMixin, db.Model, BaseModel):
-    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(35), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
@@ -31,8 +30,8 @@ class User(UserMixin, db.Model, BaseModel):
     followed = db.relationship(
         'User',
         secondary=followers,
-        primaryjoin=(followers.c.follower_id == id),
-        secondaryjoin=(followers.c.followed_id == id),
+        primaryjoin='followers.c.follower_id == User.id',
+        secondaryjoin='followers.c.followed_id == User.id',
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic')
     post_author = db.relationship(
