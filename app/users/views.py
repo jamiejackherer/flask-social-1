@@ -43,7 +43,6 @@ def home():
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = user.post_recipient.order_by(Post.created.desc()).all()
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.body.data, author=current_user,
@@ -51,6 +50,8 @@ def profile(username):
         post.commit()
         flash('Your post is now live!')
         return redirect(url_for('users.profile', username=username))
+    posts = user.post_recipient.filter(Post.active == True).\
+        order_by(Post.created.desc()).all()
     return render_template('users/profile.html', user=user, posts=posts,
                            form=form)
 
