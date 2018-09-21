@@ -1,0 +1,21 @@
+{% extends "/base.html" %}
+
+{% block content %}
+{% if user.followers.count() %}
+<ul>
+  {% for follower in user.followers.all() %}
+  <li>
+    <a href="{{ url_for('users.profile', username=follower.username) }}">{{ follower.full_name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>
+  {% if current_user == user %}
+  You do not have any followers.
+  {% else %}
+  {{ user.first_name }} does not have any followers.
+  {% endif %}
+</p>
+{% endif %}
+{% endblock %}

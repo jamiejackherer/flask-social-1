@@ -1,0 +1,21 @@
+{% extends "/base.html" %}
+
+{% block content %}
+{% if user.followed.count() %}
+<ul>
+  {% for following in user.followed.all() %}
+  <li>
+    <a href="{{ url_for('users.profile', username=following.username) }}">{{ following.full_name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>
+  {% if current_user == user %}
+  You are not following anyone.
+  {% else %}
+  {{ user.first_name }} is not following anyone.
+  {% endif %}
+</p>
+{% endif %}
+{% endblock %}

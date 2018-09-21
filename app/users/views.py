@@ -51,11 +51,25 @@ def profile(username):
         flash('Your post is now live!')
         return redirect(url_for('users.profile', username=username))
     page = request.args.get('page', 1, type=int)
-    posts = user.post_recipient.filter(Post.active == True).\
+    posts = user.post_recipient.filter('Post.active == True').\
         order_by(Post.created.desc()).paginate(
             page, current_user.posts_per_page, False)
     return render_template('users/profile.html', user=user, posts=posts,
                            form=form)
+
+
+@users.route('/<username>/followers', methods=['GET', 'POST'])
+@login_required
+def followers(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('users/followers.html', user=user)
+
+
+@users.route('/<username>/following', methods=['GET', 'POST'])
+@login_required
+def following(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('users/following.html', user=user)
 
 
 @users.route('/list')
@@ -94,7 +108,7 @@ def user_action(username, action):
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
             post.commit()
-            flash('Delete deleted.')
+            flash('Post was deleted.')
 
     return redirect(request.referrer)
 
