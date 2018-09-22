@@ -1,27 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Hello {{ current_user.full_name }}</h1>
+<div class="grid-container">
+  <div class="user-info">
+    <h2>{{ current_user.full_name }}</h1>
+  </div><!--//END .user-info-->
 
-<form method="post" novalidate>
-  {{ form.body(placeholder="What's on your mind?") }}
-  {% if form.body.errors %}
-  <ul>
-    {% for error in form.body.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-  {{ form.submit }}
-  {{ form.csrf_token }}
-</form>
-
-{%- for post in posts.items %}
-  {%- include "/users/_post.html" %}
-{%- endfor %}
-
-{%- if posts.pages > 1 %}
-{%- from "/_macros.html" import render_pagination %}
-{{ render_pagination(posts, 'users.home') }}
-{%- endif %}
+  <main class="posts">
+    <form method="post" novalidate>
+      {{ form.body(placeholder="What's on your mind?") }}
+      {%- if form.body.errors %}
+      <ul>
+        {% for error in form.body.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {%- endif %}
+      {{ form.submit }}
+      {{ form.csrf_token }}
+    </form>
+ 
+    {%- if posts.items %}
+    {%- for post in posts.items %}
+{% include "/users/_post.html" %}
+    {%- endfor %}
+    {%- else %}
+    <p class="card">Nothing to show. Post something, or start following some people.</p>
+    {%- endif %}
+  
+    {%- if posts.pages > 1 %}
+    {%- from "/_macros.html" import render_pagination %}
+    {{ render_pagination(posts, 'users.home') }}
+    {%- endif %}
+  </main><!--//END .posts-->
+</div><!--//END .grid-container-->
 {% endblock %}

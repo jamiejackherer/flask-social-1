@@ -36,15 +36,15 @@
 
 <div class="responsive-container">
 {% with messages = get_flashed_messages() %}
-  {%- if messages %}
-  <div>
-    <ul>
-      {%- for message in messages %}
-      <li>{{ message }}</li>
-      {%- endfor %}
-    </ul>
-  </div>
-  {%- endif %}
+{%- if messages %}
+<div class="flash">
+  <ul>
+    {%- for message in messages %}
+    <li>{{ message }}</li>
+    {%- endfor %}
+  </ul>
+</div><!--//END .flash-->
+{%- endif %}
 {%- endwith %}
 
 {%- block content %}
