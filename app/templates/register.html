@@ -1,0 +1,9 @@
+{% extends "/base.html" %}
+{% block page_title %}Sign up for {{ APP_NAME }}{% endblock %}
+
+{% block content %}
+<div class="registration-form-container">
+  <p class="registration-form-header">Sign up for {{ APP_NAME }}</p>
+  {% include "/_register-form.html" %}
+</div>
+{% endblock %}

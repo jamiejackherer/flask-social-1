@@ -7,9 +7,11 @@
  * - Defaults (s:defaults)
  * - Forms (s:forms)
  * - Site header (s:site-header)
- * - Login form (s:login-form)
+ * - Login form / Registration Form (s:login-form) (s:register)
  * - Index (s:index)
  */
+
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
 
 :root {
   --blue: #1a6dc3;
@@ -17,8 +19,6 @@
   --light-gray: #f9f9f9;
   --gray-border: #e3e3e3;
 }
-
-@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
 
 /* Defaults (s:defaults) */
 *,
@@ -50,6 +50,7 @@ body {
 
   color: #333;
   font-size: 1.4rem;
+  line-height: 1;
 }
 
 h1,
@@ -93,6 +94,10 @@ a:active {
 .responsive-container {
   margin: 0 auto;
   max-width: 960px;
+}
+
+.no-margin {
+  margin: 0;
 }
 
 /* //END Default (s:default) */
@@ -200,8 +205,9 @@ input[type=submit]:active {
 }
 /* // END Site Header (s:site-header) */
 
-/* Login Form (s:login-form) */
-.login-form-container {
+/* Login Form / Registration Form (s:login-form) (s:register) */
+.login-form-container,
+.registration-form-container {
   margin: 50px auto;
   max-width: 400px;
   padding: 25px;
@@ -211,7 +217,8 @@ input[type=submit]:active {
   border: 1px solid var(--gray-border);
 }
 
-.login-form-header {
+.login-form-header,
+.registration-form-header {
   margin-bottom: 25px;
   font-weight: bold;
 }
@@ -219,9 +226,9 @@ input[type=submit]:active {
 .login-form-container .register {
   margin-bottom: 0;
 }
-/* //END Login Form (s:login-form) */
+/* //END Login Form / Registration Form (s:login-form) (s:register) */
 
-/* Index */
+/* Index (s:index) */
 .index-container {
   display: grid;
   grid-gap: 20px;

@@ -53,7 +53,13 @@ def login():
 
 @static_views.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user = register_user(User, form.email.data, form.first_name.data,
+                             form.last_name.data, form.password.data)
+        login_user(user)
+        return redirect(url_for('users.home'))
+    return render_template('register.html', form=form)
 
 
 @static_views.route('/logout')
