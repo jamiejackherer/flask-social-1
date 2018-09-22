@@ -11,6 +11,6 @@ from flask_moment import Moment
 
 db = SQLAlchemy()
 login = LoginManager()
-migrate = Migrate() 
+migrate = Migrate()
 mail = Mail()
 moment = Moment()

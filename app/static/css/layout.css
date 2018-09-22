@@ -1,5 +1,5 @@
 /**
- * CSS StyleSheet for mybook
+ * CSS StyleSheet
  *
  * author: Daniel Lindegren
  *
@@ -7,7 +7,6 @@
  * - Defaults (s:defaults)
  * - Forms (s:forms)
  * - Site header (s:site-header)
- * - Login form / Registration Form (s:login-form) (s:register)
  * - Index (s:index)
  */
 
@@ -103,6 +102,21 @@ a:active {
 /* //END Default (s:default) */
 
 /* Forms (s:forms) */
+.form-container {
+  margin: 50px auto;
+  max-width: 400px;
+  padding: 25px;
+  text-align: center;
+
+  background-color: var(--light-gray);
+  border: 1px solid var(--gray-border);
+}
+
+.form-header {
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
 input,
 textarea {
   display: inline-block;
@@ -204,29 +218,6 @@ input[type=submit]:active {
   text-decoration: none;
 }
 /* // END Site Header (s:site-header) */
-
-/* Login Form / Registration Form (s:login-form) (s:register) */
-.login-form-container,
-.registration-form-container {
-  margin: 50px auto;
-  max-width: 400px;
-  padding: 25px;
-  text-align: center;
-
-  background-color: var(--light-gray);
-  border: 1px solid var(--gray-border);
-}
-
-.login-form-header,
-.registration-form-header {
-  margin-bottom: 25px;
-  font-weight: bold;
-}
-
-.login-form-container .register {
-  margin-bottom: 0;
-}
-/* //END Login Form / Registration Form (s:login-form) (s:register) */
 
 /* Index (s:index) */
 .index-container {

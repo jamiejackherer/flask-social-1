@@ -4,10 +4,13 @@
 
     User model.
 """
+from time import time
 from datetime import datetime
 from hashlib import md5
+import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import column_property
+from flask import current_app
 from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
@@ -79,6 +82,23 @@ class User(UserMixin, db.Model, BaseModel):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
+
+    def get_reset_password_token(self, expires=600):
+        return jwt.encode({'reset_password': self.id, 'exp': time() + expires},
+                          current_app.config['SECRET_KEY'],
+                          algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, current_app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['reset_password']
+        except Exception:
+            return
+        return User.query.get(id)
+
+    def testing(self):
+        return current_app
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(

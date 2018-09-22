@@ -4,7 +4,7 @@
 """
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField, BooleanField, PasswordField, SubmitField, TextAreaField
+    StringField, BooleanField, PasswordField, SubmitField
 )
 from wtforms.validators import (
     ValidationError, DataRequired, Email, Length, EqualTo
@@ -36,3 +36,18 @@ class RegisterForm(FlaskForm):
         if user is not None:
             raise ValidationError('{} is already '
                                   'registered'.format(email.data))
+
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Submit')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(
+        'Password',
+        validators=[DataRequired(), Length(min=8, max=32)])
+    password2 = PasswordField(
+        'Repeat new password', validators=[DataRequired(),
+                                           EqualTo('password')])
+    submit = SubmitField('submit')

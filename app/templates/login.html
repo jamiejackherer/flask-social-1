@@ -2,17 +2,22 @@
 {% block page_title %}Login to {{ APP_NAME }}{% endblock %}
 
 {% block content %}
-<div class="login-form-container">
-  <p class="login-form-header">Log into {{ APP_NAME }}</p>
-  <form class="login-form" method="post" novalidate>
+<div class="form-container">
+  <p class="form-header">Log into {{ APP_NAME }}</p>
+  <form method="post" novalidate>
     {{ form.email(placeholder="Email or username") }}
     {{ form.password(placeholder="Password") }}
     {{ form.submit }}
     {{ form.hidden_tag() }}
   </form>
-  <p class="register">
+  <p class="no-margin">
     <a href="{{ url_for('static_views.register') }}">
       Not a member? Register for {{ APP_NAME }}.
+    </a>
+  </p>
+  <p class="no-margin">
+    <a href="{{ url_for('static_views.reset_password_request') }}">
+      Forgot your password?
     </a>
   </p>
 </div><!--//END .login-form-container-->
