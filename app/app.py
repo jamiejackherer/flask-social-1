@@ -10,7 +10,6 @@ from config import DefaultConfig
 
 def create_app(config=None):
     app = Flask(__name__)
-    app.config['app'] = app
     with app.app_context():
         configure_app(app, config)
         configure_extensions(app)
