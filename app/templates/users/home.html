@@ -2,11 +2,18 @@
 
 {% block content %}
 <div class="grid-container">
-  <div class="user-info">
-    <h2>{{ current_user.full_name }}</h1>
-  </div><!--//END .user-info-->
+  <aside>
+    <div class="user-info">
+      <div class="user-photo">
+        <img src="{{ current_user.avatar(60) }}">
+      </div>
+      <div class="user-name">
+        <h2>{{ current_user.first_name }}<br>{{ current_user.last_name }}</h1>
+      </div>
+    </div><!--//END .user-info-->
+  </aside>
 
-  <main class="posts">
+  <main class="user-wall">
     <form method="post" novalidate>
       {{ form.body(placeholder="What's on your mind?") }}
       {%- if form.body.errors %}
@@ -19,7 +26,7 @@
       {{ form.submit }}
       {{ form.csrf_token }}
     </form>
- 
+
     {%- if posts.items %}
     {%- for post in posts.items %}
 {% include "/users/_post.html" %}
@@ -32,6 +39,6 @@
     {%- from "/_macros.html" import render_pagination %}
     {{ render_pagination(posts, 'users.home') }}
     {%- endif %}
-  </main><!--//END .posts-->
+  </main>
 </div><!--//END .grid-container-->
 {% endblock %}

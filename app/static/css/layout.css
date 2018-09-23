@@ -17,8 +17,8 @@
 
 /* Variables (s:variables) */
 :root {
-  --blue: #1a6dc3;
-  --dark-blue: #0f559c;
+  --blue: #26bc18;
+  --dark-blue: #17910b;
   --light-gray: #f9f9f9;
   --gray-border: #e3e3e3;
   --light-green: #e9ffe0;
@@ -123,13 +123,12 @@ a:active {
   grid-gap: 20px;
 }
 
-.flash { grid-column: col-start / -1; }
-.user-info { grid-column: col-start / -1; }
-.posts { grid-column: col-start / -1; }
+.grid-container > aside { grid-column: col-start / -1; }
+.grid-container > main { grid-column: col-start / -1; }
 
 @media (min-width: 768px) {
-  .user-info { grid-column: col-start / span 4; }
-  .posts { grid-column: col-start 5 / span 8; }
+  .grid-container > aside { grid-column: col-start / span 4; }
+  .grid-container > main { grid-column: col-start 5 / span 8; }
 }
 
 /* //END Default (s:default) */
@@ -303,7 +302,7 @@ input[type=submit]:active {
 /* //END Index (s:index) */
 
 /* Posts (s:posts) */
-.posts > article {
+.user-wall > article {
   margin-bottom: 20px;
   padding: 20px;
   
@@ -311,7 +310,19 @@ input[type=submit]:active {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.posts > form {
+.user-wall > form {
   margin-bottom: 20px;
 }
 /* //END Posts (s:posts) */
+
+.user-info {
+  display: flex;
+}
+
+.user-photo > img {
+  display: block;
+}
+
+.user-name {
+  padding: 10px;
+}
