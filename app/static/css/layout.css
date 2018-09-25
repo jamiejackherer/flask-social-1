@@ -150,6 +150,7 @@ a:active {
 .button:hover,
 .button:active {
   background-color: var(--dark-green);
+  color: var(--white);
 }
 /* //END Default (s:default) */
 
@@ -499,15 +500,8 @@ input[type=submit]:active {
 
 .follow-list > li > a {
   margin: 0 auto 0;
-  padding: 4px 9px; 
   position: absolute;
   right: 10px;
-
-  background-color: var(--green);
-  border: 1px solid var(--dark-green);
-  border-radius: 3px;
-  color: var(--white);
-  text-decoration: none;
 }
 
 .follow-info {

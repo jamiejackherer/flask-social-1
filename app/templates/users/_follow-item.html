@@ -11,11 +11,11 @@
   </div>
   {% if current_user != follower %}
     {% if current_user.is_following(follower) %}
-    <a href="{{ url_for('users.user_action', username=follower.username, action='unfollow') }}">
+    <a class="button" href="{{ url_for('users.user_action', username=follower.username, action='unfollow') }}">
       Unfollow
     </a>
     {% else %}
-    <a href="{{ url_for('users.user_action', username=follower.username, action='follow') }}">
+    <a class="button" href="{{ url_for('users.user_action', username=follower.username, action='follow') }}">
       Follow
     </a>
     {% endif %}
