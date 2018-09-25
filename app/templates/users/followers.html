@@ -12,7 +12,7 @@
      {{ render_pagination(followers, 'users.followers', user.username) }}
     {% endif %}
 
-    {% if followers %}
+    {% if followers.items %}
     <ul class="follow-list">
       {% for follower in followers.items %}
       {% include "/users/_follow-item.html" %}
