@@ -1,34 +1,18 @@
 {% extends "/base.html" %}
 
 {% block content %}
-{% include "/users/settings/_settings-nav.html" %}
+<h2>Account Settings</h2>
+<div class="settings-container">
+  {% include "/users/settings/_settings-nav.html" %}
 
-<form method="post" novalidate>
-  <div>
-    {{ form.username.label }}<br>
-    {{ form.username }}
-    {% if form.username.errors %}
-    <ul>
-      {% for error in form.username.errors %}
-      <li>{{ error }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
-  <div>
-    {{ form.email.label }}<br>
-    {{ form.email }}
-    {% if form.email.errors %}
-    <ul>
-      {% for error in form.email.errors %}
-      <li>{{ error }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
-  <div>
-    {{ form.submit }}
-    {{ form.hidden_tag() }}
-  </div>
-</form>
+  <div class="settings-content-container">
+    <h3 class="page-title">Account</h3>
+    <form method="post" novalidate>
+      {{ form.username }}
+      {{ form.email }}
+      {{ form.submit }}
+      {{ form.hidden_tag() }}
+    </form>
+  </div><!--//END .settings-content-container-->
+</div><!--//END .settings-container-->
 {% endblock %}
