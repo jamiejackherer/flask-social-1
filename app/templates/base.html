@@ -25,10 +25,10 @@
     </ul><!--//END .primary-nav-->
     {% else %}
     {% if not request.endpoint == 'static_views.login' %}
-    <a class="login" href="{{ url_for('static_views.login') }}">Login</a>
+    <a class="login button" href="{{ url_for('static_views.login') }}">Login</a>
     {% endif %}
     {% if request.endpoint == 'static_views.login' %}
-    <a class="register" href="{{ url_for('static_views.register') }}">Register</a>
+    <a class="register button" href="{{ url_for('static_views.register') }}">Register</a>
     {% endif %}
     {% endif %}
   </header><!--//END .responsive-container-->
