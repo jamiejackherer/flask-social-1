@@ -14,7 +14,7 @@ def create_app(config=None):
         configure_app(app, config)
         configure_extensions(app)
         configure_blueprints(app)
-        configure_jinja_globals(app)
+        configure_jinja(app)
     return app
 
 
@@ -42,5 +42,9 @@ def configure_blueprints(app):
         app.register_blueprint(blueprint)
 
 
-def configure_jinja_globals(app):
+def configure_jinja(app):
+    app.jinja_env.lstrip_blocks = True
+    app.jinja_env.trim_blocks = True
+
+    # Globals
     app.jinja_env.globals['APP_NAME'] = app.config['APP_NAME']
