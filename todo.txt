@@ -1,0 +1,2 @@
+Move __methods__ to top of classes
+User "post" info should return only active posts, not total

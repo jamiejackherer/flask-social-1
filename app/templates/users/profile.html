@@ -3,24 +3,24 @@
 {% block content %}
 <h2>{{ user.full_name }}</h2>
 
-{%- if user.last_seen %}
+{% if user.last_seen %}
 <p>Last seen: {{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
-{%- endif %}
+{% endif %}
 
 <h3>About</h3>
 <p>{{ user.about_me }}</p>
 
-{%- if current_user != user %}
+{% if current_user != user %}
 <p>
-  {%- if current_user.is_following(user) %}
+  {% if current_user.is_following(user) %}
   <a href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">Unfollow</a>
-  {%- else %}
+  {% else %}
   <a href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
-  {%- endif %}
+  {% endif %}
 </p>
-{%- endif %}
+{% endif %}
 
-{%- if current_user != user %}
+{% if current_user != user %}
 <form method="post" novalidate>
   <div>
     {{ form.body }}
@@ -30,14 +30,14 @@
     {{ form.hidden_tag() }}
   </div>
 </form>
-{%- endif %}
+{% endif %}
 
-{%- for post in posts.items %}
+{% for post in posts.items %}
 {% include "/users/_post.html" %}
-{%- endfor %}
+{% endfor %}
 
-{%- if posts.pages > 1 %}
-{%- from "/_macros.html" import render_pagination %}
+{% if posts.pages > 1 %}
+{% from "/_macros.html" import render_pagination %}
 {{ render_pagination(posts, 'users.profile', user.username) }}
-{%- endif %}
+{% endif %}
 {% endblock %}

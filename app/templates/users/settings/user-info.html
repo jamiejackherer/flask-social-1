@@ -7,24 +7,24 @@
   <div>
     {{ form.first_name.label }}<br>
     {{ form.first_name }}
-    {%- if form.first_name.errors %}
+    {% if form.first_name.errors %}
     <ul>
-      {%- for error in form.first_name.errors %}
+      {% for error in form.first_name.errors %}
       <li>{{ error }}</li>
-      {%- endfor %}
+      {% endfor %}
     </ul>
-    {%- endif %}
+    {% endif %}
   </div>
   <div>
     {{ form.last_name.label }}<br>
     {{ form.last_name }}
-    {%- if form.last_name.errors %}
+    {% if form.last_name.errors %}
     <ul>
-      {%- for error in form.last_name.errors %}
+      {% for error in form.last_name.errors %}
       <li>{{ error }}</li>
-      {%- endfor %}
+      {% endfor %}
     </ul>
-    {%- endif %}
+    {% endif %}
   </div>
   <div>
     {{ form.about_me.label }}<br>

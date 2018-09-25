@@ -1,25 +1,26 @@
-{%- macro render_pagination(pagination, endpoint, username=None) %}
-    <div class=pagination>
-      {%- if pagination.has_prev %}
-      <a href="{{ url_for(endpoint, username=username, page=pagination.prev_num) }}">&lt;</a>
-      {%- else %}
-      &lt;
-      {%- endif %}
-      {%- for page in pagination.iter_pages() %}
-      {%- if page %}
-      {%- if page != pagination.page %}
+{% macro render_pagination(pagination, endpoint, username=None) %}
+
+<div class=pagination>
+  {% if pagination.has_prev %}
+    <a href="{{ url_for(endpoint, username=username, page=pagination.prev_num) }}">&lt;</a>
+  {% else %}
+    &lt;
+  {% endif %}
+  {% for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
       <a href="{{ url_for(endpoint, username=username, page=page) }}">{{ page }}</a>
-      {%- else %}
+      {% else %}
       <strong>{{ page }}</strong>
-      {%- endif %}
-      {%- else %}
-      <span class=ellipsis>...</span>
-      {%- endif %}
-      {%- endfor %}
-      {%- if pagination.has_next %}
-      <a href="{{ url_for(endpoint, username=username, page=pagination.next_num) }}">&gt;</a>
-      {%- else %}
-      &gt;
-      {%- endif %}
-    </div><!--//END .pagination-->
-{%- endmacro %}
+      {% endif %}
+    {% else %}
+    <span class=ellipsis>...</span>
+    {% endif %}
+  {% endfor %}
+  {% if pagination.has_next %}
+  <a href="{{ url_for(endpoint, username=username, page=pagination.next_num) }}">&gt;</a>
+  {% else %}
+  &gt;
+  {% endif %}
+</div><!--//END .pagination-->
+{% endmacro %}
