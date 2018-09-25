@@ -62,14 +62,22 @@ def profile(username):
 @login_required
 def followers(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('users/followers.html', user=user)
+    page = request.args.get('page', 1, type=int)
+    followers = user.followers.filter('User.active == True').\
+        paginate(page, current_user.posts_per_page, False)
+    return render_template('users/followers.html', user=user,
+                           followers=followers)
 
 
 @users.route('/<username>/following', methods=['GET', 'POST'])
 @login_required
 def following(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('users/following.html', user=user)
+    page = request.args.get('page', 1, type=int)
+    following = user.followed.filter('User.active == True').\
+        paginate(page, current_user.posts_per_page, False)
+    return render_template('users/following.html', user=user,
+                           following=following)
 
 
 @users.route('/list')
