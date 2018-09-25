@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="grid-container">
+  {{ current_user.post_count() }}
   <aside class="profile-aside">
     <div class="profile-info-container">
       <a class="profile-info" href="{{ url_for('users.profile', username=current_user.username) }}">
@@ -11,7 +12,7 @@
       </a>
       <div class="user-numbers user-numbers-home">
         <a href="{{ url_for('users.profile', username=current_user.username) }}">
-          Posts <span>{{ current_user.post_author.count() }}</span>
+          Posts <span>{{ current_user.post_count() }}</span>
         </a>
         <a href="{{ url_for('users.followers', username=current_user.username) }}">
           Followers <span>{{ current_user.followers.count() }}</span>
