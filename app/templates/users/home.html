@@ -9,7 +9,7 @@
         <img src="{{ current_user.avatar(60) }}">
         <h2>{{ current_user.first_name }}<br>{{ current_user.last_name }}</h1>
       </a>
-      <div class="user-numbers">
+      <div class="user-numbers user-numbers-home">
         <a href="{{ url_for('users.profile', username=current_user.username) }}">
           Posts <span>{{ current_user.post_author.count() }}</span>
         </a>
@@ -19,20 +19,13 @@
         <a href="{{ url_for('users.following', username=current_user.username) }}">
           Following <span>{{ current_user.followed.count() }}</span>
         </a>
-      </div>
+      </div><!--//END .user-numbers .user-numbers-home-->
     </div><!--//END .profile-info-container-->
   </aside><!--//END .user-info-->
 
   <main class="user-wall">
     <form method="post" novalidate>
       {{ form.body(placeholder="What's on your mind?") }}
-      {% if form.body.errors %}
-      <ul>
-        {% for error in form.body.errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
       {{ form.submit }}
       {{ form.csrf_token }}
     </form>

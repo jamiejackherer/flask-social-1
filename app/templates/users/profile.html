@@ -1,43 +1,68 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<h2>{{ user.full_name }}</h2>
+<div class="grid-container">
+  <aside class="user-info">
+    <div class="profile-info-container">
+      <a class="profile-info" href="{{ url_for('users.profile', username=user.username) }}">
+        <img src="{{ user.avatar(60) }}">
+        <h2>{{ user.first_name }}<br>{{ user.last_name }}</h1>
+      </a>
+      <div class="user-numbers user-numbers-profile">
+        <a href="{{ url_for('users.followers', username=user.username) }}">
+          Followers <span>{{ user.followers.count() }}</span>
+        </a>
+        <a href="{{ url_for('users.following', username=user.username) }}">
+          Following <span>{{ user.followed.count() }}</span>
+        </a>
+      </div>
+    </div><!--//END .profile-info-container-->
+    {% if current_user.is_following(user) %}
+    <a class="profile-follow" href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">
+      Unfollow
+    </a>
+    {% else %}
+    <a class="profile-follow" href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
+    {% endif %}
 
-{% if user.last_seen %}
-<p>Last seen: {{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
-{% endif %}
+    {% if user.last_seen %}
+    <div class="last-seen-container">
+      <h3>Last Seen</h3>
+      <p>{{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
+    </div><!--//END .last-seen-container-->
+    {% endif %}
+    {% if user.about_me %}
+    <div class="about-container">
+      <h3>About</h3>
+      <p>{{ user.about_me }}</p>
+    </div><!--//END .about-container-->
+    {% endif %}
+  </aside>
 
-<h3>About</h3>
-<p>{{ user.about_me }}</p>
+  <main class="user-wall">
+    {% if current_user != user %}
+    <form method="post" novalidate>
+      {{ form.body(placeholder="Write on {}'s wall".format(user.first_name)) }}
+      {{ form.submit }}
+      {{ form.csrf_token }}
+    </form>
+    {% endif %}
 
-{% if current_user != user %}
-<p>
-  {% if current_user.is_following(user) %}
-  <a href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">Unfollow</a>
-  {% else %}
-  <a href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
-  {% endif %}
-</p>
-{% endif %}
+    {% if posts.pages > 1 %}
+      {% from "/_macros.html" import render_pagination %}
+      {{ render_pagination(posts, 'users.profile', user.username) }}
+    {% endif %}
 
-{% if current_user != user %}
-<form method="post" novalidate>
-  <div>
-    {{ form.body }}
-  </div>
-  <div>
-    {{ form.submit }}
-    {{ form.hidden_tag() }}
-  </div>
-</form>
-{% endif %}
+    {% if posts.items %}
+      {% for post in posts.items %}
+      {% include "/users/_post.html" %}
+      {% endfor %}
+    {% endif %}
 
-{% for post in posts.items %}
-{% include "/users/_post.html" %}
-{% endfor %}
-
-{% if posts.pages > 1 %}
-{% from "/_macros.html" import render_pagination %}
-{{ render_pagination(posts, 'users.profile', user.username) }}
-{% endif %}
+    {% if posts.pages > 1 %}
+      {% from "/_macros.html" import render_pagination %}
+      {{ render_pagination(posts, 'users.profile', user.username) }}
+    {% endif %}
+  </main><!--//END .user-wall-->
+</div><!--//END .grid-container-->
 {% endblock %}
