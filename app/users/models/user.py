@@ -46,6 +46,10 @@ class User(UserMixin, db.Model, BaseModel):
         foreign_keys='Post.recipient_id',
         backref='recipient', lazy='dynamic')
 
+    def __repr__(self):
+        return '<User {} {} ({})>'.format(
+            self.first_name, self.last_name, self.email)
+
     def set_default_username(self):
         self.username = hash_list([self.first_name, self.last_name,
                                   self.email])
@@ -99,10 +103,6 @@ class User(UserMixin, db.Model, BaseModel):
 
     def testing(self):
         return current_app
-
-    def __repr__(self):
-        return '<User {} {} ({})>'.format(
-            self.first_name, self.last_name, self.email)
 
 
 @login.user_loader
