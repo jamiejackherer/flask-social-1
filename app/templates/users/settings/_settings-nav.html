@@ -1,25 +1,27 @@
-<div class="settings-nav-container">
-  <ul>
-    <li>
-      {% if request.endpoint == 'users.settings_account' %}
-      <p class="active-page">Account</p>
-      {% else %}
-      <a href="{{ url_for('users.settings_account') }}">Account</a>
-      {% endif %}
-    </li>
-    <li>
-      {% if request.endpoint == 'users.settings_user_info' %}
-      <p class="active-page">User Info</p>
-      {% else %}
-      <a href="{{ url_for('users.settings_user_info') }}">User Info</a>
-      {% endif %}
-    </li>
-    <li>
-      {% if request.endpoint == 'users.settings_password' %}
-      <p class="active-page">Password</p>
-      {% else %}
-      <a href="{{ url_for('users.settings_password') }}">Password</a>
-      {% endif %}
-    </li>
-  </ul>
-</div><!--//END .settings-nav-container-->
+<aside class="settings-aside">
+  <div class="settings-nav-container">
+    <ul>
+      <li>
+        {% if request.endpoint == 'users.settings_account' %}
+        <p class="active-page">Account</p>
+        {% else %}
+        <a href="{{ url_for('users.settings_account') }}">Account</a>
+        {% endif %}
+      </li>
+      <li>
+        {% if request.endpoint == 'users.settings_user_info' %}
+        <p class="active-page">User Info</p>
+        {% else %}
+        <a href="{{ url_for('users.settings_user_info') }}">User Info</a>
+        {% endif %}
+      </li>
+      <li>
+        {% if request.endpoint == 'users.settings_password' %}
+        <p class="active-page">Password</p>
+        {% else %}
+        <a href="{{ url_for('users.settings_password') }}">Password</a>
+        {% endif %}
+      </li>
+    </ul>
+  </div><!--//END .settings-nav-container-->
+</aside>

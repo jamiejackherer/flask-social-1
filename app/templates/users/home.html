@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="grid-container">
-  <aside class="user-info">
+  <aside class="profile-aside">
     <div class="profile-info-container">
       <a class="profile-info" href="{{ url_for('users.profile', username=current_user.username) }}">
         <img src="{{ current_user.avatar(60) }}">
@@ -23,7 +23,7 @@
     </div><!--//END .profile-info-container-->
   </aside><!--//END .user-info-->
 
-  <main class="user-wall">
+  <main class="profile-content">
     <form method="post" novalidate>
       {{ form.body(placeholder="What's on your mind?") }}
       {{ form.submit }}

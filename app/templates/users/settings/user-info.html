@@ -1,12 +1,12 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<h2>Account Settings</h2>
-<div class="settings-container">
+<h2 class="page-title">Account Settings</h2>
+<div class="grid-container">
   {% include "/users/settings/_settings-nav.html" %}
 
-  <div class="settings-content-container">
-    <h3 class="page-title">User Info</h3>
+  <div class="settings-content">
+    <h3 class="page-sub-title">User Info</h3>
     <form method="post" novalidate>
       {{ form.first_name(placeholder="First name") }}
       {{ form.last_name(placeholder="Last name") }}

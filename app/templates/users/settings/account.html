@@ -1,18 +1,18 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<h2>Account Settings</h2>
-<div class="settings-container">
+<h2 class="page-title">Account Settings</h2>
+<div class="grid-container">
   {% include "/users/settings/_settings-nav.html" %}
 
-  <div class="settings-content-container">
-    <h3 class="page-title">Account</h3>
+  <main class="settings-content">
+    <h3 class="page-sub-title">Account</h3>
     <form method="post" novalidate>
       {{ form.username }}
       {{ form.email }}
       {{ form.submit }}
       {{ form.hidden_tag() }}
     </form>
-  </div><!--//END .settings-content-container-->
+  </main><!--//END .settings-content-container-->
 </div><!--//END .settings-container-->
 {% endblock %}

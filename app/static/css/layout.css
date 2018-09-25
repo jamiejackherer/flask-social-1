@@ -6,6 +6,7 @@
  * Table of contents (s:toc):
  * - Variables (s:variables)
  * - Defaults (s:defaults)
+ * - Grid / Layout (s:grid-layout) 
  * - Forms (s:forms)
  * - Pagination (s:pagination)
  * - Site header (s:site-header)
@@ -110,17 +111,15 @@ a:active {
   text-decoration: underline;
 }
 
-.responsive-container {
-  margin: 0 auto;
-  max-width: 960px;
-  padding: 0 20px;
-}
-
 .no-margin {
   margin: 0;
 }
 
 .page-title {
+  margin-bottom: 30px;
+}
+
+.page-sub-title {
   padding-bottom: 10px;
 
   border-bottom: 1px solid var(--dark-gray);
@@ -135,23 +134,52 @@ a:active {
   border-radius: 3px;
 }
 
+.button,
+.button:link {
+  display: block;
+  padding: 4px 9px; 
+  text-align: center;
+
+  background-color: var(--green);
+  border: 1px solid var(--dark-green);
+  border-radius: 3px;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.button:hover,
+.button:active {
+  background-color: var(--dark-green);
+}
+/* //END Default (s:default) */
+
+/* Grid / Layout (s:grid-layout) */
+.responsive-container {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0 20px;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(12, [col-start] 1fr);
   grid-gap: 20px;
 }
 
-.grid-container > .user-wall { grid-column: col-start / -1; }
-.grid-container > .user-info { grid-column: col-start / -1; }
-.grid-container > .follow-content { grid-column: col-start / -1; }
-
-@media (min-width: 768px) {
-  .grid-container > .user-info { grid-column: col-start / span 4; }
-  .grid-container > .user-wall { grid-column: col-start 5 / span 8; }
-  .grid-container > .follow-content { grid-column: col-start 5 / span 8; }
+.grid-container > .profile-aside,
+.grid-container > .profile-content,
+.grid-container > .settings-aside,
+.grid-container > .settings-content { 
+  grid-column: col-start / -1; 
 }
 
-/* //END Default (s:default) */
+@media (min-width: 768px) {
+  .grid-container > .profile-aside { grid-column: col-start / span 4; }
+  .grid-container > .profile-content { grid-column: col-start 5 / span 8; }
+  .grid-container > .settings-aside { grid-column: col-start / span 3; }
+  .grid-container > .settings-content { grid-column: col-start 4 / span 9; }
+}
+/* END Grid / Layout (s:grid-layout) */
 
 /* Forms (s:forms) */
 .form-container {
@@ -453,24 +481,9 @@ input[type=submit]:active {
   font-size: 20px;
 }
 
-.user-info .profile-follow,
-.user-info .profile-follow:link {
-  display: block;
+.profile-follow {
   margin-bottom: 20px;
-  padding: 4px 9px;
-  text-align: center;
   width: 100%;
-
-  background-color: var(--green);
-  border: 1px solid var(--dark-green);
-  border-radius: 3px;
-  color: var(--white);
-  text-decoration: none;
-}
-
-.user-info .profile-follow:hover,
-.user-info .profile-follow:active {
-  background-color: var(--dark-green);
 }
 /* // END Profile Info (s:profile-info) */
 
@@ -519,31 +532,49 @@ input[type=submit]:active {
 /* //END Follow List (s:follow-list */
 
 /* Settings (s:settings) */
-.settings-container {
+.settings-nav-container > ul {
+  align-items: center;
   display: flex;
+  justify-content: center;
 }
 
-.settings-nav-container > ul a,
 .settings-nav-container > ul p {
-  display: block;
   margin-bottom: 0;
-  padding: 10px 20px;
-
-  border-right: 1px solid #ddd;
-  text-decoration: none;
+  
+  line-height: 1;
 }
 
-.settings-nav-container > ul .active-page {
-  border-bottom: 1px solid #ddd;
-  border-right: none;
-  border-top: 1px solid #ddd;
-  border-left: 1px solid #ddd;
-
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+.settings-nav-container > ul > li {
+  padding: 0 10px;
 }
 
-.settings-content-container {
-  padding-left: 20px;
+@media (min-width: 768px) {
+  .settings-nav-container > ul {
+    display: block;
+  }
+
+  .settings-nav-container > ul a,
+  .settings-nav-container > ul p {
+    display: block;
+    margin-bottom: 0;
+    padding: 10px 20px;
+
+    border-right: 1px solid #ddd;
+    text-decoration: none;
+  }
+
+  .settings-nav-container > ul .active-page {
+    border-bottom: 1px solid #ddd;
+    border-right: none;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  .settings-content form {
+    width: 500px;
+  }
 }
 /* // Settings (s:settings) */
