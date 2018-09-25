@@ -17,8 +17,8 @@
 
 /* Variables (s:variables) */
 :root {
-  --blue: #26bc18;
-  --dark-blue: #17910b;
+  --green: #26bc18;
+  --dark-green: #21a42f;
   --light-gray: #f9f9f9;
   --gray-border: #e3e3e3;
   --light-green: #e9ffe0;
@@ -88,8 +88,9 @@ ul {
 
 a,
 a:link {
-  color: var(--blue);
-  text-decoration: none;
+  color: var(--green);
+  
+  ext-decoration: none;
 }
 
 a:hover,
@@ -123,12 +124,12 @@ a:active {
   grid-gap: 20px;
 }
 
-.grid-container > aside { grid-column: col-start / -1; }
-.grid-container > main { grid-column: col-start / -1; }
+.grid-container > .user-wall { grid-column: col-start / -1; }
+.grid-container > .user-info { grid-column: col-start / -1; }
 
 @media (min-width: 768px) {
-  .grid-container > aside { grid-column: col-start / span 4; }
-  .grid-container > main { grid-column: col-start 5 / span 8; }
+  .grid-container > .user-info { grid-column: col-start / span 4; }
+  .grid-container > .user-wall { grid-column: col-start 5 / span 8; }
 }
 
 /* //END Default (s:default) */
@@ -174,14 +175,14 @@ textarea {
 }
 
 input[type=submit] {
-  background-color: var(--blue); 
-  border-color: var(--dark-blue);
+  background-color: var(--green); 
+  border-color: var(--dark-green);
   color: #fff;
 }
 
 input[type=submit]:hover,
 input[type=submit]:active {
-  background-color: var(--dark-blue);
+  background-color: var(--dark-green);
   cursor: pointer;
 }
 /* //END Forms (s:forms) */
@@ -211,7 +212,7 @@ input[type=submit]:active {
 
 .branding a:hover,
 .branding a:active {
-  color: var(--blue);
+  color: var(--green);
 }
 
 .primary-nav {
@@ -233,7 +234,7 @@ input[type=submit]:active {
 
 .primary-nav a:hover,
 .primary-nav a:active {
-  color: var(--blue);
+  color: var(--green);
   text-decoration: none;
 }
 
@@ -242,8 +243,8 @@ input[type=submit]:active {
   margin: 0 0 0 auto;
   padding: 4px 9px;
 
-  background-color: var(--blue);
-  border: 1px solid var(--dark-blue);
+  background-color: var(--green);
+  border: 1px solid var(--dark-green);
   border-radius: 3px;
   color: #fff;
 }
@@ -252,7 +253,7 @@ input[type=submit]:active {
 .site-header .login:active,
 .site-header .register:hover,
 .site-header .register:active {
-  background-color: var(--dark-blue);
+  background-color: var(--dark-green);
   color: #fff;
   text-decoration: none;
 }
@@ -304,10 +305,10 @@ input[type=submit]:active {
 /* Posts (s:posts) */
 .user-wall > article {
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 10px;
   
+  background-color: #f9f9f9;
   border-radius: 3px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .user-wall > form {
@@ -315,14 +316,52 @@ input[type=submit]:active {
 }
 /* //END Posts (s:posts) */
 
-.user-info {
-  display: flex;
-}
-
-.user-photo > img {
-  display: block;
-}
-
-.user-name {
+.profile-info-container {
   padding: 10px;
+  overflow: hidden;
+
+  background-color: #f9f9f9;
+  border-radius: 3px;
+}
+
+.profile-info {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.profile-info > img {
+  display: block;
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+.profile-info > h2 {
+  margin: 10px 0 0;
+
+  font-size: 20px;
+}
+
+.user-numbers {
+  display: flex;
+  text-align: center;
+}
+
+.user-numbers > a {
+  width: 33.33333333%;
+
+  color: #333;
+  text-decoration: none;
+}
+
+.user-numbers > a:hover,
+.user-numbers > a:link {
+  color: var(--green);
+}
+
+.user-numbers > a span {
+  display: block;
+  margin-top: 5px;
+
+  color: var(--green);
+  font-size: 20px;
 }
