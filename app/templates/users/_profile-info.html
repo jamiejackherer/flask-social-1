@@ -1,0 +1,38 @@
+
+<aside class="user-info">
+  <div class="profile-info-container">
+    <a class="profile-info" href="{{ url_for('users.profile', username=user.username) }}">
+      <img src="{{ user.avatar(60) }}">
+      <h2>{{ user.first_name }}<br>{{ user.last_name }}</h1>
+    </a>
+    <div class="user-numbers user-numbers-profile">
+      <a href="{{ url_for('users.followers', username=user.username) }}">
+        Followers <span>{{ user.followers.count() }}</span>
+      </a>
+      <a href="{{ url_for('users.following', username=user.username) }}">
+        Following <span>{{ user.followed.count() }}</span>
+      </a>
+    </div>
+  </div><!--//END .profile-info-container-->
+  {% if current_user.is_following(user) %}
+  <a class="profile-follow" href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">
+    Unfollow
+  </a>
+  {% else %}
+  <a class="profile-follow" href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
+  {% endif %}
+
+  {% if user.last_seen %}
+  <div class="last-seen-container">
+    <h3>Last Seen</h3>
+    <p>{{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
+  </div><!--//END .last-seen-container-->
+  {% endif %}
+  {% if user.about_me %}
+  <div class="about-container">
+    <h3>About</h3>
+    <p>{{ user.about_me }}</p>
+  </div><!--//END .about-container-->
+  {% endif %}
+</aside>
+

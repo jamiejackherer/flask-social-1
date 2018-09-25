@@ -1,21 +1,37 @@
 {% extends "/base.html" %}
 
 {% block content %}
-{% if user.followers.count() %}
-<ul>
-  {% for follower in user.followers.all() %}
-  <li>
-    <a href="{{ url_for('users.profile', username=follower.username) }}">{{ follower.full_name }}</a>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>
-  {% if current_user == user %}
-  You do not have any followers.
-  {% else %}
-  {{ user.first_name }} does not have any followers.
-  {% endif %}
-</p>
-{% endif %}
+<div class="grid-container">
+  {% include "/users/_profile-info.html" %}
+  
+  <main class="follow-content">
+    <h3 class="page-title">Followers</h3>
+
+    {% if followers.pages > 1 %}
+     {% from "/_macros.html" import render_pagination %}
+     {{ render_pagination(followers, 'users.followers', user.username) }}
+    {% endif %}
+
+    {% if followers %}
+    <ul class="follow-list">
+      {% for follower in followers.items %}
+      {% include "/users/_follow-item.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">
+      {% if current_user == user %}
+      You do not have any followers.
+      {% else %}
+      {{ user.first_name }} doesn't have any followers.
+      {% endif %}
+    </p>
+    {% endif %}
+
+    {% if followers.pages > 1 %}
+     {% from "/_macros.html" import render_pagination %}
+     {{ render_pagination(followers, 'users.followers', user.username) }}
+    {% endif %}
+  </main><!--//END .follow-content-->
+</div><!--//END .grid-container-->
 {% endblock %}

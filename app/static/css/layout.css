@@ -13,6 +13,7 @@
  * - Index (s:index)
  * - Posts (s:posts)
  * - Profile Info (s:profile-info)
+ * - Follow List (s:follow-list)
  */
 
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One');
@@ -135,10 +136,12 @@ a:active {
 
 .grid-container > .user-wall { grid-column: col-start / -1; }
 .grid-container > .user-info { grid-column: col-start / -1; }
+.grid-container > .follow-content { grid-column: col-start / -1; }
 
 @media (min-width: 768px) {
   .grid-container > .user-info { grid-column: col-start / span 4; }
   .grid-container > .user-wall { grid-column: col-start 5 / span 8; }
+  .grid-container > .follow-content { grid-column: col-start 5 / span 8; }
 }
 
 /* //END Default (s:default) */
@@ -463,3 +466,47 @@ input[type=submit]:active {
   background-color: var(--dark-green);
 }
 /* // END Profile Info (s:profile-info) */
+
+/* Follow List (s:follow-list) */
+.follow-list {
+  margin-bottom: 0;
+}
+
+.follow-list > li {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
+  padding: 10px;
+  position: relative;
+
+  background-color: var(--light-gray);
+}
+
+.follow-list > li > a {
+  margin: 0 auto 0;
+  padding: 4px 9px; 
+  position: absolute;
+  right: 10px;
+
+  background-color: var(--green);
+  border: 1px solid var(--dark-green);
+  border-radius: 3px;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.follow-info {
+  margin-left: 10px;
+}
+
+.follow-info > a {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.follow-info .last-seen {
+  margin-bottom: 0;
+
+  font-size: 1rem;
+}
+/* //END Follow List (s:follow-list */
