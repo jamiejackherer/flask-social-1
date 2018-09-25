@@ -1,16 +1,18 @@
 /**
  * CSS StyleSheet
  *
- * author: Daniel Lindegren
+ * Author: Daniel Lindegren
  *
  * Table of contents (s:toc):
  * - Variables (s:variables)
  * - Defaults (s:defaults)
  * - Forms (s:forms)
+ * - Pagination (s:pagination)
  * - Site header (s:site-header)
  * - Flash messages (s:flash)
  * - Index (s:index)
  * - Posts (s:posts)
+ * - Profile Info (s:profile-info)
  */
 
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One');
@@ -20,10 +22,13 @@
   --green: #26bc18;
   --dark-green: #21a42f;
   --light-gray: #f9f9f9;
-  --gray-border: #e3e3e3;
+  --dark-gray: #e3e3e3;
   --light-green: #e9ffe0;
   --green-border: #c9ffb2;
   --green-text: #335922;
+  --text-color: #2d2d2d;
+  --white: #fff;
+  --red: #cc0000;
 }
 /* //END Variables (s:variables) */
 
@@ -55,7 +60,7 @@ section {
 body {
   margin: 0;
 
-  color: #333;
+  color: var(--text-color);
   font-size: 1.4rem;
   line-height: 1;
 }
@@ -78,7 +83,11 @@ dl {
 }
 
 p {
-  line-height: 2;
+  line-height: 1.5;
+}
+
+img {
+  display: block;
 }
 
 ol,
@@ -95,7 +104,7 @@ a:link {
 
 a:hover,
 a:active {
-  color: #333;
+  color: var(--text-color);
   text-decoration: underline;
 }
 
@@ -114,7 +123,7 @@ a:active {
   padding: 20px;
 
   background-color: var(--light-gray);
-  border: 1px solid var(--gray-border);
+  border: 1px solid var(--dark-gray);
   border-radius: 3px;
 }
 
@@ -142,7 +151,7 @@ a:active {
   text-align: center;
 
   background-color: var(--light-gray);
-  border: 1px solid var(--gray-border);
+  border: 1px solid var(--dark-gray);
 }
 
 .form-header {
@@ -157,7 +166,7 @@ textarea {
   padding: 10px;
   width: 100%;
 
-  border: 1px solid var(--gray-border);
+  border: 1px solid var(--dark-gray);
   border-radius: 3px;
   font-family: inherit;
   font-size: inherit;
@@ -177,7 +186,7 @@ textarea {
 input[type=submit] {
   background-color: var(--green); 
   border-color: var(--dark-green);
-  color: #fff;
+  color: var(--white);
 }
 
 input[type=submit]:hover,
@@ -187,12 +196,24 @@ input[type=submit]:active {
 }
 /* //END Forms (s:forms) */
 
+/* Pagination (s:pagination) */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.pagination > li {
+  padding: 0 5px;
+}
+/* //END Pagination (s:pagination) */
+
 /* Site Header (s:site-header) */
 .header-container {
   margin-bottom: 20px;
 
   background-color: var(--light-gray);
-  border-bottom: 1px solid var(--gray-border);
+  border-bottom: 1px solid var(--dark-gray);
 }
 
 .header-container .site-header {
@@ -229,7 +250,8 @@ input[type=submit]:active {
 }
 
 .primary-nav a {
-  color: #2d2d2d;
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .primary-nav a:hover,
@@ -246,7 +268,8 @@ input[type=submit]:active {
   background-color: var(--green);
   border: 1px solid var(--dark-green);
   border-radius: 3px;
-  color: #fff;
+  color: var(--white);
+  text-decoration: none;
 }
 
 .site-header .login:hover,
@@ -254,7 +277,7 @@ input[type=submit]:active {
 .site-header .register:hover,
 .site-header .register:active {
   background-color: var(--dark-green);
-  color: #fff;
+  color: var(--white);
   text-decoration: none;
 }
 /* // END Site Header (s:site-header) */
@@ -298,45 +321,86 @@ input[type=submit]:active {
 
 .index-container .content p {
   font-size: 2rem;
-  line-height: 1.5;
 }
 /* //END Index (s:index) */
 
 /* Posts (s:posts) */
-.user-wall > article {
+.post {
   margin-bottom: 20px;
   padding: 10px;
+  position: relative;
   
-  background-color: #f9f9f9;
+  background-color: var(--light-gray);
   border-radius: 3px;
 }
 
 .user-wall > form {
   margin-bottom: 20px;
 }
+
+.post-header {
+  align-items: center;
+  display: flex;
+}
+
+.post-header img {
+  align-self: flex-start;
+}
+
+.post-header time {
+  display: block;
+
+  font-size: 1.2rem;
+}
+
+.post-info {
+  margin: 0 0 0 10px;
+}
+
+.post-body {
+  margin: 10px 0 0;
+}
+
+.delete-post {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  color: var(--red) !important;
+  text-decoration: none;
+}
+
+.delete-post:hover,
+.delete-post:active {
+  color: var(--text-color) !important;
+  text-decoration: none;
+}
 /* //END Posts (s:posts) */
 
+/* Profile Info (s:profile-info) */
 .profile-info-container {
   padding: 10px;
   overflow: hidden;
 
-  background-color: #f9f9f9;
+  background-color: var(--light-gray);
   border-radius: 3px;
 }
 
 .profile-info {
+  align-items: center;
+  display: flex;
   margin-bottom: 20px;
   overflow: hidden;
 }
 
-.profile-info > img {
-  display: block;
-  float: left;
-  margin: 0 10px 0 0;
+.profile-info,
+.profile-info:link {
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .profile-info > h2 {
-  margin: 10px 0 0;
+  margin: 0 0 0 10px;
 
   font-size: 20px;
 }
@@ -349,12 +413,12 @@ input[type=submit]:active {
 .user-numbers > a {
   width: 33.33333333%;
 
-  color: #333;
+  color: var(--text-color);
   text-decoration: none;
 }
 
 .user-numbers > a:hover,
-.user-numbers > a:link {
+.user-numbers > a:active {
   color: var(--green);
 }
 
@@ -365,3 +429,4 @@ input[type=submit]:active {
   color: var(--green);
   font-size: 20px;
 }
+/* // END Profile Info (s:profile-info) */

@@ -1,20 +1,27 @@
 {% extends "base.html" %}
+{% block page_title %}{{ APP_NAME }}{% endblock %}
 
 {% block content %}
 <div class="grid-container">
   <aside class="user-info">
     <div class="profile-info-container">
-      <div class="profile-info">
+      <a class="profile-info" href="{{ url_for('users.profile', username=current_user.username) }}">
         <img src="{{ current_user.avatar(60) }}">
         <h2>{{ current_user.first_name }}<br>{{ current_user.last_name }}</h1>
-      </div>
+      </a>
       <div class="user-numbers">
-        <a href="#">Posts <span>{{ current_user.post_author.count() }}</span></a>
-        <a href="#">Followers <span>{{ current_user.followers.count() }}</span></a>
-        <a href="#">Following <span>{{ current_user.followed.count() }}</span></a>
+        <a href="{{ url_for('users.profile', username=current_user.username) }}">
+          Posts <span>{{ current_user.post_author.count() }}</span>
+        </a>
+        <a href="{{ url_for('users.followers', username=current_user.username) }}">
+          Followers <span>{{ current_user.followers.count() }}</span>
+        </a>
+        <a href="{{ url_for('users.following', username=current_user.username) }}">
+          Following <span>{{ current_user.followed.count() }}</span>
+        </a>
       </div>
-    </div><!--//END .user-info-container-->
-  </aside>
+    </div><!--//END .profile-info-container-->
+  </aside><!--//END .user-info-->
 
   <main class="user-wall">
     <form method="post" novalidate>
@@ -29,18 +36,23 @@
       {{ form.submit }}
       {{ form.csrf_token }}
     </form>
+    {% if posts.pages > 1 %}
+      {% from "/_macros.html" import render_pagination %}
+      {{ render_pagination(posts, 'users.home') }}
+    {% endif %}
+    
     {% if posts.items %}
-    {% for post in posts.items %}
+      {% for post in posts.items %}
       {% include "/users/_post.html" %}
-    {% endfor %}
+      {% endfor %}
     {% else %}
     <p class="card">Nothing to show. Post something, or start following some people.</p>
     {% endif %}
   
     {% if posts.pages > 1 %}
-    {% from "/_macros.html" import render_pagination %}
-    {{ render_pagination(posts, 'users.home') }}
+      {% from "/_macros.html" import render_pagination %}
+      {{ render_pagination(posts, 'users.home') }}
     {% endif %}
-  </main>
+  </main><!--//END .user-wall-->
 </div><!--//END .grid-container-->
 {% endblock %}
