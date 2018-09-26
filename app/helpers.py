@@ -20,3 +20,9 @@ def hash_list(hash_list, hash_type='md5'):
     else:
         digest = sha256(string)
     return digest.hexdigest()
+
+
+def truncate(text, max_length=150):
+    if len(text) > max_length:
+        text = '{}...'.format(text[0:max_length])
+    return text

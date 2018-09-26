@@ -36,7 +36,9 @@ def home():
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
         page, current_user.posts_per_page, False)
-    return render_template('users/home.html', form=form, posts=posts)
+    unfollowed_posts = current_user.unfollowed_posts.limit(8).all()
+    return render_template('users/home.html', form=form, posts=posts,
+                           unfollowed_posts=unfollowed_posts)
 
 
 @users.route('/<username>', methods=['GET', 'POST'])

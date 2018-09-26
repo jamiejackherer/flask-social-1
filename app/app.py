@@ -6,6 +6,7 @@
 """
 from flask import Flask
 from config import DefaultConfig
+from app.helpers import truncate
 
 
 def create_app(config=None):
@@ -48,3 +49,6 @@ def configure_jinja(app):
 
     # Globals
     app.jinja_env.globals['APP_NAME'] = app.config['APP_NAME']
+
+    # Filters
+    app.jinja_env.filters['truncate'] = truncate
