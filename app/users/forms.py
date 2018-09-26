@@ -28,7 +28,10 @@ class SettingsAccount(FlaskForm):
         self.original_email = original_email
 
     def validate_username(self, username):
-        # Make sure ``username`` contains only alphanumeric and underscore.
+        # Make sure ``username``:
+        # - Has alphanumeric / underscore
+        # - Starts with alpha
+        # - Doesn't start or end with an underscore
         if not re.match('^\w+$', username.data):
             raise ValidationError(
                 'Username must be alphanumeric and underscore only')

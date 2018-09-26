@@ -75,26 +75,24 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def unfollowed_users(self):
-        pep8 = None
         return User.query.join(
             followers,
             and_(followers.c.followed_id == User.id,
                  followers.c.follower_id == self.id),
             isouter=True).filter(
-                followers.c.follower_id == pep8,
+                followers.c.follower_id == None, # noqa
                 User.id != self.id,
                 User.active == True) # noqa
 
     @property
     def unfollowed_posts(self):
-        pep8 = None
         return Post.query.join(
             User, Post.author_id == User.id).join(
                 followers,
                 and_(followers.c.followed_id == User.id,
                      followers.c.follower_id == self.id),
                 isouter=True).filter(
-                    followers.c.follower_id == pep8,
+                    followers.c.follower_id == None, # noqa
                     User.id != self.id,
                     Post.author_id == Post.recipient_id,
                     User.active == True, # noqa
