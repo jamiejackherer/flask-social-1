@@ -96,6 +96,7 @@ class User(UserMixin, db.Model, BaseModel):
                 isouter=True).filter(
                     followers.c.follower_id == pep8,
                     User.id != self.id,
+                    Post.author_id == Post.recipient_id,
                     User.active == True, # noqa
                     Post.active == True).order_by( # noqa
                         Post.created.desc())
