@@ -9,6 +9,7 @@ from datetime import datetime
 from hashlib import md5
 import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import and_
 from sqlalchemy.orm import column_property
 from flask import current_app
 from flask_login import UserMixin
@@ -71,6 +72,33 @@ class User(UserMixin, db.Model, BaseModel):
     def is_following(self, user):
         return self.followed.filter(
             followers.c.followed_id == user.id).count() > 0
+
+    @property
+    def unfollowed_users(self):
+        pep8 = None
+        return User.query.join(
+            followers,
+            and_(followers.c.followed_id == User.id,
+                 followers.c.follower_id == self.id),
+            isouter=True).filter(
+                followers.c.follower_id == pep8,
+                User.id != self.id,
+                User.active == 1)
+
+    @property
+    def unfollowed_posts(self):
+        pep8 = None
+        return Post.query.join(
+            User, Post.author_id == User.id).join(
+                followers,
+                and_(followers.c.followed_id == User.id,
+                     followers.c.follower_id == self.id),
+                isouter=True).filter(
+                    followers.c.follower_id == pep8,
+                    User.id != self.id,
+                    User.active == 1,
+                    Post.active == 1).order_by(
+                        Post.created.desc())
 
     @property
     def get_followers(self):
