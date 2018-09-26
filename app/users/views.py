@@ -51,8 +51,8 @@ def profile(username):
         flash('Your post is now live!')
         return redirect(url_for('users.profile', username=username))
     page = request.args.get('page', 1, type=int)
-    posts = user.post_recipient.filter(Post.active == 1).\
-        order_by(Post.created.desc()).paginate(
+    posts = user.post_recipient.filter(Post.active == True).order_by( # noqa
+        Post.created.desc()).paginate(
             page, current_user.posts_per_page, False)
     return render_template('users/profile.html', user=user, posts=posts,
                            form=form)

@@ -9,7 +9,7 @@ from datetime import datetime
 from hashlib import md5
 import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import and_
+from sqlalchemy.sql.expression import and_
 from sqlalchemy.orm import column_property
 from flask import current_app
 from flask_login import UserMixin
@@ -83,7 +83,7 @@ class User(UserMixin, db.Model, BaseModel):
             isouter=True).filter(
                 followers.c.follower_id == pep8,
                 User.id != self.id,
-                User.active == 1)
+                User.active == True) # noqa
 
     @property
     def unfollowed_posts(self):
@@ -96,8 +96,8 @@ class User(UserMixin, db.Model, BaseModel):
                 isouter=True).filter(
                     followers.c.follower_id == pep8,
                     User.id != self.id,
-                    User.active == 1,
-                    Post.active == 1).order_by(
+                    User.active == True, # noqa
+                    Post.active == True).order_by( # noqa
                         Post.created.desc())
 
     @property
@@ -114,17 +114,18 @@ class User(UserMixin, db.Model, BaseModel):
             (followers.c.followed_id == Post.author_id)).filter(
                 followers.c.follower_id == self.id,
                 Post.author_id == Post.recipient_id,
-                Post.active == 1).join(
+                Post.active == True).join( # noqa
                     User,
                     (User.id == Post.author_id)).filter(
-                        User.active == 1)
+                        User.active == True) # noqa
 
         my_posts = Post.query.filter_by(recipient_id=self.id, active=True)
         return followed.union(my_posts).order_by(Post.created.desc())
 
     def post_count(self):
         return self.post_author.filter(
-            Post.active == 1, Post.author_id == Post.recipient_id).count()
+            Post.active == True, # noqa
+            Post.author_id == Post.recipient_id).count()
 
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()

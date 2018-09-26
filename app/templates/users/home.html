@@ -2,9 +2,6 @@
 {% block page_title %}{{ APP_NAME }}{% endblock %}
 
 {% block content %}
-{% for post in current_user.unfollowed_posts.all() %}
-  {{ post }}<br>
-{% endfor %}
 <div class="grid-container">
   <div class="profile-aside">
     <div class="profile-info-container">
