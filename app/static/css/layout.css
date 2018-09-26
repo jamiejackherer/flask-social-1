@@ -226,11 +226,6 @@ textarea {
   resize: none;
 }
 
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
 input[type=submit] {
   background-color: var(--green); 
   border-color: var(--dark-green);
@@ -241,6 +236,28 @@ input[type=submit]:hover,
 input[type=submit]:active {
   background-color: var(--dark-green);
   cursor: pointer;
+}
+
+.form-group {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.form-group > input,
+.form-group > textarea {
+  margin-bottom: 0;
+  width: 80%;
+}
+
+.form-group > label {
+  margin-right: 10px;
+  width: 20%;
+  text-align: right;
+}
+
+.form-group > label:after {
+  content: ":";
 }
 /* //END Forms (s:forms) */
 

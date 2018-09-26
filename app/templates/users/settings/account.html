@@ -8,8 +8,14 @@
   <main class="settings-content">
     <h3 class="page-sub-title">Account</h3>
     <form method="post" novalidate>
-      {{ form.username }}
-      {{ form.email }}
+      <div class="form-group">
+        {{ form.username.label }}
+        {{ form.username(placeholder="Username") }}
+      </div>
+      <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email(placeholder="Email") }}
+      </div>
       {{ form.submit }}
       {{ form.hidden_tag() }}
     </form>

@@ -85,7 +85,7 @@ class User(UserMixin, db.Model, BaseModel):
 
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+        return 'https://www.gravatar.com/avatar/{}?d=monsterid&s={}'.format(
             digest, size)
 
     def get_reset_password_token(self, expires=600):

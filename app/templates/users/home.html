@@ -3,7 +3,6 @@
 
 {% block content %}
 <div class="grid-container">
-  {{ current_user.post_count() }}
   <aside class="profile-aside">
     <div class="profile-info-container">
       <a class="profile-info" href="{{ url_for('users.profile', username=current_user.username) }}">
