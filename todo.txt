@@ -1,4 +1,3 @@
 For home page, get recent posts of which current_user is not following
 Favicon
 Form errors
-Make sure user data return from viewpoints has 'User.active'

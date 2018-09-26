@@ -42,7 +42,7 @@ def home():
 @users.route('/<username>', methods=['GET', 'POST'])
 @login_required
 def profile(username):
-    user = User.query.filter_by(username=username).first_or_404()
+    user = User.query.filter_by(username=username, active=True).first_or_404()
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.body.data, author=current_user,
@@ -51,7 +51,7 @@ def profile(username):
         flash('Your post is now live!')
         return redirect(url_for('users.profile', username=username))
     page = request.args.get('page', 1, type=int)
-    posts = user.post_recipient.filter('Post.active==True').\
+    posts = user.post_recipient.filter(Post.active == 1).\
         order_by(Post.created.desc()).paginate(
             page, current_user.posts_per_page, False)
     return render_template('users/profile.html', user=user, posts=posts,
@@ -61,10 +61,10 @@ def profile(username):
 @users.route('/<username>/followers', methods=['GET', 'POST'])
 @login_required
 def followers(username):
-    user = User.query.filter_by(username=username).first_or_404()
+    user = User.query.filter_by(username=username, active=True).first_or_404()
     page = request.args.get('page', 1, type=int)
-    followers = user.followers.filter('User.active == True').\
-        paginate(page, current_user.posts_per_page, False)
+    followers = user.get_followers.paginate(
+        page, current_user.posts_per_page, False)
     return render_template('users/followers.html', user=user,
                            followers=followers)
 
@@ -72,10 +72,10 @@ def followers(username):
 @users.route('/<username>/following', methods=['GET', 'POST'])
 @login_required
 def following(username):
-    user = User.query.filter_by(username=username).first_or_404()
+    user = User.query.filter_by(username=username, active=True).first_or_404()
     page = request.args.get('page', 1, type=int)
-    following = user.followed.filter('User.active == True').\
-        paginate(page, current_user.posts_per_page, False)
+    following = user.get_followed.paginate(
+        page, current_user.posts_per_page, False)
     return render_template('users/following.html', user=user,
                            following=following)
 
@@ -83,14 +83,14 @@ def following(username):
 @users.route('/list')
 @login_required
 def list():
-    users = User.query.all()
+    users = User.query.filter_by(active=True).all()
     return render_template('users/list.html', users=users)
 
 
 @users.route('/<username>/<action>')
 @login_required
 def user_action(username, action):
-    user = User.query.filter_by(username=username).first_or_404()
+    user = User.query.filter_by(username=username, active=True).first_or_404()
 
     # Do not allow users to take action on themselves.
     no_self_action = ['follow', 'unfollow']

@@ -54,7 +54,8 @@ def login():
         user_by_username = User.query.filter(
             func.lower(User.username) == func.lower(form.email.data)).first()
         user = user_by_email if user_by_email else user_by_username
-        if user is None or not user.check_password(form.password.data):
+        if (user is None or not user.check_password(form.password.data) or not
+                user.active):
             flash('Invalid email or password.')
             return redirect(url_for('static_views.login'))
         login_user(user, remember=form.remember_me.data)

@@ -14,10 +14,10 @@
           Posts <span>{{ current_user.post_count() }}</span>
         </a>
         <a href="{{ url_for('users.followers', username=current_user.username) }}">
-          Followers <span>{{ current_user.followers.count() }}</span>
+          Followers <span>{{ current_user.get_followers.count() }}</span>
         </a>
         <a href="{{ url_for('users.following', username=current_user.username) }}">
-          Following <span>{{ current_user.followed.count() }}</span>
+          Following <span>{{ current_user.get_followed.count() }}</span>
         </a>
       </div><!--//END .user-numbers .user-numbers-home-->
     </div><!--//END .profile-info-container-->

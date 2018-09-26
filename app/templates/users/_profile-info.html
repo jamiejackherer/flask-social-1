@@ -7,10 +7,10 @@
     </a>
     <div class="user-numbers user-numbers-profile">
       <a href="{{ url_for('users.followers', username=user.username) }}">
-        Followers <span>{{ user.followers.count() }}</span>
+        Followers <span>{{ user.get_followers.count() }}</span>
       </a>
       <a href="{{ url_for('users.following', username=user.username) }}">
-        Following <span>{{ user.followed.count() }}</span>
+        Following <span>{{ user.get_followed.count() }}</span>
       </a>
     </div>
   </div><!--//END .profile-info-container-->
@@ -27,7 +27,7 @@
     {% endif %}
   {% endif %}
 
-  {% if user.last_seen %}
+  {% if user.last_seen and not current_user == user %}
   <div class="last-seen-container">
     <h3>Last Seen</h3>
     <p>{{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
