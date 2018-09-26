@@ -2,8 +2,11 @@
 {% block page_title %}{{ APP_NAME }}{% endblock %}
 
 {% block content %}
+{% for post in current_user.unfollowed_posts.all() %}
+  {{ post }}<br>
+{% endfor %}
 <div class="grid-container">
-  <aside class="profile-aside">
+  <div class="profile-aside">
     <div class="profile-info-container">
       <a class="profile-info" href="{{ url_for('users.profile', username=current_user.username) }}">
         <img src="{{ current_user.avatar(60) }}">
@@ -21,9 +24,9 @@
         </a>
       </div><!--//END .user-numbers .user-numbers-home-->
     </div><!--//END .profile-info-container-->
-  </aside><!--//END .user-info-->
+  </div><!--//END .user-info-->
 
-  <main class="profile-content">
+  <div class="profile-content">
     <form method="post" novalidate>
       {{ form.body(placeholder="What's on your mind?") }}
       {{ form.submit }}
@@ -46,6 +49,6 @@
       {% from "/_macros.html" import render_pagination %}
       {{ render_pagination(posts, 'users.home') }}
     {% endif %}
-  </main><!--//END .user-wall-->
+  </div><!--//END .user-wall-->
 </div><!--//END .grid-container-->
 {% endblock %}

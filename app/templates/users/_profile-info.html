@@ -1,5 +1,5 @@
 
-<aside class="profile-aside">
+<div class="profile-aside">
   <div class="profile-info-container">
     <a class="profile-info" href="{{ url_for('users.profile', username=user.username) }}">
       <img src="{{ user.avatar(60) }}">
@@ -39,5 +39,5 @@
     <p>{{ user.about_me }}</p>
   </div><!--//END .about-container-->
   {% endif %}
-</aside>
+</div>
 

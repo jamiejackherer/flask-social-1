@@ -4,7 +4,7 @@
 <div class="grid-container">
   {% include "/users/_profile-info.html" %}
   
-  <main class="profile-content">
+  <div class="profile-content">
     <h3 class="page-sub-title">Followers</h3>
 
     {% if followers.pages > 1 %}
@@ -32,6 +32,6 @@
      {% from "/_macros.html" import render_pagination %}
      {{ render_pagination(followers, 'users.followers', user.username) }}
     {% endif %}
-  </main><!--//END .follow-content-->
+  </div><!--//END .follow-content-->
 </div><!--//END .grid-container-->
 {% endblock %}

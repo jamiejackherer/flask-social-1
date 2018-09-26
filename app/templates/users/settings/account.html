@@ -5,7 +5,7 @@
 <div class="grid-container">
   {% include "/users/settings/_settings-nav.html" %}
 
-  <main class="settings-content">
+  <div class="settings-content">
     <h3 class="page-sub-title">Account</h3>
     <form method="post" novalidate>
       <div class="form-group">
@@ -19,6 +19,6 @@
       {{ form.submit }}
       {{ form.hidden_tag() }}
     </form>
-  </main><!--//END .settings-content-container-->
+  </div><!--//END .settings-content-container-->
 </div><!--//END .settings-container-->
 {% endblock %}

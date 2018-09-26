@@ -4,7 +4,7 @@
 <div class="grid-container">
   {% include "/users/_profile-info.html" %}
 
-  <main class="profile-content">
+  <div class="profile-content">
     {% if current_user != user %}
     <form method="post" novalidate>
       {{ form.body(placeholder="Write on {}'s wall".format(user.first_name)) }}
@@ -36,6 +36,6 @@
       {% from "/_macros.html" import render_pagination %}
       {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}
-  </main><!--//END .user-wall-->
+  </div><!--//END .user-wall-->
 </div><!--//END .grid-container-->
 {% endblock %}
