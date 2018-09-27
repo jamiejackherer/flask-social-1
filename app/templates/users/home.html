@@ -41,7 +41,14 @@
 
   <div class="profile-content">
     <form method="post" novalidate>
-      {{ form.body(placeholder="What's on your mind?") }}
+      <div class="input-container">
+        {% if form.body.errors %}
+        {{ form.body(class="input-error", placeholder="What's on your mind?") }}
+        <p>{{ form.body.errors[0] }}</p>
+        {% else %}
+        {{ form.body(placeholder="What's on your mind?") }}
+        {% endif %}
+      </div>
       {{ form.submit }}
       {{ form.csrf_token }}
     </form>

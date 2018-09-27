@@ -5,8 +5,22 @@
 <div class="form-container">
   <p class="form-header">Log into {{ APP_NAME }}</p>
   <form method="post" novalidate>
-    {{ form.email(placeholder="Email or username") }}
-    {{ form.password(placeholder="Password") }}
+    <div class="input-container">
+      {% if form.email.errors %}
+      {{ form.email(class="input-error", placeholder="Email or username") }}
+      <p>{{ form.email.errors[0] }}</p>
+      {% else %}
+      {{ form.email(placeholder="Email or username") }}
+      {% endif %}
+    </div>
+    <div class="input-container">
+      {% if form.password.errors %}
+      {{ form.password(class="input-error", placeholder="Password") }}
+      <p>{{ form.password.errors[0] }}</p>
+      {% else %}
+      {{ form.password(placeholder="Password") }}
+      {% endif %}
+    </div>
     {{ form.submit }}
     {{ form.hidden_tag() }}
   </form>

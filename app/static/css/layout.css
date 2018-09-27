@@ -205,7 +205,6 @@ a:active {
 input,
 textarea {
   display: inline-block;
-  margin-bottom: 10px;
   padding: 10px;
   width: 100%;
 
@@ -227,6 +226,8 @@ textarea {
 }
 
 input[type=submit] {
+  margin-bottom: 10px;
+
   background-color: var(--green); 
   border-color: var(--dark-green);
   color: var(--white);
@@ -256,8 +257,33 @@ input[type=submit]:active {
   text-align: right;
 }
 
+.form-group .input-container > input,
+.form-group .input-container > textarea {
+  width: 100%;
+}
+
 .form-group > label:after {
   content: ":";
+}
+
+.form-group .input-container {
+  margin-bottom: 0;
+}
+
+.input-container {
+  margin-bottom: 10px;
+}
+
+.input-container > p {
+  margin: 5px 0 0;
+  text-align: center;
+
+  font-size: 1rem;
+  color: #cc0000;
+}
+
+.input-error {
+  border: 1px solid #cc0000;
 }
 /* //END Forms (s:forms) */
 
@@ -589,6 +615,10 @@ input[type=submit]:active {
 
 .settings-nav-container > ul > li {
   padding: 0 10px;
+}
+
+.settings-content .input-container {
+  width: 80%;
 }
 
 @media (min-width: 768px) {

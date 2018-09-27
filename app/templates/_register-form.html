@@ -1,8 +1,36 @@
 <form method="post" novalidate>
-  {{ form.first_name(placeholder="First name") }}
-  {{ form.last_name(placeholder="Last name") }}
-  {{ form.email(placeholder="Email") }}
-  {{ form.password(placeholder="Password") }}
+  <div class="input-container">
+    {% if form.first_name.errors %}
+    {{ form.first_name(class="input-error", placeholder="First name") }}
+    <p>{{ form.first_name.errors[0] }}</p>
+    {% else %}
+    {{ form.first_name(placeholder="First name") }}
+    {% endif %}
+  </div>
+  <div class="input-container">
+    {% if form.last_name.errors %}
+    {{ form.last_name(class="input-error", placeholder="Last name") }}
+    <p>{{ form.last_name.errors[0] }}</p>
+    {% else %}
+    {{ form.last_name(placeholder="Last name") }}
+    {% endif %}
+  </div>
+  <div class="input-container">
+    {% if form.email.errors %} 
+    {{ form.email(class="input-error", placeholder="Email") }}
+    <p>{{ form.email.errors[0] }}</p>
+    {% else %}
+    {{ form.email(placeholder="Email") }}
+    {% endif %}
+  </div>
+  <div class="input-container">
+    {% if form.password.errors %}
+    {{ form.password(class="input-error", placeholder="Password") }}
+    <p>{{ form.password.errors[0] }}</p>
+    {% else %}
+    {{ form.password(placeholder="Password") }}
+    {% endif %}
+  </div>
   {{ form.submit(class="no-margin") }}
   {{ form.hidden_tag() }}
 </form>

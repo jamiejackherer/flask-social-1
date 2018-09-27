@@ -10,11 +10,25 @@
     <form method="post" novalidate>
       <div class="form-group">
         {{ form.username.label }}
-        {{ form.username(placeholder="Username") }}
+        <div class="input-container">
+          {% if form.username.errors %}
+          {{ form.username(class="input-error", placeholder="Username") }}
+          <p>{{ form.username.errors[0] }}</p>
+          {% else %}
+          {{ form.username(placeholder="Username") }}
+          {% endif %}
+        </div>
       </div>
       <div class="form-group">
         {{ form.email.label }}
-        {{ form.email(placeholder="Email") }}
+        <div class="input-container">
+          {% if form.email.errors %}
+          {{ form.email(class="input-error", placeholder="Email") }}
+          <p>{{ form.email.errors[0] }}</p>
+          {% else %}
+          {{ form.email(placeholder="Email") }}
+          {% endif %}
+        </div>
       </div>
       {{ form.submit }}
       {{ form.hidden_tag() }}

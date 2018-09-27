@@ -35,7 +35,7 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('{} is already '
-                                  'registered'.format(email.data))
+                                  'registered.'.format(email.data))
 
 
 class ResetPasswordRequestForm(FlaskForm):
