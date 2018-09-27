@@ -109,26 +109,31 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def followed_posts(self):
+        """ Get posts where the author is the recipient, and posts
+        that the user is following.
+        """
         followed = Post.query.\
             join(User, User.id == Post.author_id).\
             join(followers, followers.c.followed_id == Post.author_id).filter(
                 followers.c.follower_id == self.id,
                 Post.author_id == Post.recipient_id,
                 Post.active == True, # noqa
-                User.active == True) # noqa
+                User.active == True)
 
         return followed.union(self.profile_posts).order_by(Post.created.desc())
 
     @property
     def profile_posts(self):
+        """ Get posts where the user is the recipient. """
         return Post.query.join(User, User.id == Post.author_id).filter(
-            Post.recipient_id == self.id, User.active == True,
+            Post.recipient_id == self.id, User.active == True, # noqa
             Post.active == True)
 
     @property
     def my_posts(self):
+        """ Get posts where the author is the recipient. """
         return Post.query.join(User, User.id == Post.recipient_id).filter(
-            Post.recipient_id == self.id, User.active == True,
+            Post.recipient_id == self.id, User.active == True, # noqa
             Post.author_id == self.id, Post.active == True)
 
     def avatar(self, size):
