@@ -42,6 +42,10 @@ class User(UserMixin, db.Model, BaseModel):
         'Post',
         foreign_keys='Post.author_id',
         backref='author', lazy='dynamic')
+    post_recipient = db.relationship(
+        'Post',
+        foreign_keys='Post.recipient_id',
+        backref='recipient', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
