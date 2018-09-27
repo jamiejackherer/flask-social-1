@@ -19,6 +19,8 @@ users = Blueprint('users', __name__)
 @users.before_request
 def before_request():
     if current_user.is_authenticated:
+        if not current_user.active:
+            return redirect(url_for('static_views.logout'))
         current_user.last_seen = datetime.utcnow()
         current_user.commit()
 

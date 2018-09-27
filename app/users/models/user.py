@@ -108,23 +108,20 @@ class User(UserMixin, db.Model, BaseModel):
         return self.followed.filter_by(active=True)
 
     def followed_posts(self):
-        followed = Post.query.join(
-            followers,
-            (followers.c.followed_id == Post.author_id)).filter(
+        followed = Post.query.\
+            join(User, User.id == Post.author_id).\
+            join(followers, followers.c.followed_id == Post.author_id).filter(
                 followers.c.follower_id == self.id,
                 Post.author_id == Post.recipient_id,
-                Post.active == True).join( # noqa
-                    User,
-                    (User.id == Post.author_id)).filter(
-                        User.active == True) # noqa
+                Post.active == True, # noqa
+                User.active == True) # noqa
 
         my_posts = Post.query.filter_by(recipient_id=self.id, active=True)
         return followed.union(my_posts).order_by(Post.created.desc())
 
     def post_count(self):
-        return self.post_author.filter(
-            Post.active == True, # noqa
-            Post.author_id == Post.recipient_id).count()
+        return Post.query.filter(
+            Post.recipient_id == self.id, Post.active == True).count() # noqa
 
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
