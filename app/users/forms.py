@@ -32,9 +32,9 @@ class SettingsAccount(FlaskForm):
         # - Has alphanumeric / underscore
         # - Starts with alpha
         # - Doesn't start or end with an underscore
-        if not re.match('^\w+$', username.data):
-            raise ValidationError(
-                'Username must be alphanumeric and underscore only')
+        regex = '^[a-zA-Z][a-zA-Z1-9_]*[a-zA-Z0-9]+$'
+        if not re.match(regex, username.data):
+            raise ValidationError('Invalid username. Example: john_doe13')
 
         if username.data != self.original_username:
             user = User.query.filter_by(username=self.username.data).first()
