@@ -16,6 +16,7 @@
  * - Profile Info (s:profile-info)
  * - Follow List (s:follow-list)
  * - Settings (s:settings)
+ * - Errors (s:errors)
  */
 
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One');
@@ -651,3 +652,24 @@ input[type=submit]:active {
   }
 }
 /* // Settings (s:settings) */
+
+/* Errors (s:errors) */
+.page-error-container {
+  margin: 50px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.page-error-container > h2 {
+  margin-bottom: 20px;
+  font-size: 10rem;
+}
+
+.page-error-container > h3 {
+  margin-bottom: 20px;
+}
+
+.page-error-container > p {
+  margin-bottom: 0;
+}
+/* // END Errors (s:errors) */

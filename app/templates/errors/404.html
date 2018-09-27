@@ -1,1 +1,13 @@
-<h1>Page not found</h1>
+{% extends "/base.html" %}
+
+{% block content %}
+<div class="page-error-container card">
+  <h2>404</h2>
+  <h3>Page not found</h3>
+  <p>
+    The page you are looking for doesn't exist or another error occurred.
+    <br>Head back to your
+    <a href="{{ url_for('static_views.index') }}">home page</a>.
+  </p>
+</div><!--//END .page-error-container-->
+{% endblock %}

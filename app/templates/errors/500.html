@@ -1,1 +1,12 @@
-<h1>Internal Server Error</h1>
+{% extends "/base.html" %}
+
+{% block content %}
+<div class="page-error-container card">
+  <h2>500</h2>
+  <h3>Internal server error</h3>
+  <p>
+    Oops, somthing went wrong. Head back to your
+    <a href="{{ url_for('static_views.index') }}">home page</a>.
+  </p>
+</div><!--//END .page-error-container-->
+{% endblock %}
