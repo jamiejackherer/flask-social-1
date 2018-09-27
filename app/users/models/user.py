@@ -128,6 +128,11 @@ class User(UserMixin, db.Model, BaseModel):
             Post.recipient_id == self.id, User.active == True,
             Post.active == True)
 
+    @property
+    def my_posts(self):
+        return Post.query.join(User, User.id == Post.recipient_id).filter(
+            Post.recipient_id == self.id, User.active == True,
+            Post.author_id == self.id, Post.active == True)
 
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()

@@ -11,7 +11,7 @@
       </a>
       <div class="user-numbers user-numbers-home">
         <a href="{{ url_for('users.profile', username=current_user.username) }}">
-          Posts <span>{{ current_user.profile_posts.count() }}</span>
+          Posts <span>{{ current_user.my_posts.count() }}</span>
         </a>
         <a href="{{ url_for('users.followers', username=current_user.username) }}">
           Followers <span>{{ current_user.get_followers.count() }}</span>
