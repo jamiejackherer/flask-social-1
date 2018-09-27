@@ -42,10 +42,6 @@ class User(UserMixin, db.Model, BaseModel):
         'Post',
         foreign_keys='Post.author_id',
         backref='author', lazy='dynamic')
-    post_recipient = db.relationship(
-        'Post',
-        foreign_keys='Post.recipient_id',
-        backref='recipient', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
@@ -117,10 +113,7 @@ class User(UserMixin, db.Model, BaseModel):
                 Post.active == True, # noqa
                 User.active == True) # noqa
 
-        my_posts = Post.query.join(User, User.id == Post.author_id).filter(
-            Post.recipient_id == self.id, User.active == True,
-            Post.active == True)
-        return followed.union(my_posts).order_by(Post.created.desc())
+        return followed.union(self.profile_posts).order_by(Post.created.desc())
 
     @property
     def profile_posts(self):
