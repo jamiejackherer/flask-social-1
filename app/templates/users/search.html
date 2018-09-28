@@ -21,7 +21,7 @@
 
   {% if request.args.get('search') %}
     <h3 class="page-sub-title">
-      Displaying results for: {{ request.args.get('search') }}
+      Displaying {{ search_result_count }} results for: {{ request.args.get('search') }}
     </h3>
     {% if search_result.items %}
     <ul class="list-users">

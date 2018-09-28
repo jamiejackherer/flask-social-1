@@ -101,10 +101,13 @@ def search():
         User.last_name.like(searchable),
         User.username.like(searchable),
         User.email.like(searchable)
-    )).paginate(page, current_user.posts_per_page, False)
-    return render_template('users/search.html', form=form,
-                           search_result=search_result,
-                           recent_users=recent_users)
+    ))
+    search_result_count = search_result.count()
+    search_result = search_result.paginate(
+        page, current_user.posts_per_page, False)
+    return render_template(
+        'users/search.html', form=form, search_result=search_result,
+        recent_users=recent_users, search_result_count=search_result_count)
 
 
 @users.route('/<username>/<action>')
