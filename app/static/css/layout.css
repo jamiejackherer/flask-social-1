@@ -14,9 +14,10 @@
  * - Index (s:index)
  * - Posts (s:posts)
  * - Profile Info (s:profile-info)
- * - Follow List (s:follow-list)
+ * - List User (s:list-user)
  * - Settings (s:settings)
  * - Errors (s:errors)
+ * - Search (s:search)
  */
 
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One');
@@ -564,12 +565,12 @@ input[type=submit]:active {
 }
 /* // END Profile Info (s:profile-info) */
 
-/* Follow List (s:follow-list) */
-.follow-list {
+/* List User (s:list-user) */
+.list-users {
   margin-bottom: 0;
 }
 
-.follow-list > li {
+.list-users > li {
   align-items: center;
   display: flex;
   margin-bottom: 10px;
@@ -579,27 +580,27 @@ input[type=submit]:active {
   background-color: var(--light-gray);
 }
 
-.follow-list > li > a {
+.list-users > li > a {
   margin: 0 auto 0;
   position: absolute;
   right: 10px;
 }
 
-.follow-info {
+.list-user-info {
   margin-left: 10px;
 }
 
-.follow-info > a {
+.list-user-info > a {
   display: block;
   margin-bottom: 5px;
 }
 
-.follow-info .last-seen {
+.list-user-info .last-seen {
   margin-bottom: 0;
 
   font-size: 1rem;
 }
-/* //END Follow List (s:follow-list */
+/* //END List User (s:list-user) */
 
 /* Settings (s:settings) */
 .settings-nav-container > ul {
@@ -673,3 +674,20 @@ input[type=submit]:active {
   margin-bottom: 0;
 }
 /* // END Errors (s:errors) */
+
+/* Search (s:search) */
+.search-container > form {
+  margin-bottom: 20px; 
+}
+
+.search-form > input {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .search-container {
+    margin: 0 auto;
+    max-width: 600px;
+  }
+}
+/* // END Search (s:search) */

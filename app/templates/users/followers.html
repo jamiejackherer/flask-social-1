@@ -1,5 +1,7 @@
 {% extends "/base.html" %}
 
+{% from "/_macros.html" import render_pagination %}
+
 {% block content %}
 <div class="grid-container">
   {% include "/users/_profile-info.html" %}
@@ -8,14 +10,13 @@
     <h3 class="page-sub-title">Followers</h3>
 
     {% if followers.pages > 1 %}
-     {% from "/_macros.html" import render_pagination %}
-     {{ render_pagination(followers, 'users.followers', user.username) }}
+      {{ render_pagination(followers, 'users.followers', user.username) }}
     {% endif %}
 
     {% if followers.items %}
-    <ul class="follow-list">
-      {% for follower in followers.items %}
-      {% include "/users/_follow-item.html" %}
+    <ul class="list-users">
+      {% for list_user in followers.items %}
+      {% include "/users/_list-user.html" %}
       {% endfor %}
     </ul>
     {% else %}
@@ -29,8 +30,7 @@
     {% endif %}
 
     {% if followers.pages > 1 %}
-     {% from "/_macros.html" import render_pagination %}
-     {{ render_pagination(followers, 'users.followers', user.username) }}
+      {{ render_pagination(followers, 'users.followers', user.username) }}
     {% endif %}
   </div><!--//END .follow-content-->
 </div><!--//END .grid-container-->

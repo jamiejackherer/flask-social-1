@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block page_title %}{{ APP_NAME }}{% endblock %}
 
+{% from "/_macros.html" import render_pagination %}
+
 {% block content %}
 <div class="grid-container">
   <div class="profile-aside">
@@ -53,7 +55,6 @@
       {{ form.csrf_token }}
     </form>
     {% if posts.pages > 1 %}
-      {% from "/_macros.html" import render_pagination %}
       {{ render_pagination(posts, 'users.home') }}
     {% endif %}
     
@@ -66,7 +67,6 @@
     {% endif %}
   
     {% if posts.pages > 1 %}
-      {% from "/_macros.html" import render_pagination %}
       {{ render_pagination(posts, 'users.home') }}
     {% endif %}
   </div><!--//END .profile-content-->

@@ -1,0 +1,24 @@
+
+<li>
+  <img src="{{ list_user.avatar(40) }}">
+  <div class="list-user-info">
+    <a href="{{ url_for('users.profile', username=list_user.username) }}">
+      {{ list_user.full_name }}
+    </a>
+    <p class="last-seen">
+      Last seen: {{ moment(list_user.last_seen).fromNow() }}
+    </p>
+  </div>
+  {% if current_user != list_user %}
+    {% if current_user.is_following(list_user) %}
+    <a class="button" href="{{ url_for('users.user_action', username=list_user.username, action='unfollow') }}">
+      Unfollow
+    </a>
+    {% else %}
+    <a class="button" href="{{ url_for('users.user_action', username=list_user.username, action='follow') }}">
+      Follow
+    </a>
+    {% endif %}
+  {% endif %}
+</li>
+

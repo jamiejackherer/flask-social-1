@@ -5,11 +5,13 @@
     Views for users.
 """
 from datetime import datetime
+from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.users.models import User, Post
 from app.users.forms import (
-    PostForm, SettingsAccount, SettingsUserInfo, SettingsPassword
+    PostForm, SettingsAccount, SettingsUserInfo, SettingsPassword,
+    SearchForm
 )
 
 
@@ -84,10 +86,28 @@ def following(username):
                            following=following)
 
 
-@users.route('/search')
+@users.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    return render_template('users/search.html')
+    form = SearchForm()
+    recent_users = User.query.filter(
+        User.active == True, # noqa
+        User.id != current_user.id).order_by(
+            User.last_seen.desc()).limit(10)
+    searchable = '%{}%'.format(request.args.get('search'))
+    page = request.args.get('page', 1, type=int)
+    search_result = User.query.filter(or_(
+        User.first_name.like(searchable),
+        User.last_name.like(searchable),
+        User.username.like(searchable),
+        User.email.like(searchable)
+    ))
+    search_result_count = search_result.count()
+    search_result = search_result.paginate(
+        page, current_user.posts_per_page, False)
+    return render_template(
+        'users/search.html', form=form, search_result=search_result,
+        recent_users=recent_users, search_result_count=search_result_count)
 
 
 @users.route('/<username>/<action>')
