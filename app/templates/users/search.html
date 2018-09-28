@@ -1,29 +1,52 @@
 {% extends "/base.html" %}
 
+{% from "/_macros.html" import render_search_pagination %}
+
 {% block content %}
-  <table style="margin-top: 4rem;">
-    <tr>
-      <th>Full name</th>
-      <th>Username</th>
-      <th>Followers</th>
-      <th>Following</th>
-    </th>
-    {% for user in users %}
-    <tr>
-      <td><a href="{{ url_for('users.profile', username=user.username) }}">{{ user.full_name }}</a></td>
-      <td>{{ user.username }}</td>
-      <td>{{ user.followers.count() }}</td>
-      <td>{{ user.followed.count() }}</td>
-      <td>
-      {% if current_user != user %}
-        {% if current_user.is_following(user) %}
-        <a href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">Unfollow</a>
-        {% else %}
-        <a href="{{ url_for('users.user_action', username=user.username, action='follow') }}">Follow</a>
-        {% endif %}
-      {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </ul>
+<div class="search-container">
+  <h2 class="page-sub-title">Search for friends</h2>
+  <form class="search-form" method="get" novalidate>
+    {% if request.args.get('search') %}
+    {{ form.search(value=request.args.get('search')) }}
+    {% else %}
+    {{ form.search(placeholder="Name of the person you are searching for") }}
+    {% endif %}
+    {{ form.submit }}
+    {{ form.hidden_tag() }}
+  </form>
+
+  {% if search_result.pages > 1 %}
+    {{ render_search_pagination(search_result, 'users.search', request.args.get('search')) }}
+  {% endif %}
+
+  {% if request.args.get('search') %}
+    <h3 class="page-sub-title">
+      Displaying results for: {{ request.args.get('search') }}
+    </h3>
+    {% if search_result.items %}
+    <ul class="list-users">
+      {% for list_user in search_result.items %}
+      {% include "/users/_list-user.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">Sorry, no results were found.</p>
+    {% endif %}
+  {% else %}
+    <h3 class="page-sub-title">Recently active users</h3>
+    {% if recent_users %}
+    <ul class="list-users">
+      {% for list_user in recent_users %}
+      {% include "/users/_list-user.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">Sorry, nothing to display.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if search_result.pages > 1 %}
+    {{ render_search_pagination(search_result, 'users.search', request.args.get('search')) }}
+  {% endif %}
+</div>
 {% endblock %}

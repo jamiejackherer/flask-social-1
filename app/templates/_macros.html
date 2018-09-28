@@ -25,3 +25,31 @@
 </ul><!--//END .pagination-->
 
 {% endmacro %}
+
+{% macro render_search_pagination(pagination, endpoint, search) %}
+
+<ul class="pagination">
+  {% if pagination.has_prev %}
+  <li><a href="{{ url_for(endpoint, search=search, page=pagination.prev_num) }}">&lt;</a>
+  {% else %}
+  <li>&lt;</li>
+  {% endif %}
+  {% for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+      <li><a href="{{ url_for(endpoint, search=search, page=page) }}">{{ page }}</a></li>
+      {% else %}
+      <li><strong>{{ page }}</strong></li>
+      {% endif %}
+    {% else %}
+    <li>&hellip;</li>
+    {% endif %}
+  {% endfor %}
+  {% if pagination.has_next %}
+  <li><a href="{{ url_for(endpoint, search=search, page=pagination.next_num) }}">&gt;</a></li>
+  {% else %}
+  <li>&gt;</li>
+  {% endif %}
+</ul><!--//END .pagination-->
+
+{% endmacro %}

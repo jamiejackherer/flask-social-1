@@ -1,4 +1,6 @@
 {% extends "/base.html" %}
+     
+{% from "/_macros.html" import render_pagination %}
 
 {% block content %}
 <div class="grid-container">
@@ -8,14 +10,13 @@
     <h3 class="page-sub-title">Following</h3>
 
     {% if following.pages > 1 %}
-     {% from "/_macros.html" import render_pagination %}
      {{ render_pagination(following, 'users.following', user.username) }}
     {% endif %}
 
     {% if following.items %}
-    <ul class="follow-list">
-      {% for follower in following.items %}
-      {% include "/users/_follow-item.html" %}
+    <ul class="list-users">
+      {% for list_user in following.items %}
+      {% include "/users/_list-user.html" %}
       {% endfor %}
     </ul>
     {% else %}
@@ -29,7 +30,6 @@
     {% endif %}
 
     {% if following.pages > 1 %}
-     {% from "/_macros.html" import render_pagination %}
      {{ render_pagination(following, 'users.following', user.username) }}
     {% endif %}
   </div><!--//END .follow-content-->

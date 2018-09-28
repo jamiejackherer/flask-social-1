@@ -1,6 +1,8 @@
 {% extends "/base.html" %}
 {% block page_title %}{{ current_user.full_name }} | {{ APP_NAME }}{% endblock %}
 
+{% from "/_macros.html" import render_pagination %}
+
 {% block content %}
 <div class="grid-container">
   {% include "/users/_profile-info.html" %}
@@ -22,7 +24,6 @@
     {% endif %}
 
     {% if posts.pages > 1 %}
-      {% from "/_macros.html" import render_pagination %}
       {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}
 
@@ -41,7 +42,6 @@
     {% endif %}
 
     {% if posts.pages > 1 %}
-      {% from "/_macros.html" import render_pagination %}
       {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}
   </div><!--//END .user-wall-->
