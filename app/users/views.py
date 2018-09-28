@@ -91,7 +91,7 @@ def following(username):
 def search():
     form = SearchForm()
     recent_users = User.query.filter(
-        User.active == True,
+        User.active == True, # noqa
         User.id != current_user.id).order_by(
             User.last_seen.desc()).limit(10)
     searchable = '%{}%'.format(request.args.get('search'))
