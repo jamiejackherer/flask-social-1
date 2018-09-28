@@ -1,4 +1,4 @@
-Error pages
+Search page
 Move 'recent posts you may be interested in' to row 3 when displayed on handheld
 Change settings around a little bit
   - add delete account

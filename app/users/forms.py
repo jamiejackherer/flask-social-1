@@ -15,6 +15,11 @@ class PostForm(FlaskForm):
     submit = SubmitField('Post')
 
 
+class SearchForm(FlaskForm):
+    search = StringField('Search', validators=[DataRequired()])
+    submit = SubmitField('Search')
+
+
 class SettingsAccount(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(max=35)])

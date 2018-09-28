@@ -84,11 +84,10 @@ def following(username):
                            following=following)
 
 
-@users.route('/list')
+@users.route('/search')
 @login_required
-def list():
-    users = User.query.filter_by(active=True).all()
-    return render_template('users/list.html', users=users)
+def search():
+    return render_template('users/search.html')
 
 
 @users.route('/<username>/<action>')
