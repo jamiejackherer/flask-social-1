@@ -4,6 +4,7 @@
  * Author: Daniel Lindegren
  *
  * Table of contents (s:toc):
+ * - Fonts (s:fonts)
  * - Variables (s:variables)
  * - Defaults (s:defaults)
  * - Grid / Layout (s:grid-layout) 
@@ -20,7 +21,9 @@
  * - Search (s:search)
  */
 
+/* Fonts (s:fonts) */
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+/* // END Fonts (s:fonts) */
 
 /* Variables (s:variables) */
 :root {
