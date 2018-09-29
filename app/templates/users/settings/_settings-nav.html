@@ -9,10 +9,10 @@
         {% endif %}
       </li>
       <li>
-        {% if request.endpoint == 'users.settings_user_info' %}
-        <p class="active-page">User Info</p>
+        {% if request.endpoint == 'users.settings_profile' %}
+        <p class="active-page">Profile</p>
         {% else %}
-        <a href="{{ url_for('users.settings_user_info') }}">User Info</a>
+        <a href="{{ url_for('users.settings_profile') }}">Profile</a>
         {% endif %}
       </li>
       <li>

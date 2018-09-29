@@ -33,10 +33,10 @@
     <p>{{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
   </div><!--//END .last-seen-container-->
   {% endif %}
-  {% if user.about_me %}
+  {% if user.bio %}
   <div class="about-container">
     <h3>About</h3>
-    <p>{{ user.about_me }}</p>
+    <p>{{ user.bio }}</p>
   </div><!--//END .about-container-->
   {% endif %}
 </div>

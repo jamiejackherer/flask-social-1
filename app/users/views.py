@@ -10,7 +10,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.users.models import User, Post
 from app.users.forms import (
-    PostForm, SettingsAccount, SettingsUserInfo, SettingsPassword,
+    PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
 )
 
@@ -147,7 +147,7 @@ def user_action(username, action):
 @users.route('/settings/account', methods=['GET', 'POST'])
 @login_required
 def settings_account():
-    form = SettingsAccount(current_user.username, current_user.email)
+    form = SettingsAccountForm(current_user.username, current_user.email)
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -160,28 +160,28 @@ def settings_account():
     return render_template('users/settings/account.html', form=form)
 
 
-@users.route('/settings/user-info', methods=['GET', 'POST'])
+@users.route('/settings/profile', methods=['GET', 'POST'])
 @login_required
-def settings_user_info():
-    form = SettingsUserInfo()
+def settings_profile():
+    form = SettingsProfileForm()
     if form.validate_on_submit():
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
-        current_user.about_me = form.about_me.data
+        current_user.bio = form.bio.data
         current_user.commit()
         flash('Your settings have been updated.')
-        return redirect(url_for('users.settings_user_info'))
+        return redirect(url_for('users.settings_profile'))
     elif request.method == 'GET':
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
-        form.about_me.data = current_user.about_me
-    return render_template('users/settings/user-info.html', form=form)
+        form.bio.data = current_user.bio
+    return render_template('users/settings/profile.html', form=form)
 
 
 @users.route('/settings/password', methods=['GET', 'POST'])
 @login_required
 def settings_password():
-    form = SettingsPassword()
+    form = SettingsPasswordForm()
     if form.validate_on_submit():
         current_user.set_password(form.password.data)
         current_user.commit()

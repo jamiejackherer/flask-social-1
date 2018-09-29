@@ -20,7 +20,7 @@ class SearchForm(FlaskForm):
     submit = SubmitField('Search')
 
 
-class SettingsAccount(FlaskForm):
+class SettingsAccountForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(max=35)])
     email = StringField('Email',
@@ -53,16 +53,16 @@ class SettingsAccount(FlaskForm):
                 raise ValidationError('Please use a different email.')
 
 
-class SettingsUserInfo(FlaskForm):
+class SettingsProfileForm(FlaskForm):
     first_name = StringField('First name',
                              validators=[DataRequired(), Length(max=35)])
     last_name = StringField('Last name',
                             validators=[DataRequired(), Length(max=35)])
-    about_me = TextAreaField('About me')
+    bio = TextAreaField('Bio')
     submit = SubmitField('Update')
 
 
-class SettingsPassword(FlaskForm):
+class SettingsPasswordForm(FlaskForm):
     current_password = PasswordField(
         'Current password', validators=[DataRequired()])
     password = PasswordField(
