@@ -30,6 +30,7 @@ class User(UserMixin, db.Model, BaseModel):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     posts_per_page = db.Column(db.Integer, default=10, nullable=False)
     location = db.Column(db.String(255))
+    admin = db.Column(db.Boolean, default=False)
 
     full_name = column_property(first_name + " " + last_name)
     followed = db.relationship(
