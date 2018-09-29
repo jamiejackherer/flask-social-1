@@ -1,3 +1,9 @@
+"""
+    development
+    ~~~~~~~~~~~
+
+    Callable for development server - load default configuration.
+"""
 from app.app import create_app
 from app.extensions import db
 from app.users.models import User, Post, followers
