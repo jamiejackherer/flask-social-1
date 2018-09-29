@@ -297,6 +297,7 @@ class Test:
         self.sheree.follow(self.jordan)
         self.jordan.follow(self.daniel)
         self.jennifer.active = False
+        self.daniel.posts_per_page = 5
         db.session.commit()
 
 
