@@ -2,7 +2,7 @@
     app.app
     ~~~~~~~
 
-    Flask application factory.
+    Flask application factory. 
 """
 from flask import Flask
 from config import DefaultConfig
