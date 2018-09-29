@@ -41,6 +41,17 @@
           {% endif %}
         </div>
       </div>
+      <div class="form-group">
+        {{ form.location.label }}
+        <div class="input-container">
+          {% if form.location.errors %}
+          {{ form.location(class="input-error", placeholder="Example: Atlanta, Georgia") }}
+          <p>{{ form.location.errors[0] }}</p>
+          {% else %}
+          {{ form.location(placeholder="Example: Atlanta, Georgia") }}
+          {% endif %}
+        </div>
+      </div>
       {{ form.submit }}
       {{ form.hidden_tag() }}
     </form>

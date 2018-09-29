@@ -25,10 +25,10 @@ class SettingsAccountForm(FlaskForm):
                            validators=[DataRequired(), Length(max=35)])
     email = StringField('Email',
                         validators=[DataRequired(), Email(), Length(max=255)])
-    submit = SubmitField('Update')
+    submit = SubmitField('Update Account')
 
     def __init__(self, original_username, original_email, *args, **kwargs):
-        super(SettingsAccount, self).__init__(*args, **kwargs)
+        super(SettingsAccountForm, self).__init__(*args, **kwargs)
         self.original_username = original_username
         self.original_email = original_email
 
@@ -59,7 +59,8 @@ class SettingsProfileForm(FlaskForm):
     last_name = StringField('Last name',
                             validators=[DataRequired(), Length(max=35)])
     bio = TextAreaField('Bio')
-    submit = SubmitField('Update')
+    location = StringField('Location', validators=[Length(max=255)])
+    submit = SubmitField('Update Profile')
 
 
 class SettingsPasswordForm(FlaskForm):
@@ -71,7 +72,7 @@ class SettingsPasswordForm(FlaskForm):
     password2 = PasswordField(
         'Repeat new password',
         validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Update')
+    submit = SubmitField('Update Password')
 
     def validate_current_password(self, current_password):
         if not current_user.check_password(current_password.data):

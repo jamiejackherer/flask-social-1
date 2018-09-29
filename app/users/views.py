@@ -152,7 +152,7 @@ def settings_account():
         current_user.username = form.username.data
         current_user.email = form.email.data
         current_user.commit()
-        flash('Your settings have been updated.')
+        flash('Your account settings have been updated.')
         return redirect(url_for('users.settings_account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -168,13 +168,15 @@ def settings_profile():
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
         current_user.bio = form.bio.data
+        current_user.location = form.location.data
         current_user.commit()
-        flash('Your settings have been updated.')
+        flash('Your profile settings have been updated.')
         return redirect(url_for('users.settings_profile'))
     elif request.method == 'GET':
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
         form.bio.data = current_user.bio
+        form.location.data = current_user.location
     return render_template('users/settings/profile.html', form=form)
 
 
