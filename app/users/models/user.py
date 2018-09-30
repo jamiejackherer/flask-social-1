@@ -48,6 +48,8 @@ class User(UserMixin, db.Model, BaseModel):
         'Post',
         foreign_keys='Post.recipient_id',
         backref='recipient', lazy='dynamic')
+    notifications = db.relationship('Notification', backref='user',
+                                    lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(

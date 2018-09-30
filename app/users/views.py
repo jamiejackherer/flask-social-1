@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
-from app.users.models import User, Post
+from app.users.models import User, Post, Notification
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
@@ -108,6 +108,12 @@ def search():
     return render_template(
         'users/search.html', form=form, search_result=search_result,
         recent_users=recent_users, search_result_count=search_result_count)
+
+
+@users.route('/notifications')
+@login_required
+def notifications():
+    return render_template('users/notifications.html')
 
 
 @users.route('/<username>/<action>')
