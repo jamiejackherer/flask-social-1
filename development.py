@@ -6,7 +6,7 @@
 """
 from app.app import create_app
 from app.extensions import db
-from app.users.models import User, Post, followers, Notification
+from app.users.models import User, Post, followers
 
 
 app = create_app()
@@ -308,7 +308,6 @@ def make_shell_context():
         'db': db,
         'User': User,
         'Post': Post,
-        'Notification': Notification,
         'followers': followers,
         'Test': Test,
     }

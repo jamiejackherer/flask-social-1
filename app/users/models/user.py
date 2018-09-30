@@ -17,7 +17,6 @@ from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
 from app.users.models.post import Post
-from app.users.models.notification import Notification
 from app.users.models.followers import followers
 from app.helpers import hash_list
 
@@ -146,13 +145,6 @@ class User(UserMixin, db.Model, BaseModel):
         return Post.query.join(User, User.id == Post.recipient_id).filter(
             Post.recipient_id == self.id, User.active == True, # noqa
             Post.author_id == self.id, Post.active == True)
-
-    def add_notification(self, name, data):
-        self.notifications.filter_by(name=name).delete()
-        notification = Notification(
-            name=name, payload_json=json.dumps(data), user=self)
-        db.session.add(notification)
-        return notification
 
     def get_reset_password_token(self, expires=600):
         return jwt.encode({'reset_password': self.id, 'exp': time() + expires},

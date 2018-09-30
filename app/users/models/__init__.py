@@ -6,5 +6,4 @@ from app.users.models.followers import followers
 
 User.__doc__
 Post.__doc__
-Notification.__doc__
 followers.__doc__
