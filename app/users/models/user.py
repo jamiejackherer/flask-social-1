@@ -4,10 +4,11 @@
 
     User model.
 """
+import jwt
+import json
 from time import time
 from datetime import datetime
 from hashlib import md5
-import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql.expression import and_
 from sqlalchemy.orm import column_property
@@ -16,6 +17,7 @@ from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
 from app.users.models.post import Post
+from app.users.models.notification import Notification
 from app.users.models.followers import followers
 from app.helpers import hash_list
 
@@ -64,6 +66,11 @@ class User(UserMixin, db.Model, BaseModel):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=monsterid&s={}'.format(
+            digest, size)
 
     def follow(self, user):
         if not self.is_following(user):
@@ -140,10 +147,12 @@ class User(UserMixin, db.Model, BaseModel):
             Post.recipient_id == self.id, User.active == True, # noqa
             Post.author_id == self.id, Post.active == True)
 
-    def avatar(self, size):
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=monsterid&s={}'.format(
-            digest, size)
+    def add_notification(self, name, data):
+        self.notifications.filter_by(name=name).delete()
+        notification = Notification(
+            name=name, payload_json=json.dumps(data), user=self)
+        db.session.add(notification)
+        return notification
 
     def get_reset_password_token(self, expires=600):
         return jwt.encode({'reset_password': self.id, 'exp': time() + expires},
