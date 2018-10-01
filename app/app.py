@@ -2,8 +2,11 @@
     app.app
     ~~~~~~~
 
-    Flask application factory. 
+    Flask application factory.
 """
+import os
+import logging
+from logging.handlers import RotatingFileHandler
 from flask import Flask
 from config import DefaultConfig
 from app.helpers import truncate
@@ -16,6 +19,7 @@ def create_app(config=None):
         configure_extensions(app)
         configure_blueprints(app)
         configure_jinja(app)
+        configure_logging(app)
     return app
 
 
@@ -52,3 +56,19 @@ def configure_jinja(app):
 
     # Filters
     app.jinja_env.filters['truncate'] = truncate
+
+
+def configure_logging(app):
+    if not app.debug:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        app_name = app.config.get('APP_NAME')
+        file_handler = RotatingFileHandler(
+            'logs/{}.log'.format(app_name), maxBytes=10240, backupCount=10)
+        format_string = ('%(asctime)s %(levelname)s: %(message)s '
+                         '[in %(pathname)s:%(lineno)d]')
+        file_handler.setFormatter(logging.Formatter(format_string))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('{} startup'.format(app_name))
