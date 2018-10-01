@@ -504,6 +504,7 @@ input[type=submit]:active {
 }
 
 .name-followers-container {
+  margin-bottom: 20px;
   padding: 10px;
 
   background-color: var(--light-gray);
@@ -568,7 +569,7 @@ input[type=submit]:active {
 }
 
 .profile-follow {
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
 .other-info-container {
