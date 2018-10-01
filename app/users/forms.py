@@ -65,12 +65,12 @@ class SettingsProfileForm(FlaskForm):
 
 class SettingsPasswordForm(FlaskForm):
     current_password = PasswordField(
-        'Current password', validators=[DataRequired()])
+        'Old password', validators=[DataRequired()])
     password = PasswordField(
         'New password',
         validators=[DataRequired(), Length(min=8, max=32)])
     password2 = PasswordField(
-        'Repeat new password',
+        'Confirm new password',
         validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Update Password')
 
