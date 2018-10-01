@@ -1,11 +1,11 @@
 
-<div class="profile-aside">
-  <div class="profile-info-container">
-    <a class="profile-info" href="{{ url_for('users.profile', username=user.username) }}">
+<div class="profile-info-container">
+  <div class="name-followers-container">
+    <a class="name-avatar" href="{{ url_for('users.profile', username=user.username) }}">
       <img src="{{ user.avatar(60) }}">
       <h2>{{ user.first_name }}<br>{{ user.last_name }}</h1>
     </a>
-    <div class="user-numbers user-numbers-profile">
+    <div class="followers-container followers-profile-container">
       <a href="{{ url_for('users.followers', username=user.username) }}">
         Followers <span>{{ user.get_followers.count() }}</span>
       </a>
@@ -13,7 +13,7 @@
         Following <span>{{ user.get_followed.count() }}</span>
       </a>
     </div>
-  </div><!--//END .profile-info-container-->
+  </div><!--//END .name-followers-container-->
 
   {% if current_user != user %}
     {% if current_user.is_following(user) %}
@@ -27,17 +27,18 @@
     {% endif %}
   {% endif %}
 
-  {% if user.last_seen and not current_user == user %}
-  <div class="last-seen-container">
-    <h3>Last Seen</h3>
-    <p>{{ moment(user.last_seen).format('dddd, D MMMM YYYY, H:mm') }}</p>
-  </div><!--//END .last-seen-container-->
-  {% endif %}
   {% if user.bio %}
-  <div class="about-container">
-    <h3>About</h3>
+  <div class="bio-container">
     <p>{{ user.bio }}</p>
-  </div><!--//END .about-container-->
+  </div><!--//END .bio-container-->
+  {% endif %}
+
+  {% if user.location %}
+  <div class="other-info-container">
+    {% if user.location %}
+    <p>- {{ user.location }}</p>
+    {% endif %}
+  </div><!--//END .other-info-->
   {% endif %}
 </div>
 

@@ -4,10 +4,10 @@
 {% from "/_macros.html" import render_pagination %}
 
 {% block content %}
-<div class="grid-container">
+<div class="grid-profile-container">
   {% include "/users/_profile-info.html" %}
 
-  <div class="profile-content">
+  <div class="profile-content-container">
     {% if current_user != user %}
     <form method="post" novalidate>
       <div class="input-container">

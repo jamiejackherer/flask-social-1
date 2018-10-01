@@ -1,34 +1,29 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<h2 class="page-title">Account Settings</h2>
-<div class="grid-container">
+<div class="grid-settings-container">
   {% include "/users/settings/_settings-nav.html" %}
 
-  <div class="settings-content">
-    <h3 class="page-sub-title">Account</h3>
+  <div class="settings-content-container">
+    <h3 class="page-sub-title">Account settings</h3>
     <form method="post" novalidate>
-      <div class="form-group">
+      <div class="input-container">
         {{ form.username.label }}
-        <div class="input-container">
-          {% if form.username.errors %}
-          {{ form.username(class="input-error", placeholder="Username") }}
-          <p>{{ form.username.errors[0] }}</p>
-          {% else %}
-          {{ form.username(placeholder="Username") }}
-          {% endif %}
-        </div>
+        {% if form.username.errors %}
+        {{ form.username(class="input-error", placeholder="Username") }}
+        <p>{{ form.username.errors[0] }}</p>
+        {% else %}
+        {{ form.username(placeholder="Username") }}
+        {% endif %}
       </div>
-      <div class="form-group">
+      <div class="input-container">
         {{ form.email.label }}
-        <div class="input-container">
-          {% if form.email.errors %}
-          {{ form.email(class="input-error", placeholder="Email") }}
-          <p>{{ form.email.errors[0] }}</p>
-          {% else %}
-          {{ form.email(placeholder="Email") }}
-          {% endif %}
-        </div>
+        {% if form.email.errors %}
+        {{ form.email(class="input-error", placeholder="Email") }}
+        <p>{{ form.email.errors[0] }}</p>
+        {% else %}
+        {{ form.email(placeholder="Email") }}
+        {% endif %}
       </div>
       {{ form.submit }}
       {{ form.hidden_tag() }}

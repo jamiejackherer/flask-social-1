@@ -4,14 +4,14 @@
 {% from "/_macros.html" import render_pagination %}
 
 {% block content %}
-<div class="grid-container">
-  <div class="profile-aside">
-    <div class="profile-info-container">
-      <a class="profile-info" href="{{ url_for('users.profile', username=current_user.username) }}">
+<div class="grid-profile-container">
+  <div class="profile-info-container">
+    <div class="name-followers-container">
+      <a class="name-avatar" href="{{ url_for('users.profile', username=current_user.username) }}">
         <img src="{{ current_user.avatar(60) }}">
         <h2>{{ current_user.first_name }}<br>{{ current_user.last_name }}</h1>
       </a>
-      <div class="user-numbers user-numbers-home">
+      <div class="followers-container followers-home-container">
         <a href="{{ url_for('users.profile', username=current_user.username) }}">
           Posts <span>{{ current_user.my_posts.count() }}</span>
         </a>
@@ -21,27 +21,28 @@
         <a href="{{ url_for('users.following', username=current_user.username) }}">
           Following <span>{{ current_user.get_followed.count() }}</span>
         </a>
-      </div><!--//END .user-numbers .user-numbers-home-->
-    </div><!--//END .profile-info-container-->
-    {% if unfollowed_posts %}
-    <div class="recent-posts-container">
-      <h3>Recent posts you may be interested in</h3>
-      <ul class="recent-posts">
-        {% for post in unfollowed_posts %}
-        <li>
-          <a class="post-header" href="{{ url_for('users.profile', username=post.author.username) }}">
-            <img src="{{ post.author.avatar(30) }}">
-            <p>{{ post.author.full_name }}</p>
-          </a>
-          <p>{{ post.body|truncate }}</p>
-        </li>
-        {% endfor %}
-      </ul><!--//END .recent-posts-->
-    </div><!--//END .recent-posts-container-->
-    {% endif %}
-  </div><!--//END .profile-aside-->
+      </div><!--//END .followers-container-->
+    </div><!--//END .name-followers-container-->
+  </div><!--//END .profile-info-container-->
 
-  <div class="profile-content">
+  {% if unfollowed_posts %}
+  <div class="recent-posts-container">
+    <h3>Recent posts you may be interested in</h3>
+    <ul class="recent-posts">
+      {% for post in unfollowed_posts %}
+      <li>
+        <a class="post-header" href="{{ url_for('users.profile', username=post.author.username) }}">
+          <img src="{{ post.author.avatar(30) }}">
+          <p>{{ post.author.full_name }}</p>
+        </a>
+        <p>{{ post.body|truncate }}</p>
+      </li>
+      {% endfor %}
+    </ul><!--//END .recent-posts-->
+  </div><!--//END .recent-posts-container-->
+  {% endif %}
+  
+  <div class="profile-content-container">
     <form method="post" novalidate>
       <div class="input-container">
         {% if form.body.errors %}
@@ -69,6 +70,6 @@
     {% if posts.pages > 1 %}
       {{ render_pagination(posts, 'users.home') }}
     {% endif %}
-  </div><!--//END .profile-content-->
+  </div>
 </div><!--//END .grid-container-->
 {% endblock %}

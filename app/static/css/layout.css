@@ -7,14 +7,13 @@
  * - Fonts (s:fonts)
  * - Variables (s:variables)
  * - Defaults (s:defaults)
- * - Grid / Layout (s:grid-layout) 
  * - Forms (s:forms)
  * - Pagination (s:pagination)
  * - Site header (s:site-header)
  * - Flash messages (s:flash)
  * - Index (s:index)
  * - Posts (s:posts)
- * - Profile Info (s:profile-info)
+ * - Home and Profile (s:home-and-profile)
  * - List User (s:list-user)
  * - Settings (s:settings)
  * - Errors (s:errors)
@@ -116,6 +115,12 @@ a:active {
   text-decoration: underline;
 }
 
+.responsive-container {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0 20px;
+}
+
 .no-margin {
   margin: 0;
 }
@@ -125,6 +130,7 @@ a:active {
 }
 
 .page-sub-title {
+  margin-bottom: 20px;
   padding-bottom: 10px;
 
   border-bottom: 1px solid var(--dark-gray);
@@ -159,38 +165,6 @@ a:active {
 }
 /* //END Default (s:default) */
 
-/* Grid / Layout (s:grid-layout) */
-.responsive-container {
-  margin: 0 auto;
-  max-width: 960px;
-  padding: 0 20px;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(12, [col-start] 1fr);
-  grid-gap: 20px;
-}
-
-.grid-container > .profile-aside,
-.grid-container > .profile-content,
-.grid-container > .settings-aside,
-.grid-container > .settings-content,
-.grid-container > .index-content,
-.grid-container > .index-registration { 
-  grid-column: col-start / -1; 
-}
-
-@media (min-width: 768px) {
-  .grid-container > .index-content { grid-column: col-start / span 7; }
-  .grid-container > .index-registration { grid-column: col-start 8 / span 5; }
-  .grid-container > .profile-aside { grid-column: col-start / span 4; }
-  .grid-container > .profile-content { grid-column: col-start 5 / span 8; }
-  .grid-container > .settings-aside { grid-column: col-start / span 3; }
-  .grid-container > .settings-content { grid-column: col-start 4 / span 9; }
-}
-/* END Grid / Layout (s:grid-layout) */
-
 /* Forms (s:forms) */
 .form-container {
   margin: 50px auto;
@@ -210,8 +184,7 @@ a:active {
 input,
 textarea {
   display: inline-block;
-  padding: 10px;
-  width: 100%;
+  padding: 5px 10px;
 
   border: 1px solid var(--dark-gray);
   border-radius: 3px;
@@ -276,7 +249,14 @@ input[type=submit]:active {
 }
 
 .input-container {
+  margin-bottom: 20px;
+}
+
+.input-container > label {
+  display: block;
   margin-bottom: 10px;
+
+  font-weight: bold;
 }
 
 .input-container > p {
@@ -487,66 +467,87 @@ input[type=submit]:active {
 }
 /* //END Posts (s:posts) */
 
-/* Profile Info (s:profile-info) */
-.profile-info-container,
-.about-container,
-.last-seen-container,
-.recent-posts-container {
+/* Home and Profile Info (s:home-and-profile) */
+.grid-profile-container {
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-template-rows: repeat(3, auto);
+  grid-gap: 20px;
+}
+
+.grid-profile-container .profile-info-container {
+  grid-column: col-start / -1;
+  grid-row: 1;
+}
+
+.grid-profile-container .recent-posts-container {
+  grid-column: col-start / -1;
+  grid-row: 3;
+}
+
+.grid-profile-container .profile-content-container {
+  grid-column: col-start / -1;
+  grid-row: 2;
+}
+
+@media (min-width: 768px) {
+  .grid-profile-container .profile-info-container {
+    grid-column: col-start / span 4;
+    grid-row: 1;
+  }
+
+  .grid-profile-container .recent-posts-container {
+    grid-column: col-start / span 4;
+    grid-row: 2;
+  }
+
+  .grid-profile-container .profile-content-container {
+    grid-column: col-start 5 / span 8;
+    grid-row: 1 / span 3;
+  }
+}
+
+.name-followers-container {
   padding: 10px;
-  margin-bottom: 20px;
 
   background-color: var(--light-gray);
   border-radius: 3px;
 }
 
-.about-container > p,
-.last-seen-container > p {
-  margin-bottom: 0;
-}
-
-.profile-info {
+.name-followers-container .name-avatar {
   align-items: center;
   display: flex;
   margin-bottom: 20px;
-  overflow: hidden;
 }
 
-.profile-info,
-.profile-info:link {
+.name-followers-container .name-avatar,
+.name-followers-container .name-avatar:link {
   color: var(--text-color);
   text-decoration: none;
 }
 
-.profile-info > h2 {
+.name-followers-container .name-avatar > h2 {
   margin: 0 0 0 10px;
 
   font-size: 20px;
 }
 
-.user-numbers {
+.name-followers-container .followers-container {
   display: flex;
   text-align: center;
 }
 
-.user-numbers > a {
+.name-followers-container .followers-container > a {
   color: var(--text-color);
   text-decoration: none;
 }
 
-.user-numbers-home > a {
-  width: 33.33333333%;
-}
-
-.user-numbers-profile > a {
-  width: 50%;
-}
-
-.user-numbers > a:hover,
-.user-numbers > a:active {
+.name-followers-container .followers-container > a:hover,
+.name-followers-container .followers-container > a:active {
   color: var(--green);
 }
 
-.user-numbers > a span {
+.name-followers-container .followers-container > a span {
   display: block;
   margin-top: 5px;
 
@@ -554,9 +555,12 @@ input[type=submit]:active {
   font-size: 20px;
 }
 
-.profile-follow {
-  margin-bottom: 20px;
-  width: 100%;
+.grid-profile-container .followers-home-container > a {
+  width: 33.333333333%;
+}
+
+.grid-profile-container .followers-profile-container > a {
+  width: 50%;
 }
 
 .recent-posts-container > h3 {
@@ -566,7 +570,22 @@ input[type=submit]:active {
 .recent-posts-container > h3:after {
   content: ":";
 }
-/* // END Profile Info (s:profile-info) */
+
+.profile-follow {
+  margin: 20px 0;
+}
+
+.other-info-container {
+  margin-top: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--dark-gray);
+}
+
+.other-info > p {
+  margin-bottom: 20px;
+}
+/* // END Home and Profile (s:home-and-profile) */
 
 /* List User (s:list-user) */
 .list-users {
@@ -606,10 +625,28 @@ input[type=submit]:active {
 /* //END List User (s:list-user) */
 
 /* Settings (s:settings) */
+.grid-settings-container {
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+}
+
+.settings-nav-container {
+  grid-column: col-start / -1;
+}
+
+.settings-content-container {
+  grid-column: col-start / -1;
+}
+
 .settings-nav-container > ul {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.settings-nav-container > ul > li {
+  padding: 0 10px;
 }
 
 .settings-nav-container > ul p {
@@ -618,21 +655,30 @@ input[type=submit]:active {
   line-height: 1;
 }
 
-.settings-nav-container > ul > li {
-  padding: 0 10px;
-}
-
-.settings-content .input-container {
-  width: 80%;
+.settings-content-container input,
+.settings-content-container textarea {
+  width: 100%;
 }
 
 @media (min-width: 768px) {
+  .settings-nav-container {
+    grid-column: col-start / span 3;
+  }
+
+  .settings-content-container {
+    grid-column: col-start 4 / span 9;
+  }
+  
   .settings-nav-container > ul {
     display: block;
   }
 
+  .settings-nav-container > ul > li {
+    padding: 0;
+  }
+
   .settings-nav-container > ul a,
-  .settings-nav-container > ul p {
+  .settings-nav-container > ul span {
     display: block;
     margin-bottom: 0;
     padding: 10px 20px;
@@ -651,8 +697,13 @@ input[type=submit]:active {
     border-bottom-left-radius: 3px;
   }
 
-  .settings-content form {
+  .settings-content-container input,
+  .settings-content-container textarea {
     width: 500px;
+  }
+
+  .settings-content-container input[type=submit] {
+    width: auto;
   }
 }
 /* // Settings (s:settings) */
