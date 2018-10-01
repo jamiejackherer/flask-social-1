@@ -43,7 +43,7 @@
   {% endif %}
   
   <div class="profile-content-container">
-    <form method="post" novalidate>
+    <form class="post-form" method="post" novalidate>
       <div class="input-container">
         {% if form.body.errors %}
         {{ form.body(class="input-error", placeholder="What's on your mind?") }}

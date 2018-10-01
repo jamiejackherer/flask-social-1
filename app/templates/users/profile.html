@@ -9,7 +9,7 @@
 
   <div class="profile-content-container">
     {% if current_user != user %}
-    <form method="post" novalidate>
+    <form class="post-form" method="post" novalidate>
       <div class="input-container">
         {% if form.body.errors %}
         {{ form.body(class="input-error", placeholder="Write on {}'s wall".format(user.first_name)) }}

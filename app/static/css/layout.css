@@ -125,6 +125,10 @@ a:active {
   margin: 0;
 }
 
+.push {
+  margin-top: 10px;
+}
+
 .page-title {
   margin-bottom: 30px;
 }
@@ -200,7 +204,7 @@ textarea:focus {
 
 textarea {
   height: 75px;
-  resize: none;
+  resize: vertical;
 }
 
 input[type=submit] {
@@ -217,34 +221,16 @@ input[type=submit]:active {
   cursor: pointer;
 }
 
-.form-group {
-  align-items: center;
-  display: flex;
+.small-form .input-container {
   margin-bottom: 10px;
 }
 
-.form-group > input,
-.form-group > textarea {
-  margin-bottom: 0;
-  width: 80%;
-}
-
-.form-group > label {
-  margin-right: 10px;
-  width: 20%;
-  text-align: right;
-}
-
-.form-group .input-container > input,
-.form-group .input-container > textarea {
+.small-form input,
+.small-form textarea {
   width: 100%;
 }
 
-.form-group > label:after {
-  content: ":";
-}
-
-.form-group .input-container {
+.small-form input[type=submit] {
   margin-bottom: 0;
 }
 
@@ -383,6 +369,16 @@ input[type=submit]:active {
 
 .index-content p {
   font-size: 1.5rem;
+}
+
+.grid-index-container {
+  display: grid;
+  grid-template-columns: 60% auto;
+  grid-gap: 20px;
+}
+
+@media (min-width: 768px) {
+  
 }
 /* //END Index (s:index) */
 
@@ -584,6 +580,11 @@ input[type=submit]:active {
 
 .other-info > p {
   margin-bottom: 20px;
+}
+
+.post-form input,
+.post-form textarea {
+  width: 100%;
 }
 /* // END Home and Profile (s:home-and-profile) */
 

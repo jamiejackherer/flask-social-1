@@ -4,7 +4,7 @@
 {% block content %}
 <div class="form-container">
   <p class="form-header">Log into {{ APP_NAME }}</p>
-  <form method="post" novalidate>
+  <form class="small-form" method="post" novalidate>
     <div class="input-container">
       {% if form.email.errors %}
       {{ form.email(class="input-error", placeholder="Email or username") }}
@@ -24,7 +24,7 @@
     {{ form.submit }}
     {{ form.hidden_tag() }}
   </form>
-  <p class="no-margin">
+  <p class="push no-margin">
     <a href="{{ url_for('static_views.register') }}">
       Not a member? Register for {{ APP_NAME }}.
     </a>
