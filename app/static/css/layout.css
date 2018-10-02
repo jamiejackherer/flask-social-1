@@ -737,6 +737,10 @@ input[type=submit]:active {
 }
 
 .search-form > input {
+  width: 100%;
+}
+
+.search-form > input {
   margin-bottom: 10px;
 }
 
