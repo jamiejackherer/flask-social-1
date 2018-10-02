@@ -47,7 +47,7 @@
 }
 
 html {
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 62.5%;
 }
 
@@ -373,12 +373,30 @@ input[type=submit]:active {
 
 .grid-index-container {
   display: grid;
-  grid-template-columns: 60% auto;
+  grid-template-columns: repeat(2, [col-start] 1fr);
   grid-gap: 20px;
 }
 
+.grid-index-container .index-content {
+  grid-column: col-start / -1;
+  grid-row: 2;
+}
+
+.grid-index-container .index-registration {
+  grid-column: col-start / -1;
+  grid-row: 1;
+}
+
 @media (min-width: 768px) {
-  
+  .grid-index-container .index-content {
+    grid-column: 1;
+    grid-row: row-start / -1;
+  }
+
+  .grid-index-container .index-registration {
+    grid-column: 2;
+    grid-row: row-start / -1;
+  }
 }
 /* //END Index (s:index) */
 
