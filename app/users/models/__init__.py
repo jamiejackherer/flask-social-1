@@ -1,6 +1,5 @@
 from app.users.models.user import User
 from app.users.models.post import Post
-from app.users.models.notification import Notification
 from app.users.models.followers import followers
 
 
