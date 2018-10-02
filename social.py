@@ -8,7 +8,6 @@ import os
 import config
 from app.app import create_app
 from app.extensions import db
-from app.users.models import User, Post
 from testing.default_user_content import DefaultUserContent
 
 
@@ -25,5 +24,5 @@ def make_shell_context():
         'db': db,
         'User': User,
         'Post': Post,
-        'DefaultContent': DefaultUserContent,
+        'd': DefaultUserContent()
     }
