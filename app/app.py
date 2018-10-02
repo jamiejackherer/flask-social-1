@@ -59,7 +59,7 @@ def configure_jinja(app):
 
 
 def configure_logging(app):
-    if not app.debug:
+    if not app.debug and not app.testing:
         if not os.path.exists('logs'):
             os.mkdir('logs')
         app_name = app.config.get('APP_NAME')

@@ -27,7 +27,7 @@ class DefaultConfig(BaseConfig):
     DEBUG = True
 
 
-class TestingConfig:
+class TestingConfig(BaseConfig):
     DEBUG = False
     TESTING = True
     SQLALCHEMY_DATABASE_URI = (
