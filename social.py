@@ -4,12 +4,17 @@
 
     Callable for development server - load default configuration.
 """
+import os
+import config
 from app.app import create_app
 from app.extensions import db
 from app.users.models import User, Post, followers
 
 
-app = create_app()
+if os.environ.get('FLASK_ENV') == 'production':
+    app = create_app(config.ProductionConfig)
+else:
+    app = create_app()
 
 
 class Test:
