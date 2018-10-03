@@ -11,6 +11,7 @@ from app.extensions import db
 from app.users.models.user import User
 from app.users.models.post import Post
 from app.users.models.post_comment import PostComment
+from testing.default_user_content import DefaultUserContent
 
 
 if os.environ.get('FLASK_ENV') == 'production':
@@ -26,6 +27,7 @@ def make_shell_context():
         'db': db,
         'User': User,
         'Post': Post,
+        'DUC': DefaultUserContent,
         'PostComment': PostComment,
         'p': Post.query.filter_by(id=5).first(),
     }
