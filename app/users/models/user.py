@@ -18,7 +18,7 @@ from app.extensions import db, login
 from app.models import BaseModel
 from app.users.models.post import Post
 from app.users.models.followers import followers
-from app.users.models.post_likes import PostLikes
+from app.users.models.post_like import PostLike
 from app.helpers import hash_list
 
 
@@ -51,8 +51,8 @@ class User(UserMixin, db.Model, BaseModel):
         foreign_keys='Post.recipient_id',
         backref='recipient', lazy='dynamic')
     post_likes = db.relationship(
-        'PostLikes',
-        foreign_keys='PostLikes.user_id',
+        'PostLike',
+        foreign_keys='PostLike.user_id',
         backref='user', lazy='dynamic')
     
     def __repr__(self):
@@ -88,19 +88,19 @@ class User(UserMixin, db.Model, BaseModel):
 
     def like_post(self, post):
         if not self.has_liked_post(post):
-            like = PostLikes(user_id=self.id, post_id=post.id)
+            like = PostLike(user_id=self.id, post_id=post.id)
             db.session.add(like)
 
     def unlike_post(self, post):
         if self.has_liked_post(post):
-            PostLikes.query.filter_by(
+            PostLike.query.filter_by(
                 user_id=self.id,
                 post_id=post.id).delete()
 
     def has_liked_post(self, post):
-        return PostLikes.query.filter(
-            PostLikes.user_id == self.id,
-            PostLikes.post_id == post.id).count() > 0
+        return PostLike.query.filter(
+            PostLike.user_id == self.id,
+            PostLike.post_id == post.id).count() > 0
 
     @property
     def unfollowed_users(self):

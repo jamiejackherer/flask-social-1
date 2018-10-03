@@ -1,15 +1,15 @@
 """
-    app.users.models.post_likes
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    app.users.models.post_like
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Post likes model.
+    Post like model.
 """
 from datetime import datetime
 from app.extensions import db
 
 
-class PostLikes(db.Model):
-    __tablename__ = 'post_likes'
+class PostLike(db.Model):
+    __tablename__ = 'post_like'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))

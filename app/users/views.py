@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
-from app.users.models import User, Post, PostLikes
+from app.users.models import User, Post, PostLike
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
@@ -140,7 +140,7 @@ def post_likes(username, post_id):
     user = User.query.filter_by(username=username, active=True).first_or_404()
     posts = Post.query.filter_by(
         id=post_id, author=user, active=True).first_or_404()
-    likes = posts.likes.order_by(PostLikes.created.desc()).all()
+    likes = posts.likes.order_by(PostLike.created.desc()).all()
     return render_template('users/post-likes.html', user=user, likes=likes,
                            posts=posts)
 
