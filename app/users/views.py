@@ -143,14 +143,13 @@ def user_action(username, action):
     return redirect(request.referrer)
 
 
-@users.route('/<username>/posts/post-likes')
+@users.route('/<username>/posts/post-likes/<int:post_id>')
 @login_required
-def post_likes(username):
+def post_likes(username, post_id):
     user = User.query.filter_by(username=username, active=True).first_or_404()
-    post_id = request.args.get('post_id')
     posts = Post.query.filter_by(
         id=post_id, author=user, active=True).first_or_404()
-    likes = posts.likes.order_by(PostLikes.created.desc())
+    likes = posts.likes.order_by(PostLikes.created.desc()).all()
     return render_template('users/post-likes.html', user=user, likes=likes,
                            posts=posts)
 
