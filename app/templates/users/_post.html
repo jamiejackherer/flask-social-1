@@ -7,7 +7,7 @@
       <time>{{ moment(post.created).fromNow() }}</time>
     </p>
     {% if current_user == post.author or post.recipient_id == current_user.id %}
-    <a class="delete-post" href="{{ url_for('users.user_action', username=post.author.username, action='delete-post', post_id=post.id) }}" title="Delete post">X</a>
+    <a class="delete-post" href="{{ url_for('users.post_action', post_id=post.id, action='delete') }}" title="Delete post">X</a>
     {% endif %}
   </div>
   <p class="post-body">{{ post.body }}</p>

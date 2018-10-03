@@ -131,15 +131,6 @@ def user_action(username, action):
         current_user.commit()
         flash('You are no longer following {}.'.format(user.full_name))
 
-    # Remove post.
-    if action == 'delete-post':
-        post_id = int(request.args.get('post_id'))
-        post = Post.query.filter_by(id=post_id).first_or_404()
-        if current_user == post.author or current_user.id == post.recipient_id:
-            post.delete()
-            post.commit()
-            flash('Post was deleted.')
-
     return redirect(request.referrer)
 
 
@@ -158,6 +149,12 @@ def post_likes(username, post_id):
 @login_required
 def post_action(post_id, action):
     post = Post.query.filter_by(id=post_id).first_or_404()
+
+    if action == 'delete':
+        if current_user == post.author or current_user.id == post.recipient_id:
+            post.delete()
+            post.commit()
+            flash('Post was deleted')
 
     if action == 'like':
         current_user.like_post(post)
