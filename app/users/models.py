@@ -5,7 +5,6 @@
     Followers model.
 """
 import jwt
-import json
 from time import time
 from datetime import datetime
 from hashlib import md5
@@ -59,7 +58,7 @@ class User(UserMixin, db.Model, BaseModel):
         'PostLike',
         foreign_keys='PostLike.user_id',
         backref='user', lazy='dynamic')
-    
+
     def __repr__(self):
         return '<User {} {} ({})>'.format(
             self.first_name, self.last_name, self.email)
