@@ -2,6 +2,7 @@
     app.models
     ~~~~~~~~~~
 """
+import re
 from datetime import datetime
 from sqlalchemy.ext.declarative import declared_attr
 from app.extensions import db
@@ -17,7 +18,9 @@ class BaseModel:
 
     @declared_attr
     def __tablename__(cls):
-        return cls.__name__.lower()
+        """ Rename tables & convert CamelCaseName names to camel_case_name """
+        string = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', cls.__name__)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', string).lower()
 
     def commit(self):
         try:
