@@ -19,6 +19,7 @@ from app.models import BaseModel
 from app.users.models.post import Post
 from app.users.models.followers import followers
 from app.users.models.post_like import PostLike
+from app.users.models.post_comment import PostComment
 from app.helpers import hash_list
 
 

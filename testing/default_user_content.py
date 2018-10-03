@@ -5,7 +5,8 @@
     Create default user content.
 """
 from app.extensions import db
-from app.users.models import User, Post
+from app.users.models.user import User
+from app.users.models.post import Post
 
 
 class DefaultUserContent:

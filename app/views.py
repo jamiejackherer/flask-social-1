@@ -11,7 +11,7 @@ from flask_login import current_user, login_user, logout_user
 from app.forms import (
     LoginForm, RegisterForm, ResetPasswordRequestForm, ResetPasswordForm
 )
-from app.users.models import User
+from app.users.models.user import User
 from app.helpers import register_user
 from app.email import send_password_reset_email
 
