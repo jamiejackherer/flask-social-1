@@ -1,8 +1,8 @@
 """
-    app.users.models.user
-    ~~~~~~~~~~~~~~~~~~~~~
+    app.users.models.followers
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    User model.
+    Followers model.
 """
 import jwt
 import json
@@ -16,11 +16,15 @@ from flask import current_app
 from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
-from app.users.models.post import Post
-from app.users.models.followers import followers
-from app.users.models.post_like import PostLike
-from app.users.models.post_comment import PostComment
 from app.helpers import hash_list
+
+
+followers = db.Table(
+    'followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('created', db.DateTime, default=datetime.utcnow)
+)
 
 
 class User(UserMixin, db.Model, BaseModel):
@@ -179,6 +183,38 @@ class User(UserMixin, db.Model, BaseModel):
         except Exception:
             return
         return User.query.get(id)
+
+
+class Post(db.Model, BaseModel):
+    body = db.Column(db.Text)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    likes = db.relationship('PostLike', backref='post', lazy='dynamic')
+
+    @property
+    def t(self):
+        pass
+
+    def __repr__(self):
+        return '<Post {}>'.format(self.body)
+
+
+class PostLike(db.Model):
+    __tablename__ = 'post_like'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+
+class PostComment(db.Model, BaseModel):
+    body = db.Column(db.Text)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<PostComment {}>'.format(self.body)
 
 
 @login.user_loader

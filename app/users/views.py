@@ -8,10 +8,7 @@ from datetime import datetime
 from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
-from app.users.models.user import User
-from app.users.models.post import Post
-from app.users.models.post_like import PostLike
-from app.users.models.post_comment import PostComment
+from app.users.models import User, Post, PostLike, PostComment
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
