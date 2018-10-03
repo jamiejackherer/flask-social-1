@@ -11,5 +11,15 @@
     {% endif %}
   </div>
   <p class="post-body">{{ post.body }}</p>
+  <div class="post-control-container">
+    {% if current_user.has_liked_post(post) %}
+    <a href="{{ url_for('users.post_action', post_id=post.id, action='unlike') }}">Unlike</a>
+    {% else %}
+    <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">Like</a>
+    {% endif %}
+    <a class="like-count" href="{{ url_for('users.post_likes', username=post.author.username, post_id=post.id) }}">
+      {{ post.likes.count() }} likes
+    </a>
+  </div>
 </div><!--//END .post-->
 

@@ -12,7 +12,7 @@
         <h2>{{ current_user.first_name }}<br>{{ current_user.last_name }}</h1>
       </a>
       <div class="followers-container followers-home-container">
-        <a href="{{ url_for('users.profile', username=current_user.username) }}">
+        <a href="{{ url_for('users.post_likes', username=current_user.username) }}">
           Posts <span>{{ current_user.my_posts.count() }}</span>
         </a>
         <a href="{{ url_for('users.followers', username=current_user.username) }}">

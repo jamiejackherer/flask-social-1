@@ -433,8 +433,17 @@ input[type=submit]:active {
   margin-left: 10px;
 }
 
-.post .post-body {
-  margin: 10px 0 0;
+.post-control-container {
+  padding-top: 10px;
+  border-top: 1px solid var(--dark-gray);
+}
+
+.post-control-container > a {
+  margin-left: 10px;
+}
+
+.post-control-container > a:first-child {
+  margin-left: 0;
 }
 
 .post .delete-post {

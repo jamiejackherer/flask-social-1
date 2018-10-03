@@ -24,7 +24,7 @@
     {% endif %}
 
     {% if posts.pages > 1 %}
-      {{ render_pagination(posts, 'users.profile', user.username) }}
+    {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}
 
     {% if posts.items %}
@@ -32,18 +32,18 @@
       {% include "/users/_post.html" %}
       {% endfor %}
     {% else %}
-      <p class="card">
+    <p class="card">
       {% if current_user == user %}
-        No posts to show.
+      No posts to show.
       {% else %} 
-        {{ user.first_name }} doesn't have any posts to show.
+      {{ user.first_name }} doesn't have any posts to show.
       {% endif %}
-      </p>
+    </p>
     {% endif %}
 
     {% if posts.pages > 1 %}
-      {{ render_pagination(posts, 'users.profile', user.username) }}
+    {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}
-  </div><!--//END .user-wall-->
-</div><!--//END .grid-container-->
+  </div><!--//END .profile-content-container-->
+</div><!--//END .grid-profile-container-->
 {% endblock %}

@@ -26,4 +26,5 @@ def make_shell_context():
         'User': User,
         'Post': Post,
         'DUC': DefaultUserContent,
+        'p': Post.query.filter_by(id=2).first(),
     }
