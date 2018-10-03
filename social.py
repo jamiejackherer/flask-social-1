@@ -8,7 +8,7 @@ import os
 import config
 from app.app import create_app
 from app.extensions import db
-from app.users.models import User, Post
+from app.users.models import User, Post, PostComment
 from testing.default_user_content import DefaultUserContent
 
 
@@ -26,5 +26,5 @@ def make_shell_context():
         'User': User,
         'Post': Post,
         'DUC': DefaultUserContent,
-        'p': Post.query.filter_by(id=2).first(),
+        'PostComment': PostComment,
     }
