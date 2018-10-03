@@ -1,6 +1,6 @@
 {% extends "/base.html" %}
 
-{% from "/_macros.html" import render_pagination %}
+{% from "/_macros.html" import render_post_comment_pagination %}
 
 {% block content %}
 <div class="grid-profile-container">
@@ -11,24 +11,28 @@
     {% for post in [posts] %}
     {% include "/users/_post.html" %}
     {% endfor %}
+    <form class="post-form" method="post" novalidate>
+      <div class="input-container">
+        {% if form.body.errors %}
+        {{ form.body(class="input-error", placeholder="Comment on {}'s post".format(user.first_name)) }}
+        <p>{{ form.body.errors[0] }}</p>
+        {% else %}
+        {{ form.body(placeholder="Comment on {}'s post".format(user.first_name)) }}
+        {% endif %}
+      </div>
+      {{ form.submit }}
+      {{ form.csrf_token }}
+    </form>
     <h3 class="page-sub-title">Comments</h3>
-    {#
-    {% if likes %}
+    {% if comments.items %}
     <ul class="list-users">
-      {% for like in likes %}
-      {% set list_user = like.user %}
-      {% include "/users/_list-user.html" %}
+      {% for post in comments.items %}
+      {% include "/users/_post-comment.html" %}
       {% endfor %}
     </ul>
     {% else %}
-    <p class="card">
-      Nobody has liked this post yet.
-      <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
-        Be the first to like it!
-      </a>
-    </p>
+    <p class="card">No comments to show.</p>
     {% endif %}
-    #}
   </div><!--//END .profile-content-container-->
 </div><!--//END .grid-profile-container-->
 {% endblock %}

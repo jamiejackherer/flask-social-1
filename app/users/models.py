@@ -58,6 +58,10 @@ class User(UserMixin, db.Model, BaseModel):
         'PostLike',
         foreign_keys='PostLike.user_id',
         backref='user', lazy='dynamic')
+    post_comments = db.relationship(
+        'PostComment',
+        foreign_keys='PostComment.author_id',
+        backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
@@ -190,10 +194,20 @@ class Post(db.Model, BaseModel):
     recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     likes = db.relationship('PostLike', backref='post', lazy='dynamic')
+    comments = db.relationship('PostComment', backref='post', lazy='dynamic')
 
     @property
-    def t(self):
-        pass
+    def active_comments(self):
+        """ Get active post comments where:
+            - The post is active
+            - The post comment is active
+            - The user who posted the comment is active
+        """
+        return self.comments.\
+            join(Post, Post.id == PostComment.post_id).\
+            join(User, User.id == PostComment.author_id).filter(
+                Post.active == True, PostComment.active == True,
+                User.active == True)
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)

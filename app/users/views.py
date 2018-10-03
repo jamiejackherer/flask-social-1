@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
-from app.users.models import User, Post, PostLike
+from app.users.models import User, Post, PostLike, PostComment
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
@@ -134,7 +134,7 @@ def user_action(username, action):
     return redirect(request.referrer)
 
 
-@users.route('/<username>/posts/post-likes/<int:post_id>')
+@users.route('/<username>/posts/<int:post_id>/post-likes')
 @login_required
 def post_likes(username, post_id):
     user = User.query.filter_by(username=username, active=True).first_or_404()
@@ -145,26 +145,42 @@ def post_likes(username, post_id):
                            posts=posts)
 
 
-@users.route('/<username>/posts/post-comments/<int:post_id>')
+@users.route('/<username>/posts/<int:post_id>/post-comments',
+             methods=['GET', 'POST'])
 @login_required
 def post_comments(username, post_id):
     user = User.query.filter_by(username=username, active=True).first_or_404()
     posts = Post.query.filter_by(
         id=post_id, author=user, active=True).first_or_404()
-
-    return render_template('users/post-comments.html', user=user, posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post_comment = PostComment(body=form.body.data, author=current_user,
+                                   post_id=post_id)
+        post_comment.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('users.post_comments', username=username,
+                                post_id=post_id))
+    page = request.args.get('page', 1, type=int)
+    comments = posts.active_comments.order_by(
+        PostComment.created.asc()).paginate(
+            page, current_user.posts_per_page, False)
+    return render_template('users/post-comments.html', user=user, posts=posts,
+                           form=form, comments=comments)
 
 
 @users.route('/post-action/<int:post_id>/<action>')
 @login_required
 def post_action(post_id, action):
-    post = Post.query.filter_by(id=post_id).first_or_404()
-
+    if action in ['delete', 'like', 'unlike']:
+        post = Post.query.filter_by(id=post_id).first_or_404()
+    else:
+        post = PostComment.query.filter_by(id=post_id).first_or_404()
+    
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
             post.commit()
-            flash('Post was deleted')
+            flash('Post was deleted.')
 
     if action == 'like':
         current_user.like_post(post)
@@ -173,6 +189,12 @@ def post_action(post_id, action):
     if action == 'unlike':
         current_user.unlike_post(post)
         current_user.commit()
+
+    if action == 'delete-comment':
+        if current_user == post.author:
+            post.delete()
+            post.commit()
+            flash('Comment was deleted.')
 
     return redirect(request.referrer)
 

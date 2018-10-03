@@ -13,6 +13,7 @@
  * - Flash messages (s:flash)
  * - Index (s:index)
  * - Posts (s:posts)
+ * - Post Comments (s:post-comments)
  * - Home and Profile (s:home-and-profile)
  * - List User (s:list-user)
  * - Settings (s:settings)
@@ -489,6 +490,31 @@ input[type=submit]:active {
   margin: 0 0 0 10px;
 }
 /* //END Posts (s:posts) */
+
+/* Post Comments (s:post-comments) */
+.post-comment-container {
+  margin-bottom: 20px;
+}
+
+.post-comment-container .comment {
+  justify-content: flex-start;
+  display: flex;
+}
+
+.post-comment-container .comment img {
+  align-self: flex-start;
+}
+
+.post-comment-container .comment > p {
+  margin: 0 0 3px 10px;
+  padding: 5px 10px;
+  background-color: var(--light-gray);
+}
+
+.post-comment-container .comment-control {
+  padding-left: 50px;
+}
+/* //END Post Comments (s:post-comments) */
 
 /* Home and Profile Info (s:home-and-profile) */
 .grid-profile-container {

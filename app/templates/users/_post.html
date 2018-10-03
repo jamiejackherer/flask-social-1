@@ -9,7 +9,7 @@
     {% if current_user == post.author or post.recipient_id == current_user.id %}
     <a class="delete-post" href="{{ url_for('users.post_action', post_id=post.id, action='delete') }}" title="Delete post">X</a>
     {% endif %}
-  </div>
+  </div><!--//END .post-header-->
   <p class="post-body">{{ post.body }}</p>
   <div class="post-control-container">
     {% if current_user.has_liked_post(post) %}
@@ -17,9 +17,8 @@
     {% else %}
     <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">Like</a>
     {% endif %}
-    <a class="like-count" href="{{ url_for('users.post_likes', username=post.author.username, post_id=post.id) }}">
-      {{ post.likes.count() }} likes
-    </a>
-  </div>
+    <a class="like-count" href="{{ url_for('users.post_likes', username=post.author.username, post_id=post.id) }}">{{ post.likes.count() }} likes</a>
+    <a href="{{ url_for('users.post_comments', username=post.author.username, post_id=post.id) }}">{{ post.active_comments.count() }} comments</a>
+  </div><!--//END .post-control-container-->
 </div><!--//END .post-->
 
