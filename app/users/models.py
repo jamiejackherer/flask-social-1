@@ -197,9 +197,21 @@ class Post(db.Model, BaseModel):
     comments = db.relationship('PostComment', backref='post', lazy='dynamic')
 
     @property
+    def active_likes(self):
+        """ Get active likes of post where:
+            - The post containing the likes is active
+            - The user that liked the post is active
+        """
+        return self.likes.\
+            join(Post, Post.id == PostLike.post_id).\
+            join(User, User.id == PostLike.user_id).filter(
+                Post.active == True,
+                User.active == True)
+
+    @property
     def active_comments(self):
         """ Get active post comments where:
-            - The post is active
+            - The post containing the comment is active
             - The post comment is active
             - The user who posted the comment is active
         """
@@ -208,6 +220,20 @@ class Post(db.Model, BaseModel):
             join(User, User.id == PostComment.author_id).filter(
                 Post.active == True, PostComment.active == True,
                 User.active == True)
+
+    @classmethod
+    def post_by_id(self, post_id):
+        """ Get post by ID where:
+            - Post is active
+            - User who posted the post is active
+
+            :param post_id: ID of post to return
+        """
+        return self.query.\
+            join(User, User.id == Post.author_id).filter(
+                Post.active == True,
+                User.active == True,
+                Post.id == post_id)
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)

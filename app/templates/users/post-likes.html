@@ -1,32 +1,36 @@
 {% extends "/base.html" %}
 
-{% from "/_macros.html" import render_pagination %}
+{% from "/_macros.html" import render_post_pagination %}
 
 {% block content %}
-<div class="grid-profile-container">
-  {% include "/users/_profile-info.html" %}
+<div class="centered-content-container">
+  {% if request.referrer %}
+  <a class="back-to-previous" href="{{ request.referrer }}">Back to previous page</a>
+  {% endif %}
+  {# `posts` is a single post. Define as a list so it's iterable #}
+  {% for post in [posts] %}
+  {% include "/users/_post.html" %}
+  {% endfor %}
+  <h3 class="page-sub-title">Liked by</h3>
 
-  <div class="profile-content-container">
-    {# `posts` is a single post. Define as a list so it's iterable #}
-    {% for post in [posts] %}
-    {% include "/users/_post.html" %}
+  {% if likes.pages > 1 %}
+  {{ render_post_pagination(likes, 'users.post_likes', request.args.get('post_id')) }}
+  {% endif %}
+
+  {% if likes.items %}
+  <ul class="list-users">
+    {% for like in likes.items %}
+    {% set list_user = like.user %}
+    {% include "/users/_list-user.html" %}
     {% endfor %}
-    <h3 class="page-sub-title">Liked by</h3>
-    {% if likes %}
-    <ul class="list-users">
-      {% for like in likes %}
-      {% set list_user = like.user %}
-      {% include "/users/_list-user.html" %}
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p class="card">
-      Nobody has liked this post yet.
-      <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
-        Be the first to like it!
-      </a>
-    </p>
-    {% endif %}
-  </div><!--//END .profile-content-container-->
-</div><!--//END .grid-profile-container-->
+  </ul>
+  {% else %}
+  <p class="card">
+    Nobody has liked this post yet.
+    <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
+      Be the first to like it!
+    </a>
+  </p>
+  {% endif %}
+</div><!--//END .centered-content-container-->
 {% endblock %}

@@ -113,89 +113,81 @@ def search():
 @login_required
 def user_action(username, action):
     user = User.query.filter_by(username=username, active=True).first_or_404()
-
     # Do not allow users to take action on themselves.
     no_self_action = ['follow', 'unfollow']
     if action in no_self_action and user == current_user:
         return redirect(url_for('users.home'))
-
     # Follow user.
     if action == 'follow':
         current_user.follow(user)
         current_user.commit()
         flash('You are now following {}.'.format(user.full_name))
-
     # Unfollow user.
     if action == 'unfollow':
         current_user.unfollow(user)
         current_user.commit()
         flash('You are no longer following {}.'.format(user.full_name))
-
     return redirect(request.referrer)
 
 
-@users.route('/<username>/posts/<int:post_id>/post-likes')
+@users.route('/posts/post-likes')
 @login_required
-def post_likes(username, post_id):
-    user = User.query.filter_by(username=username, active=True).first_or_404()
-    posts = Post.query.filter_by(
-        id=post_id, author=user, active=True).first_or_404()
-    likes = posts.likes.order_by(PostLike.created.desc()).all()
-    return render_template('users/post-likes.html', user=user, likes=likes,
-                           posts=posts)
+def post_likes():
+    post_id = request.args.get('post_id')
+    posts = Post.post_by_id(post_id).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    likes = posts.active_likes.order_by(
+        PostLike.created.desc()).paginate(
+            page, current_user.posts_per_page, False)
+    return render_template('users/post-likes.html', posts=posts, likes=likes)
 
 
-@users.route('/<username>/posts/<int:post_id>/post-comments',
-             methods=['GET', 'POST'])
+@users.route('/posts/post-comments', methods=['GET', 'POST'])
 @login_required
-def post_comments(username, post_id):
-    user = User.query.filter_by(username=username, active=True).first_or_404()
-    posts = Post.query.filter_by(
-        id=post_id, author=user, active=True).first_or_404()
+def post_comments():
+    post_id = request.args.get('post_id')
+    posts = Post.post_by_id(post_id).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    comments = posts.active_comments.order_by(
+        PostComment.created.asc()).paginate(
+            page, current_user.posts_per_page, False)
     form = PostForm()
     if form.validate_on_submit():
         post_comment = PostComment(body=form.body.data, author=current_user,
                                    post_id=post_id)
         post_comment.commit()
         flash('Your post is now live!')
-        return redirect(url_for('users.post_comments', username=username,
-                                post_id=post_id))
-    page = request.args.get('page', 1, type=int)
-    comments = posts.active_comments.order_by(
-        PostComment.created.asc()).paginate(
-            page, current_user.posts_per_page, False)
-    return render_template('users/post-comments.html', user=user, posts=posts,
-                           form=form, comments=comments)
+        return redirect(url_for('users.post_comments', post_id=post_id,
+                                page=comments.pages))
+    return render_template('users/post-comments.html', posts=posts, form=form,
+                           comments=comments)
 
 
 @users.route('/post-action/<int:post_id>/<action>')
 @login_required
 def post_action(post_id, action):
+    # Actions for posts.
     if action in ['delete', 'like', 'unlike']:
         post = Post.query.filter_by(id=post_id).first_or_404()
-    else:
+    # Actions for post comments.
+    elif action in ['delete-comment']:
         post = PostComment.query.filter_by(id=post_id).first_or_404()
-    
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
             post.commit()
             flash('Post was deleted.')
-
     if action == 'like':
         current_user.like_post(post)
         current_user.commit()
-
     if action == 'unlike':
         current_user.unlike_post(post)
         current_user.commit()
-
     if action == 'delete-comment':
         if current_user == post.author:
             post.delete()
             post.commit()
             flash('Comment was deleted.')
-
     return redirect(request.referrer)
 
 

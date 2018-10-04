@@ -1,38 +1,46 @@
 {% extends "/base.html" %}
 
-{% from "/_macros.html" import render_post_comment_pagination %}
+{% from "/_macros.html" import render_post_pagination %}
 
 {% block content %}
-<div class="grid-profile-container">
-  {% include "/users/_profile-info.html" %}
-
-  <div class="profile-content-container">
-    {# `posts` is a single post. Define as a list so it's iterable #}
-    {% for post in [posts] %}
-    {% include "/users/_post.html" %}
+<div class="centered-content-container">
+  {% if request.referrer %}
+  <a class="back-to-previous" href="{{ request.referrer }}">Back to previous page</a>
+  {% endif %}
+  {# `posts` is a single post. Define as a list so it's iterable #}
+  {% for post in [posts] %}
+  {% include "/users/_post.html" %}
+  {% endfor %}
+  <form class="post-form" method="post" novalidate>
+    <div class="input-container">
+      {% if form.body.errors %}
+      {{ form.body(class="input-error", placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
+      <p>{{ form.body.errors[0] }}</p>
+      {% else %}
+      {{ form.body(placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
+      {% endif %}
+    </div>
+    {{ form.submit }}
+    {{ form.csrf_token }}
+  </form>
+  <h3 class="page-sub-title">Comments</h3>
+  
+  {% if comments.pages > 1 %}
+  {{ render_post_pagination(comments, 'users.post_comments', request.args.get('post_id')) }}
+  {% endif %}
+  
+  {% if comments.items %}
+  <ul class="list-users">
+    {% for post in comments.items %}
+    {% include "/users/_post-comment.html" %}
     {% endfor %}
-    <form class="post-form" method="post" novalidate>
-      <div class="input-container">
-        {% if form.body.errors %}
-        {{ form.body(class="input-error", placeholder="Comment on {}'s post".format(user.first_name)) }}
-        <p>{{ form.body.errors[0] }}</p>
-        {% else %}
-        {{ form.body(placeholder="Comment on {}'s post".format(user.first_name)) }}
-        {% endif %}
-      </div>
-      {{ form.submit }}
-      {{ form.csrf_token }}
-    </form>
-    <h3 class="page-sub-title">Comments</h3>
-    {% if comments.items %}
-    <ul class="list-users">
-      {% for post in comments.items %}
-      {% include "/users/_post-comment.html" %}
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p class="card">No comments to show.</p>
-    {% endif %}
-  </div><!--//END .profile-content-container-->
-</div><!--//END .grid-profile-container-->
+  </ul>
+  {% else %}
+  <p class="card">No comments to show.</p>
+  {% endif %}
+
+  {% if comments.pages > 1 %}
+  {{ render_post_pagination(comments, 'users.post_comments', request.args.get('post_id')) }}
+  {% endif %}
+</div><!--//END .centered-content-container-->
 {% endblock %}

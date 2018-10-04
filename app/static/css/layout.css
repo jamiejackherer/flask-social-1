@@ -122,6 +122,13 @@ a:active {
   padding: 0 20px;
 }
 
+@media (min-width: 768px) {
+  .centered-content-container {
+    margin: 0 auto;
+    max-width: 600px;
+  }
+}
+
 .no-margin {
   margin: 0;
 }
@@ -139,6 +146,15 @@ a:active {
   padding-bottom: 10px;
 
   border-bottom: 1px solid var(--dark-gray);
+}
+
+.back-to-previous {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.back-to-previous:before {
+  content: "<< "
 }
 
 .card {
