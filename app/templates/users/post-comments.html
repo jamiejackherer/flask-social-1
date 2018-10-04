@@ -4,9 +4,6 @@
 
 {% block content %}
 <div class="centered-content-container">
-  {% if request.referrer %}
-  <a class="back-to-previous" href="{{ request.referrer }}">Back to previous page</a>
-  {% endif %}
   {# `posts` is a single post. Define as a list so it's iterable #}
   {% for post in [posts] %}
   {% include "/users/_post.html" %}

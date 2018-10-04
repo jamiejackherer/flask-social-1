@@ -527,8 +527,16 @@ input[type=submit]:active {
   background-color: var(--light-gray);
 }
 
-.post-comment-container .comment-control {
+.comment-control-container {
   padding-left: 50px;
+}
+
+.comment-control-container > a {
+  margin-left: 10px;
+}
+
+.comment-control-container > a:first-child {
+  margin-left: 0;
 }
 /* //END Post Comments (s:post-comments) */
 

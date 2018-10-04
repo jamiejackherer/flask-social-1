@@ -1,17 +1,17 @@
 {% extends "/base.html" %}
 
-{% from "/_macros.html" import render_post_pagination %}
+{% from "/_macros.html" import render_comment_pagination %}
 
 {% block content %}
 <div class="centered-content-container">
   {# `posts` is a single post. Define as a list so it's iterable #}
   {% for post in [posts] %}
-  {% include "/users/_post.html" %}
+  {% include "/users/_post-comment.html" %}
   {% endfor %}
   <h3 class="page-sub-title">Liked by</h3>
 
   {% if likes.pages > 1 %}
-  {{ render_post_pagination(likes, 'users.post_likes', request.args.get('post_id')) }}
+  {{ render_comment_pagination(likes, 'users.post_comment_likes', request.args.get('comment_id')) }}
   {% endif %}
 
   {% if likes.items %}
@@ -23,15 +23,15 @@
   </ul>
   {% else %}
   <p class="card">
-    Nobody has liked this post yet.
-    <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
+    Nobody has liked this comment yet.
+    <a href="{{ url_for('users.post_action', post_id=posts.id, action='like-comment') }}">
       Be the first to like it!
     </a>
   </p>
   {% endif %}
 
   {% if likes.pages > 1 %}
-  {{ render_post_pagination(likes, 'users.post_likes', request.args.get('post_id')) }}
+  {{ render_comment_pagination(likes, 'users.post_comment_likes', request.args.get('comment_id')) }}
   {% endif %}
 </div><!--//END .centered-content-container-->
 {% endblock %}

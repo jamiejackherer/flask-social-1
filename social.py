@@ -28,4 +28,5 @@ def make_shell_context():
         'DUC': DefaultUserContent,
         'PostComment': PostComment,
         'p': Post.query.filter_by(id=5).first(),
+        'c': PostComment.query.filter_by(id=1).first(),
     }

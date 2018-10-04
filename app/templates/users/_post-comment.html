@@ -7,9 +7,13 @@
       {{ post.body }}
     </p>
   </div><!--//END .comment-header-->
-  <div class="comment-control">
-    <a href="#">Like</a>
-    <a href="#">0 Likes</a>
+  <div class="comment-control-container">
+    {% if current_user.has_liked_comment(post) %}
+    <a href="{{ url_for('users.post_action', post_id=post.id, action='unlike-comment') }}">Unlike</a>
+    {% else %}
+    <a href="{{ url_for('users.post_action', post_id=post.id, action='like-comment') }}">Like</a>
+    {% endif %}
+    <a href="{{ url_for('users.post_comment_likes', comment_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
     {% if current_user == post.author %}
     <a href="{{ url_for('users.post_action', post_id=post.id, action='delete-comment') }}">Delete</a>
     {% endif %}

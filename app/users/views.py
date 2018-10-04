@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
-from app.users.models import User, Post, PostLike, PostComment
+from app.users.models import User, Post, PostLike, PostComment, PostCommentLike
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
@@ -163,6 +163,19 @@ def post_comments():
                            comments=comments)
 
 
+@users.route('/posts/post-comment-likes')
+@login_required
+def post_comment_likes():
+    comment_id = request.args.get('comment_id')
+    posts = PostComment.comment_by_id(comment_id).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    likes = posts.active_likes.order_by(
+        PostCommentLike.created.desc()).paginate(
+            page, current_user.posts_per_page, False)
+    return render_template('users/post-comment-likes.html', posts=posts,
+                           likes=likes)
+
+
 @users.route('/post-action/<int:post_id>/<action>')
 @login_required
 def post_action(post_id, action):
@@ -170,24 +183,36 @@ def post_action(post_id, action):
     if action in ['delete', 'like', 'unlike']:
         post = Post.query.filter_by(id=post_id).first_or_404()
     # Actions for post comments.
-    elif action in ['delete-comment']:
+    elif action in ['delete-comment', 'like-comment', 'unlike-comment']:
         post = PostComment.query.filter_by(id=post_id).first_or_404()
+
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
             post.commit()
             flash('Post was deleted.')
+
     if action == 'like':
         current_user.like_post(post)
         current_user.commit()
+
     if action == 'unlike':
         current_user.unlike_post(post)
         current_user.commit()
+
     if action == 'delete-comment':
         if current_user == post.author:
             post.delete()
             post.commit()
             flash('Comment was deleted.')
+
+    if action == 'like-comment':
+        current_user.like_comment(post)
+        current_user.commit()
+
+    if action == 'unlike-comment':
+        current_user.unlike_comment(post)
+        current_user.commit()
     return redirect(request.referrer)
 
 

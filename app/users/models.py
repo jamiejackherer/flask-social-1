@@ -62,6 +62,10 @@ class User(UserMixin, db.Model, BaseModel):
         'PostComment',
         foreign_keys='PostComment.author_id',
         backref='author', lazy='dynamic')
+    post_comment_likes = db.relationship(
+        'PostCommentLike',
+        foreign_keys='PostCommentLike.user_id',
+        backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
@@ -109,6 +113,22 @@ class User(UserMixin, db.Model, BaseModel):
         return PostLike.query.filter(
             PostLike.user_id == self.id,
             PostLike.post_id == post.id).count() > 0
+
+    def like_comment(self, comment):
+        if not self.has_liked_comment(comment):
+            like = PostCommentLike(user_id=self.id, comment_id=comment.id)
+            db.session.add(like)
+
+    def unlike_comment(self, comment):
+        if self.has_liked_comment(comment):
+            PostCommentLike.query.filter_by(
+                user_id=self.id,
+                comment_id=comment.id).delete()
+
+    def has_liked_comment(self, comment):
+        return PostCommentLike.query.filter(
+            PostCommentLike.user_id == self.id,
+            PostCommentLike.comment_id == comment.id).count() > 0
 
     @property
     def unfollowed_users(self):
@@ -205,7 +225,7 @@ class Post(db.Model, BaseModel):
         return self.likes.\
             join(Post, Post.id == PostLike.post_id).\
             join(User, User.id == PostLike.user_id).filter(
-                Post.active == True,
+                Post.active == True, # noqa
                 User.active == True)
 
     @property
@@ -219,7 +239,7 @@ class Post(db.Model, BaseModel):
             join(Post, Post.id == PostComment.post_id).\
             join(User, User.id == PostComment.author_id).filter(
                 Post.active == True, PostComment.active == True,
-                User.active == True)
+                User.active == True) # noqa
 
     @classmethod
     def post_by_id(self, post_id):
@@ -231,7 +251,7 @@ class Post(db.Model, BaseModel):
         """
         return self.query.\
             join(User, User.id == Post.author_id).filter(
-                Post.active == True,
+                Post.active == True, # noqa
                 User.active == True,
                 Post.id == post_id)
 
@@ -252,8 +272,41 @@ class PostComment(db.Model, BaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    likes = db.relationship('PostCommentLike', backref='post_comment',
+                            lazy='dynamic')
+
+    @property
+    def active_likes(self):
+        return self.likes.\
+            join(PostComment, PostComment.id == PostCommentLike.comment_id).\
+            join(User, User.id == PostCommentLike.user_id).filter(
+                PostComment.active == True, # noqa
+                User.active == True)
+
+    @classmethod
+    def comment_by_id(self, comment_id):
+        """ Get comment by ID where:
+            - Comment is active
+            - User who posted the comment is active
+
+            :param comment_id: ID of comment to return
+        """
+        return self.query.\
+            join(User, User.id == PostComment.author_id).filter(
+                PostComment.active == True, # noqa
+                User.active == True,
+                PostComment.id == comment_id)
+
     def __repr__(self):
         return '<PostComment {}>'.format(self.body)
+
+
+class PostCommentLike(db.Model):
+    __tablename__ = 'post_comment_like'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
+    created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 
 @login.user_loader
