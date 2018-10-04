@@ -32,5 +32,9 @@
     </a>
   </p>
   {% endif %}
+
+  {% if likes.pages > 1 %}
+  {{ render_post_pagination(likes, 'users.post_likes', request.args.get('post_id')) }}
+  {% endif %}
 </div><!--//END .centered-content-container-->
 {% endblock %}
