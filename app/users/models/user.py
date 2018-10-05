@@ -1,8 +1,8 @@
 """
-    app.users.models.followers
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    app.users.models.user
+    ~~~~~~~~~~~~~~~~~~~~~
 
-    Followers model.
+    User model.
 """
 import jwt
 from time import time
