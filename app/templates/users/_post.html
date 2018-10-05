@@ -17,7 +17,7 @@
     {% else %}
     <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">Like</a>
     {% endif %}
-    <a class="like-count" href="{{ url_for('users.post_likes', post_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
+    <a class="like-count" href="{{ url_for('users.post_comments', post_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
     <a href="{{ url_for('users.post_comments', post_id=post.id) }}">{{ post.active_comments.count() }} comments</a>
   </div><!--//END .post-control-container-->
 </div><!--//END .post-->

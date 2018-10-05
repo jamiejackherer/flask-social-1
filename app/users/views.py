@@ -130,37 +130,31 @@ def user_action(username, action):
     return redirect(request.referrer)
 
 
-@users.route('/posts/post-likes')
-@login_required
-def post_likes():
-    post_id = request.args.get('post_id')
-    posts = Post.post_by_id(post_id).first_or_404()
-    page = request.args.get('page', 1, type=int)
-    likes = posts.active_likes.order_by(
-        PostLike.created.desc()).paginate(
-            page, current_user.posts_per_page, False)
-    return render_template('users/post-likes.html', posts=posts, likes=likes)
-
-
 @users.route('/posts/post-comments', methods=['GET', 'POST'])
 @login_required
 def post_comments():
     post_id = request.args.get('post_id')
     posts = Post.post_by_id(post_id).first_or_404()
-    page = request.args.get('page', 1, type=int)
+
+    comments_page = request.args.get('comments_page', 1, type=int)
     comments = posts.active_comments.order_by(
         PostComment.created.asc()).paginate(
-            page, current_user.posts_per_page, False)
+            comments_page, current_user.posts_per_page, False)
+
+    likes_page = request.args.get('likes_page', 1, type=int)
+    likes = posts.active_likes.order_by(
+        PostLike.created.desc()).paginate(
+            likes_page, current_user.posts_per_page, False)
+
     form = PostForm()
     if form.validate_on_submit():
         post_comment = PostComment(body=form.body.data, author=current_user,
                                    post_id=post_id)
         post_comment.commit()
         flash('Your post is now live!')
-        return redirect(url_for('users.post_comments', post_id=post_id,
-                                page=comments.pages))
+        return redirect(url_for('users.post_comments', post_id=post_id))
     return render_template('users/post-comments.html', posts=posts, form=form,
-                           comments=comments)
+                           comments=comments, likes=likes)
 
 
 @users.route('/posts/post-comment-likes')

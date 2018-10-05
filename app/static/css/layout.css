@@ -508,6 +508,30 @@ input[type=submit]:active {
 /* //END Posts (s:posts) */
 
 /* Post Comments (s:post-comments) */
+.grid-comments-container {
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+}
+
+.grid-comments-container .post-and-comments {
+  grid-column: col-start / -1;
+}
+
+.grid-comments-container .post-likes {
+  grid-column: col-start / -1;
+}
+
+@media (min-width: 768px) {
+  .grid-comments-container .post-and-comments {
+    grid-column: col-start / span 7;
+  }
+  
+  .grid-comments-container .post-likes {
+    grid-column: col-start 8 / span 5;
+  }
+}
+
 .post-comment-container {
   margin-bottom: 20px;
 }

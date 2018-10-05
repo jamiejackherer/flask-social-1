@@ -1,43 +1,66 @@
 {% extends "/base.html" %}
 
-{% from "/_macros.html" import render_post_pagination %}
+{% from "/_macros.html" import render_comment_pagination %}
+{% from "/_macros.html" import render_like_pagination %}
 
 {% block content %}
-<div class="centered-content-container">
-  {# `posts` is a single post. Define as a list so it's iterable #}
-  {% for post in [posts] %}
-  {% include "/users/_post.html" %}
-  {% endfor %}
-  <form class="post-form" method="post" novalidate>
-    <div class="input-container">
-      {% if form.body.errors %}
-      {{ form.body(class="input-error", placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
-      <p>{{ form.body.errors[0] }}</p>
-      {% else %}
-      {{ form.body(placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
-      {% endif %}
-    </div>
-    {{ form.submit }}
-    {{ form.csrf_token }}
-  </form>
-  <h3 class="page-sub-title">Comments</h3>
-  
-  {% if comments.pages > 1 %}
-  {{ render_post_pagination(comments, 'users.post_comments', request.args.get('post_id')) }}
-  {% endif %}
-  
-  {% if comments.items %}
-  <ul class="list-users">
-    {% for post in comments.items %}
-    {% include "/users/_post-comment.html" %}
+<div class="grid-comments-container">
+  <div class="post-and-comments">
+    {% for post in [posts] %}
+    {% include "/users/_post.html" %}
     {% endfor %}
-  </ul>
-  {% else %}
-  <p class="card">No comments to show.</p>
-  {% endif %}
-
-  {% if comments.pages > 1 %}
-  {{ render_post_pagination(comments, 'users.post_comments', request.args.get('post_id')) }}
-  {% endif %}
-</div><!--//END .centered-content-container-->
+    <form class="post-form" method="post" novalidate>
+      <div class="input-container">
+        {% if form.body.errors %}
+        {{ form.body(class="input-error", placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
+        <p>{{ form.body.errors[0] }}</p>
+        {% else %}
+        {{ form.body(placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
+        {% endif %}
+      </div>
+      {{ form.submit }}
+      {{ form.csrf_token }}
+    </form>
+    <h3 class="page-sub-title">Comments</h3>
+    {% if comments.pages > 1 %}
+    {{ render_comment_pagination(comments, 'users.post_comments', request.args.get('post_id'), request.args.get('likes_page')) }}
+    {% endif %}
+    {% if comments.items %}
+    <ul class="list-users">
+      {% for post in comments.items %}
+      {% include "/users/_post-comment.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">No comments to show.</p>
+    {% endif %}
+    {% if comments.pages > 1 %}
+    {{ render_comment_pagination(comments, 'users.post_comments', request.args.get('post_id'), request.args.get('likes_page')) }}
+    {% endif %}
+  </div><!--//END .post-and-comments-->
+  <div class="post-likes">
+    <h3 class="page-sub-title">Liked by</h3>
+    {% if likes.pages > 1 %}
+    {{ render_like_pagination(likes, 'users.post_comments', request.args.get('post_id'), request.args.get('comments_page'))}}
+    {% endif %}
+    {% if likes.items %}
+    <ul class="list-users">
+      {% for like in likes.items %}
+      {% set list_user = like.user %}
+      {% include "/users/_list-user.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">
+      Nobody has liked this post yet.
+      <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
+        Be the first to like it!
+      </a>
+    </p>
+    {% endif %}    
+    {% if likes.pages > 1 %}
+    {{ render_like_pagination(likes, 'users.post_comments', request.args.get('post_id'), request.args.get('comments_page'))}}
+    {% endif %}
+  </div><!--//END .post-likes-->
+</div><!--//END .grid-comments-container-->
 {% endblock %}
