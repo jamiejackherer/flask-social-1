@@ -211,6 +211,12 @@ def post_action(post_id, action):
     return redirect(request.referrer)
 
 
+@users.route('/notifications')
+@login_required
+def notifications():
+    return render_template('users/notifications.html')
+
+
 @users.route('/settings/account', methods=['GET', 'POST'])
 @login_required
 def settings_account():
