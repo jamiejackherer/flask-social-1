@@ -10,6 +10,9 @@ from app.app import create_app
 from app.extensions import db
 from app.users.models.user import User
 from app.users.models.posts import Post, PostComment
+from app.users.models.notifications import (
+    Notification, PostNotification, CommentNotification
+)
 from testing.default_user_content import DefaultUserContent
 
 
@@ -24,10 +27,11 @@ def make_shell_context():
     return {
         'app': app,
         'db': db,
+        'DUC': DefaultUserContent,
         'User': User,
         'Post': Post,
-        'DUC': DefaultUserContent,
         'PostComment': PostComment,
-        'p': Post.query.filter_by(id=5).first(),
-        'c': PostComment.query.filter_by(id=1).first(),
+        'Notification': Notification,
+        'PostNotification': PostNotification,
+        'CommentNotification': CommentNotification,
     }

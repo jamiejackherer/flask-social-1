@@ -10,6 +10,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.users.models.user import User
 from app.users.models.posts import Post, PostLike, PostComment, PostCommentLike
+from app.users.models.notifications import Notification as N
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
@@ -54,6 +55,8 @@ def profile(username):
     if form.validate_on_submit():
         post = Post(body=form.body.data, author=current_user,
                     recipient=user)
+        post = post.commit()
+        N.post_notification(post)
         post.commit()
         flash('Your post is now live!')
         return redirect(url_for('users.profile', username=username))
@@ -151,7 +154,9 @@ def post_comments():
     if form.validate_on_submit():
         post_comment = PostComment(body=form.body.data, author=current_user,
                                    post_id=post_id)
-        post_comment.commit()
+        comment = post_comment.commit()
+        N.comment_notification(current_user, comment)
+        comment.commit()
         flash('Your post is now live!')
         return redirect(url_for('users.post_comments', post_id=post_id))
     return render_template('users/post-comments.html', posts=posts, form=form,
@@ -184,29 +189,35 @@ def post_action(post_id, action):
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
+            N.delete_all_post_notifications(post)
             post.commit()
             flash('Post was deleted.')
 
     if action == 'like':
         current_user.like_post(post)
+        N.post_like_notification(current_user, post)
         current_user.commit()
 
     if action == 'unlike':
         current_user.unlike_post(post)
+        N.delete_post_like_notification(current_user, post)
         current_user.commit()
 
     if action == 'delete-comment':
         if current_user == post.author:
             post.delete()
+            N.delete_comment_notification(post)
             post.commit()
             flash('Comment was deleted.')
 
     if action == 'like-comment':
         current_user.like_comment(post)
+        N.comment_like_notification(current_user, post)
         current_user.commit()
 
     if action == 'unlike-comment':
         current_user.unlike_comment(post)
+        N.delete_comment_like_notification(current_user, post)
         current_user.commit()
     return redirect(request.referrer)
 

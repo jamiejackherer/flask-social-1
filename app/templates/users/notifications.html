@@ -2,4 +2,7 @@
 
 {% block content %}
 <h3 class="page-sub-title">Notifications</h3>
+{% for notification in current_user.get_notifications() %}
+{{ notification }}<br><br>
+{% endfor %}
 {% endblock %}

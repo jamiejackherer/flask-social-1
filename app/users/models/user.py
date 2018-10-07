@@ -9,7 +9,7 @@ from time import time
 from datetime import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.sql.expression import and_
+from sqlalchemy.sql.expression import and_, null
 from sqlalchemy.orm import column_property
 from flask import current_app
 from flask_login import UserMixin
@@ -201,6 +201,12 @@ class User(UserMixin, db.Model, BaseModel):
             return
         return User.query.get(id)
 
+    def get_notifications(self):
+        pn = PostNotification.query.add_column(null()).filter_by(
+            notified_id=self.id)
+        cn = CommentNotification.query.filter_by(notified_id=self.id)
+        return pn.union(cn).order_by(PostNotification.created.desc())
+
 
 @login.user_loader
 def load_user(id):
@@ -209,3 +215,6 @@ def load_user(id):
 
 from app.users.models.followers import followers # noqa
 from app.users.models.posts import Post, PostLike, PostCommentLike # noqa
+from app.users.models.notifications import ( # noqa
+    PostNotification, CommentNotification
+)
