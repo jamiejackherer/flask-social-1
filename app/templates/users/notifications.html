@@ -2,7 +2,26 @@
 
 {% block content %}
 <h3 class="page-sub-title">Notifications</h3>
-{% for notification in current_user.get_notifications() %}
-{{ notification }}<br><br>
-{% endfor %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Read</th>
+    <th>Created</th>
+    <th>Post ID</th>
+    <th>Comment ID</th>
+    <th>Notified ID</th>
+    <th>Notifier ID</th>
+  </tr>
+  {% for n in current_user.notifications %}
+  <tr>
+    <td>{{ n.name }}</td>
+    <td>{{ n.read }}</td>
+    <td>{{ n.created }}</td>
+    <td>{{ n.post_id }}</td>
+    <td>{{ n.comment_id }}</td>
+    <td>{{ n.notified_id }}</td>
+    <td>{{ n.notifier_id }}</td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

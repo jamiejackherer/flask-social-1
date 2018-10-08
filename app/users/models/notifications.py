@@ -109,6 +109,7 @@ class NotificationMixin:
 
 class PostNotification(db.Model, NotificationMixin):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    comment_id = db.Column(db.Integer)
 
     def __repr__(self):
         return '<PostNotification {}>'.format(self.name)
