@@ -92,7 +92,7 @@ class Notification:
         CommentNotification.query.filter_by(post_id=post.id).delete()
 
 
-class NotificationMixin:
+class NotificationBaseModel:
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     read = db.Column(db.Boolean, default=False)
@@ -107,7 +107,7 @@ class NotificationMixin:
         return db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
-class PostNotification(db.Model, NotificationMixin):
+class PostNotification(db.Model, NotificationBaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     comment_id = db.Column(db.Integer)
 
@@ -115,7 +115,7 @@ class PostNotification(db.Model, NotificationMixin):
         return '<PostNotification {}>'.format(self.name)
 
 
-class CommentNotification(db.Model, NotificationMixin):
+class CommentNotification(db.Model, NotificationBaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
 
