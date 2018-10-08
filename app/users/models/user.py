@@ -9,7 +9,7 @@ from time import time
 from datetime import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.sql import and_, null
+from sqlalchemy.sql import and_
 from sqlalchemy.orm import column_property
 from flask import current_app
 from flask_login import UserMixin
@@ -68,6 +68,7 @@ class User(UserMixin, db.Model, BaseModel):
         'CommentNotification',
         foreign_keys='CommentNotification.notifier_id',
         lazy='dynamic', backref='notifier')
+
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
@@ -217,7 +218,7 @@ class User(UserMixin, db.Model, BaseModel):
             PostNotification.read,
             PostNotification.created,
             PostNotification.post_id,
-            null().label('comment_id'),
+            PostNotification.comment_id,
             PostNotification.notifier_id,
             PostNotification.notified_id).filter_by(
                 notified_id=self.id)
