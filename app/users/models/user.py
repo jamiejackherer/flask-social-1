@@ -212,6 +212,14 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def notifications(self):
+        """ Return user notifications.
+        
+        :TODO: Fix this workaround.
+       
+        When the model's columns are not defined explicitly, SQLAlchemy's
+        union_all does not return the correct amount of records. Therefore,
+        this sloppy workaround had to be used.
+        """
         pn = db.session.query(
             PostNotification.id,
             PostNotification.name,

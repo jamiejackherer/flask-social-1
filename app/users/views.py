@@ -50,6 +50,10 @@ def home():
 @users.route('/<username>', methods=['GET', 'POST'])
 @login_required
 def profile(username):
+    """ User's profile.
+    
+    :param username: username to show profile
+    """
     user = User.query.filter_by(username=username, active=True).first_or_404()
     form = PostForm()
     if form.validate_on_submit():
@@ -71,6 +75,10 @@ def profile(username):
 @users.route('/<username>/followers', methods=['GET', 'POST'])
 @login_required
 def followers(username):
+    """ Show who is following `username`.
+
+    :param username: username of user to show followers
+    """
     user = User.query.filter_by(username=username, active=True).first_or_404()
     page = request.args.get('page', 1, type=int)
     followers = user.get_followers.paginate(
@@ -82,6 +90,10 @@ def followers(username):
 @users.route('/<username>/following', methods=['GET', 'POST'])
 @login_required
 def following(username):
+    """ Show who `username` is following.
+
+    :param username: username of user to show following
+    """
     user = User.query.filter_by(username=username, active=True).first_or_404()
     page = request.args.get('page', 1, type=int)
     following = user.get_followed.paginate(
@@ -116,6 +128,11 @@ def search():
 @users.route('/<username>/<action>')
 @login_required
 def user_action(username, action):
+    """ User actions.
+
+    :param username: Username to take action upon
+    :param action: Action to take on `username`
+    """
     user = User.query.filter_by(username=username, active=True).first_or_404()
     # Do not allow users to take action on themselves.
     no_self_action = ['follow', 'unfollow']
@@ -179,45 +196,57 @@ def comment():
 @users.route('/post-action/<int:post_id>/<action>')
 @login_required
 def post_action(post_id, action):
-    # Actions for posts.
-    if action in ['delete', 'like', 'unlike']:
-        post = Post.query.filter_by(id=post_id).first_or_404()
-    # Actions for post comments.
-    elif action in ['delete-comment', 'like-comment', 'unlike-comment']:
-        post = PostComment.query.filter_by(id=post_id).first_or_404()
+    """ Post actions.
 
+    :param post_id: ID of the post to take action upon
+    :param action: Action to take on post
+    """
+    post = Post.query.filter_by(id=post_id).first_or_404()
+    # Delete post.
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
             N.delete_all_post_notifications(post)
             post.commit()
             flash('Post was deleted.')
-
+    # Like post.
     if action == 'like':
         current_user.like_post(post)
         N.post_like_notification(current_user, post)
         current_user.commit()
-
+    # Unlike post.
     if action == 'unlike':
         current_user.unlike_post(post)
         N.delete_post_like_notification(current_user, post)
         current_user.commit()
+    return redirect(request.referrer)
 
+
+@users.route('/comment-action/<int:comment_id>/<action>')
+@login_required
+def comment_action(comment_id, action):
+    """ Comment actions.
+
+    :param comment_id: ID of the comment to take action upon
+    :param action: Action to take on comment
+    """
+    comment = PostComment.query.filter_by(id=comment_id).first_or_404()
+    # Delete comment.
     if action == 'delete-comment':
-        if current_user == post.author:
-            post.delete()
-            N.delete_comment_notification(post)
-            post.commit()
+        if current_user == comment.author:
+            comment.delete()
+            N.delete_comment_notification(comment)
+            comment.commit()
             flash('Comment was deleted.')
-
+    # Like comment.
     if action == 'like-comment':
-        current_user.like_comment(post)
-        N.comment_like_notification(current_user, post)
+        current_user.like_comment(comment)
+        N.comment_like_notification(current_user, comment)
         current_user.commit()
-
+    # Unlike comment.
     if action == 'unlike-comment':
-        current_user.unlike_comment(post)
-        N.delete_comment_like_notification(current_user, post)
+        current_user.unlike_comment(comment)
+        N.delete_comment_like_notification(current_user, comment)
         current_user.commit()
     return redirect(request.referrer)
 
