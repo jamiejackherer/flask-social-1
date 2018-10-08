@@ -60,6 +60,13 @@ class User(UserMixin, db.Model, BaseModel):
         'PostCommentLike',
         foreign_keys='PostCommentLike.user_id',
         backref='user', lazy='dynamic')
+    post_notification = db.relationship(
+        'PostNotification',
+        foreign_keys='PostNotification.notified_id')
+    comment_notification = db.relationship(
+        'CommentNotification',
+        foreign_keys='CommentNotification.notified_id')
+
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
@@ -203,9 +210,36 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def notifications(self):
-        pn = PostNotification.query.filter_by(notified_id=self.id)
-        cn = CommentNotification.query.filter_by(notified_id=self.id)
-        return pn.union_all(cn).order_by(PostNotification.created.desc())
+        pn = db.session.query(
+            PostNotification.id,
+            PostNotification.name,
+            PostNotification.read,
+            PostNotification.created,
+            PostNotification.post_id,
+            PostNotification.comment_id,
+            PostNotification.notifier_id,
+            PostNotification.notified_id).filter_by(
+                notified_id=self.id)
+        cn = db.session.query(
+            CommentNotification.id,
+            CommentNotification.name,
+            CommentNotification.read,
+            CommentNotification.created,
+            CommentNotification.post_id,
+            CommentNotification.comment_id,
+            CommentNotification.notifier_id,
+            CommentNotification.notified_id).filter_by(
+                notified_id=self.id)
+        u = pn.union_all(cn).order_by(PostNotification.created.desc())
+        result = []
+        for row in u:
+            if 'post' in row.name.split('_'):
+                n = PostNotification.query.filter_by(id=row.id).first()
+                result.append(n)
+            if 'comment' in row.name.split('_'):
+                n = CommentNotification.query.filter_by(id=row.id).first()
+                result.append(n)
+        return result
 
 
 @login.user_loader

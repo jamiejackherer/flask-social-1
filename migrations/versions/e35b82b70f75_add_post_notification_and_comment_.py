@@ -1,8 +1,8 @@
 """Add post_notification and comment_notification tables
 
-Revision ID: 4b9d7ff5732b
+Revision ID: e35b82b70f75
 Revises: cbf16befec5d
-Create Date: 2018-10-07 10:45:56.287500
+Create Date: 2018-10-08 09:01:39.093288
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4b9d7ff5732b'
+revision = 'e35b82b70f75'
 down_revision = 'cbf16befec5d'
 branch_labels = None
 depends_on = None
@@ -24,8 +24,9 @@ def upgrade():
     sa.Column('read', sa.Boolean(), nullable=True),
     sa.Column('created', sa.DateTime(), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
-    sa.Column('notified_id', sa.Integer(), nullable=True),
+    sa.Column('comment_id', sa.Integer(), nullable=True),
     sa.Column('notifier_id', sa.Integer(), nullable=True),
+    sa.Column('notified_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['notified_id'], ['user.id'], ),
     sa.ForeignKeyConstraint(['notifier_id'], ['user.id'], ),
     sa.ForeignKeyConstraint(['post_id'], ['post.id'], ),
@@ -39,8 +40,8 @@ def upgrade():
     sa.Column('created', sa.DateTime(), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
     sa.Column('comment_id', sa.Integer(), nullable=True),
-    sa.Column('notified_id', sa.Integer(), nullable=True),
     sa.Column('notifier_id', sa.Integer(), nullable=True),
+    sa.Column('notified_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['comment_id'], ['post_comment.id'], ),
     sa.ForeignKeyConstraint(['notified_id'], ['user.id'], ),
     sa.ForeignKeyConstraint(['notifier_id'], ['user.id'], ),
