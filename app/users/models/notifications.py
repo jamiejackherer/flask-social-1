@@ -30,10 +30,12 @@ class Notification:
         self._post_notification(
             'post_like', current_user.id, post.author.id,
             post.id)
-        if post.author.id != post.recipient.id:
+        # If a user posts on their own wall, don't notify them twice
+        # when someone likes their post.
+        if post.author != post.recipient:
             self._post_notification(
-                'post_like_wall', current_user.id,
-                post.recipient.id, post.id)
+                'post_like_wall', current_user.id, post.recipient.id,
+                post.id)
 
     @classmethod
     def delete_post_like_notification(self, current_user, post):
@@ -57,10 +59,10 @@ class Notification:
         self._comment_notification(
             'comment', current_user.id, comment.post.author.id,
             comment.post.id, comment.id)
-        if comment.post.author.id != comment.post.recipient_id:
+        if comment.post.author != comment.post.recipient:
             self._comment_notification(
-                'comment_wall', current_user.id,
-                comment.post.recipient_id, comment.post_id, comment.id)
+                'comment_wall', current_user.id, comment.post.recipient.id,
+                comment.post.id, comment.id)
 
     @classmethod
     def comment_like_notification(self, current_user, comment):
@@ -70,6 +72,11 @@ class Notification:
         if comment.author != comment.post.author:
             self._comment_notification(
                 'comment_like_post', current_user.id, comment.post.author.id,
+                comment.post.id, comment.id)
+        if comment.post.author != comment.post.recipient and \
+                comment.author != comment.post.recipient:
+            self._comment_notification(
+                'comment_like_wall', current_user.id, comment.post.recipient.id,
                 comment.post.id, comment.id)
 
     @classmethod

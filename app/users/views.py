@@ -225,7 +225,9 @@ def post_action(post_id, action):
 @users.route('/notifications')
 @login_required
 def notifications():
-    return render_template('users/notifications.html')
+    notifications = current_user.notifications
+    return render_template('users/notifications.html',
+                           notifications=notifications)
 
 
 @users.route('/settings/account', methods=['GET', 'POST'])
