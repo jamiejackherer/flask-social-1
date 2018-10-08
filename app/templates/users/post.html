@@ -23,7 +23,7 @@
     </form>
     <h3 class="page-sub-title">Comments</h3>
     {% if comments.pages > 1 %}
-    {{ render_comment_pagination(comments, 'users.post_comments', request.args.get('post_id'), request.args.get('likes_page')) }}
+    {{ render_comment_pagination(comments, 'users.post', request.args.get('post_id'), request.args.get('likes_page')) }}
     {% endif %}
     {% if comments.items %}
     <ul class="list-users">
@@ -35,13 +35,13 @@
     <p class="card">No comments to show.</p>
     {% endif %}
     {% if comments.pages > 1 %}
-    {{ render_comment_pagination(comments, 'users.post_comments', request.args.get('post_id'), request.args.get('likes_page')) }}
+    {{ render_comment_pagination(comments, 'users.post', request.args.get('post_id'), request.args.get('likes_page')) }}
     {% endif %}
   </div><!--//END .post-and-comments-->
   <div class="post-likes">
     <h3 class="page-sub-title">Liked by</h3>
     {% if likes.pages > 1 %}
-    {{ render_like_pagination(likes, 'users.post_comments', request.args.get('post_id'), request.args.get('comments_page'))}}
+    {{ render_like_pagination(likes, 'users.post', request.args.get('post_id'), request.args.get('comments_page'))}}
     {% endif %}
     {% if likes.items %}
     <ul class="list-users">
@@ -59,7 +59,7 @@
     </p>
     {% endif %}    
     {% if likes.pages > 1 %}
-    {{ render_like_pagination(likes, 'users.post_comments', request.args.get('post_id'), request.args.get('comments_page'))}}
+    {{ render_like_pagination(likes, 'users.post', request.args.get('post_id'), request.args.get('comments_page'))}}
     {% endif %}
   </div><!--//END .post-likes-->
 </div><!--//END .grid-comments-container-->

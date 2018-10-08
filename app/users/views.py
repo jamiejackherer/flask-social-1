@@ -134,9 +134,9 @@ def user_action(username, action):
     return redirect(request.referrer)
 
 
-@users.route('/posts/post-comments', methods=['GET', 'POST'])
+@users.route('/posts/post', methods=['GET', 'POST'])
 @login_required
-def post_comments():
+def post():
     post_id = request.args.get('post_id')
     posts = Post.post_by_id(post_id).first_or_404()
 
@@ -158,21 +158,21 @@ def post_comments():
         N.comment_notification(current_user, comment)
         comment.commit()
         flash('Your post is now live!')
-        return redirect(url_for('users.post_comments', post_id=post_id))
-    return render_template('users/post-comments.html', posts=posts, form=form,
+        return redirect(url_for('users.post', post_id=post_id))
+    return render_template('users/post.html', posts=posts, form=form,
                            comments=comments, likes=likes)
 
 
-@users.route('/posts/post-comment-likes')
+@users.route('/posts/comment')
 @login_required
-def post_comment_likes():
+def comment():
     comment_id = request.args.get('comment_id')
     posts = PostComment.comment_by_id(comment_id).first_or_404()
     page = request.args.get('page', 1, type=int)
     likes = posts.active_likes.order_by(
         PostCommentLike.created.desc()).paginate(
             page, current_user.posts_per_page, False)
-    return render_template('users/post-comment-likes.html', posts=posts,
+    return render_template('users/comment.html', posts=posts,
                            likes=likes)
 
 

@@ -1,6 +1,5 @@
 
 <div class="post-comment-container">
-  {{ post.id }}
   <div class="comment">
     <img src="{{ post.author.avatar(30) }}">
     <p>
@@ -14,7 +13,7 @@
     {% else %}
     <a href="{{ url_for('users.post_action', post_id=post.id, action='like-comment') }}">Like</a>
     {% endif %}
-    <a href="{{ url_for('users.post_comment_likes', comment_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
+    <a href="{{ url_for('users.comment', comment_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
     {% if current_user == post.author %}
     <a href="{{ url_for('users.post_action', post_id=post.id, action='delete-comment') }}">Delete</a>
     {% endif %}

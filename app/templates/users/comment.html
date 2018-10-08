@@ -11,7 +11,7 @@
   <h3 class="page-sub-title">Liked by</h3>
 
   {% if likes.pages > 1 %}
-  {{ render_comment_pagination(likes, 'users.post_comment_likes', request.args.get('comment_id')) }}
+  {{ render_comment_pagination(likes, 'users.comment', request.args.get('comment_id')) }}
   {% endif %}
 
   {% if likes.items %}
@@ -31,7 +31,7 @@
   {% endif %}
 
   {% if likes.pages > 1 %}
-  {{ render_comment_pagination(likes, 'users.post_comment_likes', request.args.get('comment_id')) }}
+  {{ render_comment_pagination(likes, 'users.comment', request.args.get('comment_id')) }}
   {% endif %}
 </div><!--//END .centered-content-container-->
 {% endblock %}

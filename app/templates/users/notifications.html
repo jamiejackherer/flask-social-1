@@ -8,39 +8,42 @@
     <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       commented on a
-      <a href="{{ url_for('users.post_comments', post_id=n.comment.post.id) }}">post</a> 
+      <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a> 
       on your wall
     </li>
     {% elif n.name == 'comment_like_wall' %}
     <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a> 
-      liked a comment from a
-      <a href="{{ url_for('users.post_comments', post_id=n.comment.post.id) }}">post</a>
+      liked a
+      <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
+      from a
+      <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
       on your wall
     </li>
     {% elif n.name == 'comment_like' %}
     <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
-      liked your comment
+      liked your
+      <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
     </li>
     {% elif n.name == 'post_like_wall' %}
     <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       liked a
-      <a href="{{ url_for('users.post_comments', post_id=n.post.id) }}">post</a>
+      <a href="{{ url_for('users.post', post_id=n.post.id) }}">post</a>
       on your wall
     </li>
     {% elif n.name == 'post_like' %}
     <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       liked your
-      <a href="{{ url_for('users.post_comments', post_id=n.post.id) }}">post</a>
+      <a href="{{ url_for('users.post', post_id=n.post.id) }}">post</a>
     </li>
     {% elif n.name == 'post' %}
     <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
-      posted on your
-      <a href="{{ url_for('users.post_comments', post_id=n.post.id) }}">wall</a>
+      <a href="{{ url_for('users.post', post_id=n.post.id) }}">posted</a>
+      on your wall
     </li>
     {% endif %}
   {% endfor %}
