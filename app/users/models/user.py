@@ -69,7 +69,6 @@ class User(UserMixin, db.Model, BaseModel):
         foreign_keys='CommentNotification.notifier_id',
         lazy='dynamic', backref='notifier')
 
-
     def __repr__(self):
         return '<User {} {} ({})>'.format(
             self.first_name, self.last_name, self.email)
@@ -135,29 +134,31 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def unfollowed_users(self):
-        return User.query.join(
-            followers,
-            and_(followers.c.followed_id == User.id,
-                 followers.c.follower_id == self.id),
-            isouter=True).filter(
-                followers.c.follower_id == None, # noqa
+        return User.query.\
+            join(followers,
+                 and_(followers.c.followed_id == User.id,
+                      followers.c.follower_id == self.id),
+                isouter=True).\
+            filter(
+                followers.c.follower_id == None,
                 User.id != self.id,
                 User.active == True) # noqa
 
     @property
     def unfollowed_posts(self):
-        return Post.query.join(
-            User, Post.author_id == User.id).join(
-                followers,
-                and_(followers.c.followed_id == User.id,
-                     followers.c.follower_id == self.id),
-                isouter=True).filter(
-                    followers.c.follower_id == None, # noqa
-                    User.id != self.id,
-                    Post.author_id == Post.recipient_id,
-                    User.active == True, # noqa
-                    Post.active == True).order_by( # noqa
-                        Post.created.desc())
+        return Post.query.\
+            join(User, Post.author_id == User.id).\
+            join(followers,
+                 and_(followers.c.followed_id == User.id,
+                      followers.c.follower_id == self.id),
+                isouter=True).\
+            filter(
+                followers.c.follower_id == None, # noqa
+                User.id != self.id,
+                Post.author_id == Post.recipient_id,
+                User.active == True, # noqa
+                Post.active == True).\
+            order_by(Post.created.desc())
 
     @property
     def get_followers(self):
@@ -174,7 +175,8 @@ class User(UserMixin, db.Model, BaseModel):
         """
         followed = Post.query.\
             join(User, User.id == Post.author_id).\
-            join(followers, followers.c.followed_id == Post.author_id).filter(
+            join(followers, followers.c.followed_id == Post.author_id).\
+            filter(
                 followers.c.follower_id == self.id,
                 Post.author_id == Post.recipient_id,
                 Post.active == True, # noqa
@@ -213,9 +215,9 @@ class User(UserMixin, db.Model, BaseModel):
     @property
     def notifications(self):
         """ Return user notifications.
-        
+
         :TODO: Fix this workaround.
-       
+
         When the model's columns are not defined explicitly, SQLAlchemy's
         union_all does not return the correct amount of records. Therefore,
         this sloppy workaround had to be used.
