@@ -14,10 +14,10 @@
       <div class="input-container">
         {{ form.username.label }}
         {% if form.username.errors %}
-        {{ form.username(class="input-error", placeholder=form.username.label.text) }}
+        {{ form.username(class="input-error", placeholder=current_user.username) }}
         <p>{{ form.username.errors[0] }}</p>
         {% else %}
-        {{ form.username(placeholder=form.username.label.text) }}
+        {{ form.username(placeholder=current_user.username) }}
         {% endif %}
       </div>
       <div class="input-container">
