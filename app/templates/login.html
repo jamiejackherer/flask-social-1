@@ -7,18 +7,18 @@
   <form class="small-form" method="post" novalidate>
     <div class="input-container">
       {% if form.email.errors %}
-      {{ form.email(class="input-error", placeholder="Email or username") }}
+      {{ form.email(class="input-error", placeholder=form.email.label.text) }}
       <p>{{ form.email.errors[0] }}</p>
       {% else %}
-      {{ form.email(placeholder="Email or username") }}
+      {{ form.email(placeholder=form.email.label.text) }}
       {% endif %}
     </div>
     <div class="input-container">
       {% if form.password.errors %}
-      {{ form.password(class="input-error", placeholder="Password") }}
+      {{ form.password(class="input-error", placeholder=form.password.label.text) }}
       <p>{{ form.password.errors[0] }}</p>
       {% else %}
-      {{ form.password(placeholder="Password") }}
+      {{ form.password(placeholder=form.password.label.text) }}
       {% endif %}
     </div>
     {{ form.submit }}

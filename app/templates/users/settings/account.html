@@ -10,19 +10,19 @@
       <div class="input-container">
         {{ form.username.label }}
         {% if form.username.errors %}
-        {{ form.username(class="input-error", placeholder="Username") }}
+        {{ form.username(class="input-error", placeholder=form.username.label.text) }}
         <p>{{ form.username.errors[0] }}</p>
         {% else %}
-        {{ form.username(placeholder="Username") }}
+        {{ form.username(placeholder=form.username.label.text) }}
         {% endif %}
       </div>
       <div class="input-container">
         {{ form.email.label }}
         {% if form.email.errors %}
-        {{ form.email(class="input-error", placeholder="Email") }}
+        {{ form.email(class="input-error", placeholder=form.email.label.text) }}
         <p>{{ form.email.errors[0] }}</p>
         {% else %}
-        {{ form.email(placeholder="Email") }}
+        {{ form.email(placeholder=form.email.label.text) }}
         {% endif %}
       </div>
       {{ form.submit }}
