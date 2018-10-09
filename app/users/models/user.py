@@ -10,7 +10,7 @@ from datetime import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import and_
-from sqlalchemy.orm import column_property
+from sqlalchemy.orm import column_property, aliased
 from flask import current_app
 from flask_login import UserMixin
 from app.extensions import db, login
@@ -282,6 +282,7 @@ class User(UserMixin, db.Model, BaseModel):
         union_all does not return the correct amount of records. Therefore,
         this sloppy workaround had to be used.
         """
+        a_user = aliased(User)
         pn = db.session.query(
             PostNotification.id,
             PostNotification.name,
@@ -290,8 +291,11 @@ class User(UserMixin, db.Model, BaseModel):
             PostNotification.post_id,
             PostNotification.comment_id,
             PostNotification.notifier_id,
-            PostNotification.notified_id).filter_by(
-                notified_id=self.id)
+            PostNotification.notified_id).\
+            join(User, User.id == PostNotification.notified_id).\
+            join(a_user, a_user.id == PostNotification.notifier_id).\
+            filter(User.active == 1, a_user.active == 1,
+                   PostNotification.notified_id == self.id)
         cn = db.session.query(
             CommentNotification.id,
             CommentNotification.name,
@@ -300,8 +304,11 @@ class User(UserMixin, db.Model, BaseModel):
             CommentNotification.post_id,
             CommentNotification.comment_id,
             CommentNotification.notifier_id,
-            CommentNotification.notified_id).filter_by(
-                notified_id=self.id)
+            CommentNotification.notified_id).\
+            join(User, User.id == CommentNotification.notified_id).\
+            join(a_user, a_user.id == CommentNotification.notifier_id).\
+            filter(User.active == 1, a_user.active == 1,
+                   CommentNotification.notified_id == self.id)
         u = pn.union_all(cn).order_by(PostNotification.created.desc())
         result = []
         for row in u:
@@ -317,7 +324,7 @@ class User(UserMixin, db.Model, BaseModel):
         return result
 
     def new_notifications(self):
-        """ Return count of unseen notifications.
+    j   """ Return count of unseen notifications.
 
         The count is reset when the user visits endpoint `notifications`.
         See: :mod:app.users.views :func:notifications.
