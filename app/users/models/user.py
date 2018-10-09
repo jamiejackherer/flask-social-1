@@ -324,7 +324,7 @@ class User(UserMixin, db.Model, BaseModel):
         return result
 
     def new_notifications(self):
-    j   """ Return count of unseen notifications.
+        """ Return count of unseen notifications.
 
         The count is reset when the user visits endpoint `notifications`.
         See: :mod:app.users.views :func:notifications.
