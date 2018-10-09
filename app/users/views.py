@@ -118,6 +118,7 @@ def search():
         User.first_name.like(searchable),
         User.last_name.like(searchable),
         User.username.like(searchable),
+        User.full_name.like(searchable),
         User.email.like(searchable)))
     search_result_count = search_result.count()
     search_result = search_result.paginate(
