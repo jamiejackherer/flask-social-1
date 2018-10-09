@@ -12,7 +12,18 @@
       {% set read_status = 'unread' %}
     {% endif %}
     <li class="{{ read_status }}">
-    {% if n.name == 'comment_wall' %}
+    {% if n.name == 'comment' %}
+      <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
+      <a href="{{ url_for('users.comment', comment_id=n.comment.id, notification='comment') }}">commented</a>
+      on your
+      <a href="{{ url_for('users.post', post_id=n.comment.post.id, notification='comment') }}">post</a>
+    {% elif n.name == 'comment_like_post' %}
+      <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
+      liked a
+      <a href="{{ url_for('users.comment', comment_id=n.comment.id, notification='comment_like_post') }}">comment</a>
+      of your 
+      <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
+    {% elif n.name == 'comment_wall' %}
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       commented on a
       <a href="{{ url_for('users.post', post_id=n.comment.post.id, notification='comment_wall') }}">post</a> 

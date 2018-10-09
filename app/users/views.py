@@ -163,7 +163,7 @@ def post():
     # notification type.
     notify_type = request.args.get('notification')
     if notify_type:
-        if notify_type == 'comment_wall':
+        if notify_type in ['comment_wall', 'comment']:
             notification = CommentNotification.query.filter_by(
                 notified_id=current_user.id, post_id=post_id,
                 name=notify_type).all()
