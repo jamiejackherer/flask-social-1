@@ -273,10 +273,9 @@ input[type=submit]:active {
 
 .input-container > p {
   margin: 5px 0 0;
-  text-align: center;
 
-  font-size: 1rem;
   color: #cc0000;
+  font-size: 1rem;
 }
 
 .input-error {

@@ -1,0 +1,37 @@
+{% extends "/base.html" %}
+
+{% block content %}
+<div class="grid-settings-container">
+  {% include "/users/settings/_settings-nav.html" %}
+
+  <div class="settings-content-container">
+    <h3 class="page-sub-title">Delete account</h3>
+    <p class="card">
+      Once you delete your account, there is no going back. Please be absolutely
+      sure this is what you want to do.
+    </p>
+    <form method="post" novalidate>
+      <div class="input-container">
+        {{ form.username.label }}
+        {% if form.username.errors %}
+        {{ form.username(class="input-error", placeholder=form.username.label.text) }}
+        <p>{{ form.username.errors[0] }}</p>
+        {% else %}
+        {{ form.username(placeholder=form.username.label.text) }}
+        {% endif %}
+      </div>
+      <div class="input-container">
+        {{ form.password.label }}
+        {% if form.password.errors %}
+        {{ form.password(class="input-error", placeholder=form.password.label.text) }}
+        <p>{{ form.password.errors[0] }}</p>
+        {% else %}
+        {{ form.password(placeholder=form.password.label.text) }}
+        {% endif %}
+      </div>
+      {{ form.submit }}
+      {{ form.hidden_tag() }}
+    </form>
+  </div><!--//END .settings-content-container-->
+</div><!--//END .settings-container-->
+{% endblock %}

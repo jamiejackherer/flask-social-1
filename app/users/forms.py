@@ -77,3 +77,21 @@ class SettingsPasswordForm(FlaskForm):
     def validate_current_password(self, current_password):
         if not current_user.check_password(current_password.data):
             raise ValidationError('Incorrect password.')
+
+
+class SettingsDeleteAccountForm(FlaskForm):
+    username = StringField(
+        'Verify your username', validators=[DataRequired()])
+    password = PasswordField(
+        'Confirm your password', validators=[DataRequired()])
+    submit = SubmitField('Delete Account')
+
+    def validate_username(self, username):
+        if current_user.username != username.data:
+            raise ValidationError(
+                'Incorrect username. Make sure you type your username '
+                'exactly as it is.')
+
+    def validate_password(self, password):
+        if not current_user.check_password(password.data):
+            raise ValidationError('Incorrect password.')

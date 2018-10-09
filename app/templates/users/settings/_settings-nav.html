@@ -21,5 +21,12 @@
       <a href="{{ url_for('users.settings_password') }}">Password</a>
       {% endif %}
     </li>
+    <li>
+      {% if request.endpoint == 'users.settings_delete_account' %}
+      <span class="active-page">Delete Account</span>
+      {% else %}
+      <a href="{{ url_for('users.settings_delete_account') }}">Delete Account</a>
+      {% endif %}
+    </li>
   </ul>
 </div><!--//END .settings-nav-container-->

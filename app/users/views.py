@@ -15,7 +15,7 @@ from app.users.models.notifications import (
 )
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
-    SearchForm
+    SearchForm, SettingsDeleteAccountForm
 )
 
 
@@ -344,3 +344,15 @@ def settings_password():
         flash('Your password has been changed.')
         return redirect(url_for('users.settings_password'))
     return render_template('users/settings/password.html', form=form)
+
+
+@users.route('/settings/delete-account', methods=['GET', 'POST'])
+@login_required
+def settings_delete_account():
+    form = SettingsDeleteAccountForm()
+    if form.validate_on_submit():
+        current_user.active = False
+        current_user.commit()
+        flash('Your account has been removed.')
+        return redirect(url_for('users.feed'))
+    return render_template('users/settings/delete-account.html', form=form)
