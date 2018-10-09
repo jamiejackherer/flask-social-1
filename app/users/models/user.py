@@ -251,6 +251,20 @@ class User(UserMixin, db.Model, BaseModel):
                 result.append(n)
         return result
 
+    def new_notifications(self):
+        """ Return count of unseen notifications.
+
+        The count is reset when the user visits endpoint `notifications`.
+        See: :mod:app.users.views :func:notifications.
+        """
+        last_read_time = (
+            self.notification_last_read_time or datetime(1900, 1, 1))
+        count = 0
+        for n in self.notifications:
+            if n.created > last_read_time:
+                count += 1
+        return count
+
 
 @login.user_loader
 def load_user(id):

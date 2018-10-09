@@ -291,6 +291,8 @@ def comment_action(comment_id, action):
 @users.route('/notifications')
 @login_required
 def notifications():
+    current_user.notification_last_read_time = datetime.utcnow()
+    current_user.commit()
     notifications = current_user.notifications
     return render_template('users/notifications.html',
                            notifications=notifications)
