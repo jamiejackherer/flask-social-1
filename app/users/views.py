@@ -10,7 +10,9 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.users.models.user import User
 from app.users.models.posts import Post, PostLike, PostComment, PostCommentLike
-from app.users.models.notifications import Notification as N
+from app.users.models.notifications import (
+    Notification as N, PostNotification, CommentNotification
+)
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm
@@ -51,7 +53,7 @@ def home():
 @login_required
 def profile(username):
     """ User's profile.
-    
+
     :param username: username to show profile
     """
     user = User.query.filter_by(username=username, active=True).first_or_404()
@@ -157,6 +159,27 @@ def post():
     post_id = request.args.get('post_id')
     posts = Post.post_by_id(post_id).first_or_404()
 
+    # Check if user is coming from the notifications page, and get the
+    # notification type.
+    notify_type = request.args.get('notification')
+    if notify_type:
+        if notify_type == 'comment_wall':
+            notification = CommentNotification.query.filter_by(
+                notified_id=current_user.id, post_id=post_id,
+                name=notify_type).all()
+            if notification:
+                for row in notification:
+                    row.read = True
+                posts.commit()
+        else:
+            notification = PostNotification.query.filter_by(
+                notified_id=current_user.id, post_id=post_id,
+                name=notify_type).all()
+            if notification:
+                for row in notification:
+                    row.read = True
+                posts.commit()
+
     comments_page = request.args.get('comments_page', 1, type=int)
     comments = posts.active_comments.order_by(
         PostComment.created.asc()).paginate(
@@ -185,6 +208,19 @@ def post():
 def comment():
     comment_id = request.args.get('comment_id')
     posts = PostComment.comment_by_id(comment_id).first_or_404()
+
+    # Check if user is coming from the notifications page, and get the
+    # notification type.
+    notify_type = request.args.get('notification')
+    if notify_type:
+        notification = CommentNotification.query.filter_by(
+            notified_id=current_user.id, comment_id=comment_id,
+            name=notify_type).all()
+        if notification:
+            for row in notification:
+                row.read = True
+            posts.commit()
+
     page = request.args.get('page', 1, type=int)
     likes = posts.active_likes.order_by(
         PostCommentLike.created.desc()).paginate(

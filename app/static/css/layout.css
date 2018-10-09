@@ -19,6 +19,7 @@
  * - Settings (s:settings)
  * - Errors (s:errors)
  * - Search (s:search)
+ * - Notifications (s:notifications)
  */
 
 /* Fonts (s:fonts) */
@@ -860,3 +861,26 @@ input[type=submit]:active {
   }
 }
 /* // END Search (s:search) */
+
+/* Notifications (s:notifications) */
+.notification-list > li {
+  margin-bottom: 5px;
+  padding: 10px;
+  position: relative;
+}
+
+.notification-list > .read {
+  background-color: var(--light-gray);
+}
+
+.notification-list > .unread {
+  background-color: var(--dark-gray);
+}
+
+@media (min-width: 768px) {
+  .notification-container {
+    margin: 0 auto;
+    max-width: 600px;
+  }
+}
+/ * // END Notifications (s:notifications) */

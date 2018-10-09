@@ -1,76 +1,79 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<h3 class="page-sub-title">Notifications</h3>
-{% if notifications %}
+<div class="notification-container">
+  <h2 class="page-sub-title">Notifications</h3>
+  {% if notifications %}
+  <ul class="notification-list">
   {% for n in notifications %}
+    {% if n.read %}
+      {% set read_status = 'read' %}
+    {% else %}
+      {% set read_status = 'unread' %}
+    {% endif %}
+    <li class="{{ read_status }}">
     {% if n.name == 'comment_wall' %}
-    <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       commented on a
-      <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a> 
+      <a href="{{ url_for('users.post', post_id=n.comment.post.id, notification='comment_wall') }}">post</a> 
       on your wall
-    </li>
     {% elif n.name == 'comment_like_wall' %}
-    <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a> 
       liked a
-      <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
+      <a href="{{ url_for('users.comment', comment_id=n.comment.id, notification='comment_like_wall') }}">comment</a>
       from a
       <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
       on your wall
-    </li>
     {% elif n.name == 'comment_like' %}
-    <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       liked your
-      <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
-    </li>
+      <a href="{{ url_for('users.comment', comment_id=n.comment.id, notification='comment_like') }}">comment</a>
     {% elif n.name == 'post_like_wall' %}
-    <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       liked a
-      <a href="{{ url_for('users.post', post_id=n.post.id) }}">post</a>
+      <a href="{{ url_for('users.post', post_id=n.post.id, notification='post_like_wall') }}">post</a>
       on your wall
-    </li>
     {% elif n.name == 'post_like' %}
-    <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       liked your
-      <a href="{{ url_for('users.post', post_id=n.post.id) }}">post</a>
-    </li>
+      <a href="{{ url_for('users.post', post_id=n.post.id, notification='post_like') }}">post</a>
     {% elif n.name == 'post' %}
-    <li>
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
-      <a href="{{ url_for('users.post', post_id=n.post.id) }}">posted</a>
+      <a href="{{ url_for('users.post', post_id=n.post.id, notification='post') }}">posted</a>
       on your wall
-    </li>
     {% endif %}
+    </li>
   {% endfor %}
-{% endif %}
+  </ul>
+  {% else %}
+  <p class="card">You do not have any notifications to show.</p>
+  {% endif %}
 
-<br><br><br><br>
+  {#
+  <br><br><br><br>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Read</th>
-    <th>Created</th>
-    <th>Post ID</th>
-    <th>Comment ID</th>
-    <th>Notified ID</th>
-    <th>Notifier ID</th>
-  </tr>
-  {% for n in current_user.notifications %}
-  <tr>
-    <td>{{ n.name }}</td>
-    <td>{{ n.read }}</td>
-    <td>{{ n.created }}</td>
-    <td>{{ n.post_id }}</td>
-    <td>{{ n.comment_id }}</td>
-    <td>{{ n.notified_id }}</td>
-    <td>{{ n.notifier_id }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Read</th>
+      <th>Created</th>
+      <th>Post ID</th>
+      <th>Comment ID</th>
+      <th>Notified ID</th>
+      <th>Notifier ID</th>
+    </tr>
+    {% for n in current_user.notifications %}
+    <tr>
+      <td>{{ n.name }}</td>
+      <td>{{ n.read }}</td>
+      <td>{{ n.created }}</td>
+      <td>{{ n.post_id }}</td>
+      <td>{{ n.comment_id }}</td>
+      <td>{{ n.notified_id }}</td>
+      <td>{{ n.notifier_id }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  #}
+</div><!--//END .notification-container-->
 {% endblock %}
