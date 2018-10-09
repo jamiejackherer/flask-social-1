@@ -14,7 +14,7 @@
  * - Index (s:index)
  * - Posts (s:posts)
  * - Post Comments (s:post-comments)
- * - Home and Profile (s:home-and-profile)
+ * - feed and Profile (s:feed-and-profile)
  * - List User (s:list-user)
  * - Settings (s:settings)
  * - Errors (s:errors)
@@ -573,7 +573,7 @@ input[type=submit]:active {
 }
 /* //END Post Comments (s:post-comments) */
 
-/* Home and Profile Info (s:home-and-profile) */
+/* feed and Profile Info (s:feed-and-profile) */
 .grid-profile-container {
   display: grid;
   grid-template-columns: repeat(12, [col-start] 1fr);
@@ -662,7 +662,7 @@ input[type=submit]:active {
   font-size: 20px;
 }
 
-.grid-profile-container .followers-home-container > a {
+.grid-profile-container .followers-feed-container > a {
   width: 33.333333333%;
 }
 
@@ -697,7 +697,7 @@ input[type=submit]:active {
 .post-form textarea {
   width: 100%;
 }
-/* // END Home and Profile (s:home-and-profile) */
+/* // END feed and Profile (s:feed-and-profile) */
 
 /* List User (s:list-user) */
 .list-users {

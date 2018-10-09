@@ -11,7 +11,7 @@
         <img src="{{ current_user.avatar(60) }}">
         <h2>{{ current_user.first_name }}<br>{{ current_user.last_name }}</h1>
       </a>
-      <div class="followers-container followers-home-container">
+      <div class="followers-container followers-feed-container">
         <a href="{{ url_for('users.profile', username=current_user.username) }}">
           Posts <span>{{ current_user.my_posts.count() }}</span>
         </a>
@@ -56,7 +56,7 @@
       {{ form.csrf_token }}
     </form>
     {% if posts.pages > 1 %}
-      {{ render_pagination(posts, 'users.home') }}
+      {{ render_pagination(posts, 'users.feed') }}
     {% endif %}
     
     {% if posts.items %}
@@ -68,7 +68,7 @@
     {% endif %}
   
     {% if posts.pages > 1 %}
-      {{ render_pagination(posts, 'users.home') }}
+      {{ render_pagination(posts, 'users.feed') }}
     {% endif %}
   </div>
 </div><!--//END .grid-container-->

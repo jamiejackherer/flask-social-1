@@ -22,13 +22,13 @@ static_views = Blueprint('static_views', __name__)
 @static_views.route('/', methods=['GET', 'POST'])
 def index():
     if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     form = RegisterForm()
     if form.validate_on_submit():
         user = register_user(User, form.email.data, form.first_name.data,
                              form.last_name.data, form.password.data)
         login_user(user)
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     return render_template('index.html', form=form)
 
 
@@ -39,14 +39,14 @@ def register():
         user = register_user(User, form.email.data, form.first_name.data,
                              form.last_name.data, form.password.data)
         login_user(user)
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     return render_template('register.html', form=form)
 
 
 @static_views.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     form = LoginForm()
     if form.validate_on_submit():
         user_by_email = User.query.filter(
@@ -75,7 +75,7 @@ def logout():
 @static_views.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     user = User.verify_reset_password_token(token)
     if not user:
         return redirect(url_for('static_views.index'))
@@ -91,7 +91,7 @@ def reset_password(token):
 @static_views.route('/reset-password-request', methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()

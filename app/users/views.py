@@ -31,21 +31,21 @@ def before_request():
         current_user.commit()
 
 
-@users.route('/home', methods=['GET', 'POST'])
+@users.route('/feed', methods=['GET', 'POST'])
 @login_required
-def home():
+def feed():
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.body.data, author=current_user,
                     recipient=current_user)
         post.commit()
         flash('Your post is now live!')
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     page = request.args.get('page', 1, type=int)
-    posts = current_user.followed_posts.paginate(
+    posts = current_user.feed_posts.paginate(
         page, current_user.posts_per_page, False)
     unfollowed_posts = current_user.unfollowed_posts.limit(8).all()
-    return render_template('users/home.html', form=form, posts=posts,
+    return render_template('users/feed.html', form=form, posts=posts,
                            unfollowed_posts=unfollowed_posts)
 
 
@@ -140,7 +140,7 @@ def user_action(username, action):
     # Do not allow users to take action on themselves.
     no_self_action = ['follow', 'unfollow']
     if action in no_self_action and user == current_user:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('users.feed'))
     # Follow user.
     if action == 'follow':
         current_user.follow(user)
