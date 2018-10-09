@@ -21,6 +21,9 @@ class Post(db.Model, BaseModel):
         'PostNotification', foreign_keys='PostNotification.post_id',
         lazy='dynamic', backref='post')
 
+    def __repr__(self):
+        return '<Post {}>'.format(self.body)
+    
     @property
     def active_likes(self):
         """ Get active likes of post where:
@@ -59,9 +62,6 @@ class Post(db.Model, BaseModel):
                 Post.active == True, # noqa
                 User.active == True,
                 Post.id == post_id)
-
-    def __repr__(self):
-        return '<Post {}>'.format(self.body)
 
 
 class PostLike(db.Model):

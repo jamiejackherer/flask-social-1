@@ -74,66 +74,121 @@ class User(UserMixin, db.Model, BaseModel):
             self.first_name, self.last_name, self.email)
 
     def set_default_username(self):
+        """ Set `User`'s default username.
+
+        Default usename is set by hashing FirstName_LastName_Email.
+                
+        See :mod:app.helpers :func:hash_list
+        """
         self.username = hash_list([self.first_name, self.last_name,
                                   self.email])
 
     def set_password(self, password):
+        """ Set `User` password.
+
+        :param password: password string
+        """
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
+        """ Check if `password` is euqal to `User.password`.
+
+        :param password: password string
+        """
         return check_password_hash(self.password, password)
 
     def avatar(self, size):
+        """ Return avatar URL for `User` at the given `size`.
+
+        :param size: integer for size of avatar to be returned
+        """
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=monsterid&s={}'.format(
             digest, size)
 
     def follow(self, user):
+        """ Follow `user`.
+
+        :param user: user model object of :class:User
+        """
         if not self.is_following(user):
             self.followed.append(user)
 
     def unfollow(self, user):
+        """ Unfollow `user`.
+
+        :param user: user model object of :class:User
+        """
         if self.is_following(user):
             self.followed.remove(user)
 
     def is_following(self, user):
+        """ Check if `User` is following `user`.
+
+        :param user: user model object of :class:User
+        """
         return self.followed.filter(
             followers.c.followed_id == user.id).count() > 0
 
     def like_post(self, post):
+        """ Like `post`.
+
+        :param post: post model object of :class:Post
+        """
         if not self.has_liked_post(post):
             like = PostLike(user_id=self.id, post_id=post.id)
             db.session.add(like)
 
     def unlike_post(self, post):
+        """ Like `post`.
+
+        :param post: post model object of :class:Post
+        """
         if self.has_liked_post(post):
             PostLike.query.filter_by(
                 user_id=self.id,
                 post_id=post.id).delete()
 
     def has_liked_post(self, post):
+        """ Check if `User` has liked `post` or not.
+
+        :param post: post model object of :class:Post
+        """
         return PostLike.query.filter(
             PostLike.user_id == self.id,
             PostLike.post_id == post.id).count() > 0
 
     def like_comment(self, comment):
+        """ Like `comment`.
+
+        :param comment: comment model object of :class:PostComment
+        """
         if not self.has_liked_comment(comment):
             like = PostCommentLike(user_id=self.id, comment_id=comment.id)
             db.session.add(like)
 
     def unlike_comment(self, comment):
+        """ Unlike `comment`.
+
+        :param comment: comment model object of :class:PostComment
+        """
         if self.has_liked_comment(comment):
             PostCommentLike.query.filter_by(
                 user_id=self.id,
                 comment_id=comment.id).delete()
 
     def has_liked_comment(self, comment):
+        """ Check if `User` has liked `comment` or not.
+
+        :param comment: comment model object of :class:PostComment
+        """
         return PostCommentLike.query.filter(
             PostCommentLike.user_id == self.id,
             PostCommentLike.comment_id == comment.id).count() > 0
 
     @property
     def unfollowed_users(self):
+        """ Return users `User` is not following. """
         return User.query.\
             join(followers,
                  and_(followers.c.followed_id == User.id,
@@ -143,11 +198,11 @@ class User(UserMixin, db.Model, BaseModel):
                 followers.c.follower_id == None,
                 User.id != self.id,
                 User.active == True) # noqa
-                
+
     @property
     def feed_posts(self):
         """ Return posts for `User`'s feed.
-            
+
         These are posts that `User` is following, and posts that `User` has
         posted on their own feed.
         """
@@ -164,6 +219,7 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def unfollowed_posts(self):
+        """ Return posts that `User` is NOT following. """
         return Post.query.\
             join(User, Post.author_id == User.id).\
             join(followers,
@@ -180,23 +236,24 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def get_followers(self):
+        """ Return users that are following `User`. """
         return self.followers.filter_by(active=True)
 
     @property
     def get_followed(self):
+        """ Return users `User` is following. """
         return self.followed.filter_by(active=True)
-
 
     @property
     def profile_posts(self):
-        """ Get posts where the user is the recipient. """
+        """ Get posts where `User` is the recipient. """
         return Post.query.join(User, User.id == Post.author_id).filter(
             Post.recipient_id == self.id, User.active == True, # noqa
             Post.active == True)
 
     @property
     def my_posts(self):
-        """ Get posts where the author is the recipient. """
+        """ Get posts that `User` posted on their own feed. """
         return Post.query.join(User, User.id == Post.recipient_id).filter(
             Post.recipient_id == self.id, User.active == True, # noqa
             Post.author_id == self.id, Post.active == True)
@@ -273,9 +330,14 @@ class User(UserMixin, db.Model, BaseModel):
 
 @login.user_loader
 def load_user(id):
+    """ Load `User` to `current_user`. For :mod:flask_login.
+
+    :param id: ID of the `User` to load
+    """
     return User.query.get(int(id))
 
 
+# Import other models here to avoid circular dependencies.
 from app.users.models.followers import followers # noqa
 from app.users.models.posts import Post, PostLike, PostCommentLike # noqa
 from app.users.models.notifications import ( # noqa
