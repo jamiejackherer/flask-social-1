@@ -77,7 +77,7 @@ class User(UserMixin, db.Model, BaseModel):
         """ Set `User`'s default username.
 
         Default usename is set by hashing FirstName_LastName_Email.
-                
+
         See :mod:app.helpers :func:hash_list
         """
         self.username = hash_list([self.first_name, self.last_name,
@@ -305,12 +305,15 @@ class User(UserMixin, db.Model, BaseModel):
         u = pn.union_all(cn).order_by(PostNotification.created.desc())
         result = []
         for row in u:
-            if 'post' in row.name.split('_'):
+            if 'post' in row.name.split('_') and \
+                    row.name != 'comment_like_post':
                 n = PostNotification.query.filter_by(id=row.id).first()
-                result.append(n)
+                if n:
+                    result.append(n)
             if 'comment' in row.name.split('_'):
                 n = CommentNotification.query.filter_by(id=row.id).first()
-                result.append(n)
+                if n:
+                    result.append(n)
         return result
 
     def new_notifications(self):
