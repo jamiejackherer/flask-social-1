@@ -1,0 +1,20 @@
+{% extends "/base.html" %}
+{% from "/_macros.html" import render_pagination %}
+
+{% block content %}
+<div class="my-posts-container">
+  <span class="back-to-previous"><a href="{{ url_for('users.home') }}">Back to home</a></span>
+  <h2 class="page-sub-title">My posts</h2>
+  {% if posts.pages > 1 %}
+    {{ render_pagination(posts, 'users.my_posts') }}
+  {% endif %}
+  {% if posts.items %}
+    {% for post in posts.items %}
+    {% include "/users/_post.html" %}
+    {% endfor %}
+  {% endif %}
+  {% if posts.pages > 1 %}
+    {{ render_pagination(posts, 'users.my_posts') }}
+  {% endif %}
+</div><!--//END .my-posts-container-->
+{% endblock %}
