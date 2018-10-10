@@ -1,12 +1,17 @@
 {% extends "/base.html" %}
 {% from "/_macros.html" import render_pagination %}
 
+
 {% block content %}
 <div class="grid-profile-container">
-  {% include "/users/_home-info.html" %}
+  {% include "/users/_profile-info.html" %}
   <div class="profile-content-container">
-    <span class="back-to-previous"><a href="{{ url_for('users.home') }}">Back to home</a></span>
-    <h3 class="page-sub-title">My posts</h3>
+    <span class="back-to-previous">
+      <a href="{{ url_for('users.profile', username=user.username) }}">
+        Back to {{ user.first_name }}'s feed
+      </a>
+    </span>
+    <h3 class="page-sub-title">Posts</h3>
     {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.my_posts') }}
     {% endif %}
@@ -15,7 +20,14 @@
       {% include "/users/_post.html" %}
       {% endfor %}
     {% else %}
-    <p class="card">You haven't posted anything yet!</p>
+    <p class="card">
+      {% if user == current_user %}
+      You haven't
+      {% else %}
+      {{ user.first_name }} hasn't
+      {% endif %}
+      posted anything yet.
+    </p>
     {% endif %}
     {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.my_posts') }}

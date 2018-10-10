@@ -1,18 +1,20 @@
 {% extends "/base.html" %}
-
 {% from "/_macros.html" import render_pagination %}
+
 
 {% block content %}
 <div class="grid-profile-container">
   {% include "/users/_profile-info.html" %}
-  
   <div class="profile-content-container">
+    <span class="back-to-previous">
+      <a href="{{ url_for('users.profile', username=user.username) }}">
+        Back to {{ user.first_name }}'s feed
+      </a>
+    </span>
     <h3 class="page-sub-title">Followers</h3>
-
     {% if followers.pages > 1 %}
       {{ render_pagination(followers, 'users.followers', user.username) }}
     {% endif %}
-
     {% if followers.items %}
     <ul class="list-users">
       {% for list_user in followers.items %}
@@ -28,7 +30,6 @@
       {% endif %}
     </p>
     {% endif %}
-
     {% if followers.pages > 1 %}
       {{ render_pagination(followers, 'users.followers', user.username) }}
     {% endif %}

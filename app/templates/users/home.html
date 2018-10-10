@@ -2,9 +2,10 @@
 {% from "/_macros.html" import render_pagination %}
 {% block page_title %}{{ APP_NAME }}{% endblock %}
 
+
 {% block content %}
 <div class="grid-profile-container">
-  {% include "/users/_home-info.html" %} 
+  {% include "/users/_profile-info.html" %} 
   <div class="profile-content-container">
     <form class="post-form" method="post" novalidate>
       <div class="input-container">
@@ -21,7 +22,6 @@
     {% if posts.pages > 1 %}
       {{ render_pagination(posts, 'users.home') }}
     {% endif %}
-    
     {% if posts.items %}
       {% for post in posts.items %}
       {% include "/users/_post.html" %}
@@ -29,10 +29,9 @@
     {% else %}
     <p class="card">Nothing to show. Post something, or start following some people.</p>
     {% endif %}
-  
     {% if posts.pages > 1 %}
       {{ render_pagination(posts, 'users.home') }}
     {% endif %}
-  </div>
+  </div><!--//END .profile-content-container-->
 </div><!--//END .grid-container-->
 {% endblock %}

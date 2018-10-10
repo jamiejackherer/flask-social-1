@@ -47,18 +47,20 @@ def home():
         paginate(page, current_user.posts_per_page, False)
     unfollowed_posts = current_user.unfollowed_posts.limit(8).all()
     return render_template('users/home.html', form=form, posts=posts,
-                           unfollowed_posts=unfollowed_posts)
+                           unfollowed_posts=unfollowed_posts,
+                           user=current_user)
 
 
-@users.route('/my-posts')
+@users.route('/<username>/posts')
 @login_required
-def my_posts():
+def my_posts(username):
+    user = User.query.filter_by(username=username, active=True).first_or_404()
     page = request.args.get('page', 1, type=int)
-    posts = current_user.my_posts.\
+    posts = user.my_posts.\
         order_by(Post.created.desc()).\
         paginate(page, current_user.posts_per_page, False)
     unfollowed_posts = current_user.unfollowed_posts.limit(8).all()
-    return render_template('users/my-posts.html', posts=posts,
+    return render_template('users/my-posts.html', posts=posts, user=user,
                            unfollowed_posts=unfollowed_posts)
 
 

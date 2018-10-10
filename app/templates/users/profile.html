@@ -1,12 +1,11 @@
 {% extends "/base.html" %}
+{% from "/_macros.html" import render_pagination %}
 {% block page_title %}{{ current_user.full_name }} | {{ APP_NAME }}{% endblock %}
 
-{% from "/_macros.html" import render_pagination %}
 
 {% block content %}
 <div class="grid-profile-container">
   {% include "/users/_profile-info.html" %}
-
   <div class="profile-content-container">
     {% if current_user != user %}
     <form class="post-form" method="post" novalidate>
@@ -22,11 +21,9 @@
       {{ form.csrf_token }}
     </form>
     {% endif %}
-
     {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}
-
     {% if posts.items %}
       {% for post in posts.items %}
       {% include "/users/_post.html" %}
@@ -40,7 +37,6 @@
       {% endif %}
     </p>
     {% endif %}
-
     {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.profile', user.username) }}
     {% endif %}

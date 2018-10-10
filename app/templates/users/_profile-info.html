@@ -1,44 +1,68 @@
 
-<div class="profile-info-container">
-  <div class="name-followers-container">
-    <a class="name-avatar" href="{{ url_for('users.profile', username=user.username) }}">
-      <img src="{{ user.avatar(60) }}">
-      <h2>{{ user.first_name }}<br>{{ user.last_name }}</h2>
-    </a>
-    <div class="followers-container followers-profile-container">
-      <a href="{{ url_for('users.followers', username=user.username) }}">
-        Followers <span>{{ user.get_followers.count() }}</span>
+  <div class="profile-info-container">
+    <div class="name-followers-container">
+      <a class="name-avatar" href="{{ url_for('users.profile', username=user.username) }}">
+        <img src="{{ user.avatar(60) }}">
+        <h2>{{ user.first_name }}<br>{{ user.last_name }}</h2>
       </a>
-      <a href="{{ url_for('users.following', username=user.username) }}">
-        Following <span>{{ user.get_followed.count() }}</span>
-      </a>
-    </div>
-  </div><!--//END .name-followers-container-->
-
-  {% if current_user != user %}
-    {% if current_user.is_following(user) %}
-    <a class="profile-follow button" href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">
-      Unfollow
-    </a>
-    {% else %}
-    <a class="profile-follow button" href="{{ url_for('users.user_action', username=user.username, action='follow') }}">
-      Follow
-    </a>
+      <div class="followers-container followers-home-container">
+        <a href="{{ url_for('users.my_posts', username=user.username) }}">
+          Posts <span>{{ user.my_posts.count() }}</span>
+        </a>
+        <a href="{{ url_for('users.followers', username=user.username) }}">
+          Followers <span>{{ user.get_followers.count() }}</span>
+        </a>
+        <a href="{{ url_for('users.following', username=user.username) }}">
+          Following <span>{{ user.get_followed.count() }}</span>
+        </a>
+      </div><!--//END .followers-container-->
+    </div><!--//END .name-followers-container-->
+    {% if request.endpoint != 'users.home' %}
+    <div class="profile-other-info">
+      {% if current_user != user %}
+      <div class="profile-follow">
+        {% if current_user.is_following(user) %}
+        <a class="button" href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">
+          Unfollow
+        </a>
+        {% else %}
+        <a class="button" href="{{ url_for('users.user_action', username=user.username, action='follow') }}">
+          Follow
+        </a>
+        {% endif %}
+      </div><!--//END .profile-follow-->
+      {% endif %}
+      {% if user.bio %}
+      <div class="bio-container">
+        <p>{{ user.bio }}</p>
+      </div><!--//END .bio-container-->
+      {% endif %}
+      {% if user.location %}
+      <div class="other-info-container">
+        {% if user.location %}
+        <p>- {{ user.location }}</p>
+        {% endif %}
+      </div><!--//END .other-info-->
+      {% endif %} 
+    </div><!--//END .profile-other-info-->
+    {% endif %}
+  </div><!--//END .profile-info-container-->
+  {% if request.endpoint == 'users.home' %}
+    {% if unfollowed_posts %}
+    <div class="recent-posts-container">
+      <h3>Recent posts you may be interested in</h3>
+      <ul class="recent-posts">
+        {% for post in unfollowed_posts %}
+        <li>
+          <a class="post-header" href="{{ url_for('users.profile', username=post.author.username) }}">
+            <img src="{{ post.author.avatar(30) }}">
+            <p>{{ post.author.full_name }}</p>
+          </a>
+          <p>{{ post.body|truncate }}</p>
+        </li>
+        {% endfor %}
+      </ul><!--//END .recent-posts-->
+    </div><!--//END .recent-posts-container-->
     {% endif %}
   {% endif %}
-
-  {% if user.bio %}
-  <div class="bio-container">
-    <p>{{ user.bio }}</p>
-  </div><!--//END .bio-container-->
-  {% endif %}
-
-  {% if user.location %}
-  <div class="other-info-container">
-    {% if user.location %}
-    <p>- {{ user.location }}</p>
-    {% endif %}
-  </div><!--//END .other-info-->
-  {% endif %}
-</div>
 
