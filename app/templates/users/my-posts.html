@@ -12,6 +12,8 @@
     {% for post in posts.items %}
     {% include "/users/_post.html" %}
     {% endfor %}
+  {% else %}
+  <p class="card">You haven't posted anything yet!</p>
   {% endif %}
   {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.my_posts') }}
