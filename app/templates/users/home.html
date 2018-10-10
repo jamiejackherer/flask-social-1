@@ -56,7 +56,7 @@
       {{ form.csrf_token }}
     </form>
     {% if posts.pages > 1 %}
-      {{ render_pagination(posts, 'users.feed') }}
+      {{ render_pagination(posts, 'users.home') }}
     {% endif %}
     
     {% if posts.items %}
@@ -68,7 +68,7 @@
     {% endif %}
   
     {% if posts.pages > 1 %}
-      {{ render_pagination(posts, 'users.feed') }}
+      {{ render_pagination(posts, 'users.home') }}
     {% endif %}
   </div>
 </div><!--//END .grid-container-->
