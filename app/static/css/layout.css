@@ -20,7 +20,6 @@
  * - Errors (s:errors)
  * - Search (s:search)
  * - Notifications (s:notifications)
- * - My Posts (s:my-posts)
  */
 
 /* Fonts (s:fonts) */
@@ -900,12 +899,3 @@ input[type=submit]:active {
   }
 }
 /* // END Notifications (s:notifications) */
-
-/* My Posts (s:my-posts) */
-@media (min-width: 768px) {
-  .my-posts-container {
-    margin: 0 auto;
-    max-width: 700px;
-  }
-}
-/* //END My Posts (s:my-posts) */

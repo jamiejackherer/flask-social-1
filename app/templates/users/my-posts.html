@@ -2,21 +2,24 @@
 {% from "/_macros.html" import render_pagination %}
 
 {% block content %}
-<div class="my-posts-container">
-  <span class="back-to-previous"><a href="{{ url_for('users.home') }}">Back to home</a></span>
-  <h2 class="page-sub-title">My posts</h2>
-  {% if posts.pages > 1 %}
+<div class="grid-profile-container">
+  {% include "/users/_home-info.html" %}
+  <div class="profile-content-container">
+    <span class="back-to-previous"><a href="{{ url_for('users.home') }}">Back to home</a></span>
+    <h3 class="page-sub-title">My posts</h3>
+    {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.my_posts') }}
-  {% endif %}
-  {% if posts.items %}
-    {% for post in posts.items %}
-    {% include "/users/_post.html" %}
-    {% endfor %}
-  {% else %}
-  <p class="card">You haven't posted anything yet!</p>
-  {% endif %}
-  {% if posts.pages > 1 %}
+    {% endif %}
+    {% if posts.items %}
+      {% for post in posts.items %}
+      {% include "/users/_post.html" %}
+      {% endfor %}
+    {% else %}
+    <p class="card">You haven't posted anything yet!</p>
+    {% endif %}
+    {% if posts.pages > 1 %}
     {{ render_pagination(posts, 'users.my_posts') }}
-  {% endif %}
-</div><!--//END .my-posts-container-->
+    {% endif %}
+  </div><!--//END .profile-content-container-->
+</div><!--//END .grid-profile-container-->
 {% endblock %}

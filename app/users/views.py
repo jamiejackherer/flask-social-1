@@ -57,7 +57,9 @@ def my_posts():
     posts = current_user.my_posts.\
         order_by(Post.created.desc()).\
         paginate(page, current_user.posts_per_page, False)
-    return render_template('users/my-posts.html', posts=posts)
+    unfollowed_posts = current_user.unfollowed_posts.limit(8).all()
+    return render_template('users/my-posts.html', posts=posts,
+                           unfollowed_posts=unfollowed_posts)
 
 
 @users.route('/<username>', methods=['GET', 'POST'])

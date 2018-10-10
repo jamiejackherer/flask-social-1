@@ -3,7 +3,7 @@
   <div class="name-followers-container">
     <a class="name-avatar" href="{{ url_for('users.profile', username=user.username) }}">
       <img src="{{ user.avatar(60) }}">
-      <h2>{{ user.first_name }}<br>{{ user.last_name }}</h1>
+      <h2>{{ user.first_name }}<br>{{ user.last_name }}</h2>
     </a>
     <div class="followers-container followers-profile-container">
       <a href="{{ url_for('users.followers', username=user.username) }}">
