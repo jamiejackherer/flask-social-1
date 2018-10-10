@@ -32,7 +32,7 @@ def before_request():
         current_user.commit()
 
 
-@users.route('/feed', methods=['GET', 'POST'])
+@users.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
     form = PostForm()
@@ -43,7 +43,7 @@ def home():
         flash('Your post is now live!')
         return redirect(url_for('users.home'))
     page = request.args.get('page', 1, type=int)
-    posts = current_user.feed_posts.paginate(
+    posts = current_user.home_posts.paginate(
         page, current_user.posts_per_page, False)
     unfollowed_posts = current_user.unfollowed_posts.limit(8).all()
     return render_template('users/home.html', form=form, posts=posts,

@@ -200,8 +200,8 @@ class User(UserMixin, db.Model, BaseModel):
                 User.active == True) # noqa
 
     @property
-    def feed_posts(self):
-        """ Return posts for `User`'s feed.
+    def home_posts(self):
+        """ Return posts for `User`'s home feed.
 
         These are posts that `User` is following, and posts that `User` has
         posted on their own feed.
