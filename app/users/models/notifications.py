@@ -76,8 +76,8 @@ class Notification:
         if comment.post.author != comment.post.recipient and \
                 comment.author != comment.post.recipient:
             self._comment_notification(
-                'comment_like_wall', current_user.id, comment.post.recipient.id,
-                comment.post.id, comment.id)
+                'comment_like_wall', current_user.id,
+                comment.post.recipient.id, comment.post.id, comment.id)
 
     @classmethod
     def delete_comment_like_notification(self, current_user, comment):
