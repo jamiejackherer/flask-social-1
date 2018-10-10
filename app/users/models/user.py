@@ -10,7 +10,7 @@ from datetime import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import and_
-from sqlalchemy.orm import column_property, aliased
+from sqlalchemy.orm import column_property
 from flask import current_app
 from flask_login import UserMixin
 from app.extensions import db, login
@@ -274,68 +274,22 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def notifications(self):
-        """ Return user notifications.
-
-        :TODO: Fix this workaround.
-
-        When the model's columns are not defined explicitly, SQLAlchemy's
-        union_all does not return the correct amount of records. Therefore,
-        this sloppy workaround had to be used.
-        """
-        a_user = aliased(User)
-        pn = db.session.query(
-            PostNotification.id,
-            PostNotification.name,
-            PostNotification.read,
-            PostNotification.created,
-            PostNotification.post_id,
-            PostNotification.comment_id,
-            PostNotification.notifier_id,
-            PostNotification.notified_id).\
-            join(User, User.id == PostNotification.notified_id).\
-            join(a_user, a_user.id == PostNotification.notifier_id).\
-            filter(User.active == 1, a_user.active == 1,
-                   PostNotification.notified_id == self.id)
-        cn = db.session.query(
-            CommentNotification.id,
-            CommentNotification.name,
-            CommentNotification.read,
-            CommentNotification.created,
-            CommentNotification.post_id,
-            CommentNotification.comment_id,
-            CommentNotification.notifier_id,
-            CommentNotification.notified_id).\
-            join(User, User.id == CommentNotification.notified_id).\
-            join(a_user, a_user.id == CommentNotification.notifier_id).\
-            filter(User.active == 1, a_user.active == 1,
-                   CommentNotification.notified_id == self.id)
-        u = pn.union_all(cn).order_by(PostNotification.created.desc())
-        result = []
-        for row in u:
-            if 'post' in row.name.split('_') and \
-                    row.name != 'comment_like_post':
-                n = PostNotification.query.filter_by(id=row.id).first()
-                if n:
-                    result.append(n)
-            if 'comment' in row.name.split('_'):
-                n = CommentNotification.query.filter_by(id=row.id).first()
-                if n:
-                    result.append(n)
-        return result
+        """ Return user notifications. """
+        return AbstractNotification.query.\
+            join(User, User.id == AbstractNotification.notifier_id).filter(
+                User.active == True, # noqa
+                AbstractNotification.notified_id == self.id)
 
     def new_notifications(self):
         """ Return count of unseen notifications.
 
-        The count is reset when the user visits endpoint `notifications`.
-        See: :mod:app.users.views :func:notifications.
+        The count is reset when the user visits endpoint :func:`notifications`.
+        See: :mod:`app.users.views` :func:`notifications`.
         """
         last_read_time = (
             self.notification_last_read_time or datetime(1900, 1, 1))
-        count = 0
-        for n in self.notifications:
-            if n.created > last_read_time:
-                count += 1
-        return count
+        return self.notifications.filter(
+            AbstractNotification.created > last_read_time).count()
 
 
 @login.user_loader
@@ -350,6 +304,4 @@ def load_user(id):
 # Import other models here to avoid circular dependencies.
 from app.users.models.followers import followers # noqa
 from app.users.models.posts import Post, PostLike, PostCommentLike # noqa
-from app.users.models.notifications import ( # noqa
-    PostNotification, CommentNotification
-)
+from app.users.models.notifications import AbstractNotification # noqa

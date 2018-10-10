@@ -5,7 +5,7 @@
     Notifications model.
 """
 from sqlalchemy import or_
-from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.ext.declarative import declared_attr, AbstractConcreteBase
 from datetime import datetime
 from app.extensions import db
 
@@ -99,6 +99,10 @@ class Notification:
         CommentNotification.query.filter_by(post_id=post.id).delete()
 
 
+class AbstractNotification(AbstractConcreteBase, db.Model):
+    pass
+
+
 class NotificationBaseModel:
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
@@ -114,17 +118,27 @@ class NotificationBaseModel:
         return db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
-class PostNotification(db.Model, NotificationBaseModel):
+class PostNotification(AbstractNotification, NotificationBaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     comment_id = db.Column(db.Integer)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'post_notification',
+        'concrete': True
+        }
 
     def __repr__(self):
         return '<PostNotification {}>'.format(self.name)
 
 
-class CommentNotification(db.Model, NotificationBaseModel):
+class CommentNotification(AbstractNotification, NotificationBaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'comment_notification',
+        'concrete': True
+        }
 
     def __repr__(self):
         return '<CommentNotification {}>'.format(self.name)

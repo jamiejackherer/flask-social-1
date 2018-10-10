@@ -11,7 +11,7 @@ from app.extensions import db
 from app.users.models.user import User
 from app.users.models.posts import Post, PostComment
 from app.users.models.notifications import (
-    Notification, PostNotification, CommentNotification
+    Notification, PostNotification, CommentNotification, AbstractNotification
 )
 from testing.default_user_content import DefaultUserContent
 
@@ -34,4 +34,5 @@ def make_shell_context():
         'Notification': Notification,
         'PostNotification': PostNotification,
         'CommentNotification': CommentNotification,
+        'AbstractNotification': AbstractNotification,
     }

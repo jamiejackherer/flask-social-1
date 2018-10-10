@@ -11,7 +11,8 @@ from flask_login import login_required, current_user
 from app.users.models.user import User
 from app.users.models.posts import Post, PostLike, PostComment, PostCommentLike
 from app.users.models.notifications import (
-    Notification as N, PostNotification, CommentNotification
+    Notification as N, PostNotification, CommentNotification,
+    AbstractNotification
 )
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
@@ -293,7 +294,10 @@ def comment_action(comment_id, action):
 def notifications():
     current_user.notification_last_read_time = datetime.utcnow()
     current_user.commit()
-    notifications = current_user.notifications
+    page = request.args.get('page', 1, type=int)
+    notifications = current_user.notifications.order_by(
+        AbstractNotification.created.desc()).paginate(
+            page, current_user.posts_per_page, False)
     return render_template('users/notifications.html',
                            notifications=notifications)
 
