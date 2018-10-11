@@ -99,7 +99,7 @@ class Notification:
         CommentNotification.query.filter_by(post_id=post.id).delete()
 
 
-class AbstractNotification(AbstractConcreteBase, db.Model):
+class AbstractNotification(AbstractConcreteBase):
     pass
 
 
@@ -118,7 +118,7 @@ class NotificationBaseModel:
         return db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
-class PostNotification(AbstractNotification, NotificationBaseModel):
+class PostNotification(AbstractNotification, NotificationBaseModel, db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     comment_id = db.Column(db.Integer)
 
@@ -131,7 +131,8 @@ class PostNotification(AbstractNotification, NotificationBaseModel):
         return '<PostNotification {}>'.format(self.name)
 
 
-class CommentNotification(AbstractNotification, NotificationBaseModel):
+class CommentNotification(AbstractNotification, NotificationBaseModel,
+                          db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
 
