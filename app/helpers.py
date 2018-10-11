@@ -15,7 +15,7 @@ def register_user(User, email, first_name, last_name, password):
 
 def hash_list(hash_list, hash_type='md5'):
     """ Concat a list of text together to make a unique hash.
-       
+
         Example:
             hash_list(['one', 'two', 'three'], md5)
 
@@ -32,7 +32,7 @@ def hash_list(hash_list, hash_type='md5'):
 
 def truncate(text, max_length=150):
     """ Truncate `text` to `max_length`.
-        
+
         :param text: Text to truncate
         :param max_length: Max length of text
     """
@@ -58,7 +58,7 @@ def grammar_posession(text):
         Examples:
             - John becomes John's
             - Jess becomes Jess'
-    
+
         :param: Text to form a posessive
     """
     if text[-1:].lower() == 's':

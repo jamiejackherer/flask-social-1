@@ -5,6 +5,7 @@
     Application configurations.
 """
 import os
+import ast
 
 
 class BaseConfig:
@@ -20,7 +21,7 @@ class BaseConfig:
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    ADMINS = ['dlindegren']
+    ADMINS = ast.literal_eval(os.environ.get('ADMINS', ''))
 
 
 class DefaultConfig(BaseConfig):
