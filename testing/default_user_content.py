@@ -51,6 +51,7 @@ class DefaultUserContent:
             'it should be inactive.')
         post = Post(body=post_msg, author=self.daniel, recipient=self.daniel,
                     active=False)
+        db.session.add(post)
 
         post_msg = (
             'Hey guys, it\'s Jennifer. No one should see this, since I\'m '
