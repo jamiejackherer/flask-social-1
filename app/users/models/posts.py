@@ -23,7 +23,7 @@ class Post(db.Model, BaseModel):
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
-    
+
     @property
     def active_likes(self):
         """ Get active likes of post where:

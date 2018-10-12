@@ -193,11 +193,10 @@ class User(UserMixin, db.Model, BaseModel):
             join(followers,
                  and_(followers.c.followed_id == User.id,
                       followers.c.follower_id == self.id),
-                isouter=True).\
-            filter(
-                followers.c.follower_id == None,
-                User.id != self.id,
-                User.active == True) # noqa
+                 isouter=True).\
+            filter(followers.c.follower_id == None,
+                   User.id != self.id,
+                   User.active == True) # noqa
 
     @property
     def home_posts(self):
@@ -209,12 +208,10 @@ class User(UserMixin, db.Model, BaseModel):
         followed = Post.query.\
             join(User, User.id == Post.author_id).\
             join(followers, followers.c.followed_id == Post.author_id).\
-            filter(
-                followers.c.follower_id == self.id,
-                Post.author_id == Post.recipient_id,
-                Post.active == True, # noqa
-                User.active == True)
-
+            filter(followers.c.follower_id == self.id,
+                   Post.author_id == Post.recipient_id,
+                   Post.active == True, # noqa
+                   User.active == True)
         return followed.union(self.profile_posts).order_by(Post.created.desc())
 
     @property
@@ -226,13 +223,27 @@ class User(UserMixin, db.Model, BaseModel):
                  and_(followers.c.followed_id == User.id,
                       followers.c.follower_id == self.id),
                 isouter=True).\
-            filter(
-                followers.c.follower_id == None, # noqa
-                User.id != self.id,
-                Post.author_id == Post.recipient_id,
-                User.active == True, # noqa
-                Post.active == True).\
+            filter(followers.c.follower_id == None, # noqa
+                   User.id != self.id,
+                   Post.author_id == Post.recipient_id,
+                   User.active == True, # noqa
+                   Post.active == True).\
             order_by(Post.created.desc())
+
+    @property
+    def profile_posts(self):
+        """ Get posts where `User` is the recipient. """
+        return Post.query.join(User, User.id == Post.author_id).\
+            filter(Post.recipient_id == self.id,
+                   User.active == True, # noqa
+                   Post.active == True)
+
+    @property
+    def my_posts(self):
+        """ Get posts that `User` posted on their own feed. """
+        return Post.query.join(User, User.id == Post.recipient_id).filter(
+            Post.recipient_id == self.id, User.active == True, # noqa
+            Post.author_id == self.id, Post.active == True)
 
     @property
     def get_followers(self):
@@ -243,20 +254,6 @@ class User(UserMixin, db.Model, BaseModel):
     def get_followed(self):
         """ Return users `User` is following. """
         return self.followed.filter_by(active=True)
-
-    @property
-    def profile_posts(self):
-        """ Get posts where `User` is the recipient. """
-        return Post.query.join(User, User.id == Post.author_id).filter(
-            Post.recipient_id == self.id, User.active == True, # noqa
-            Post.active == True)
-
-    @property
-    def my_posts(self):
-        """ Get posts that `User` posted on their own feed. """
-        return Post.query.join(User, User.id == Post.recipient_id).filter(
-            Post.recipient_id == self.id, User.active == True, # noqa
-            Post.author_id == self.id, Post.active == True)
 
     def get_reset_password_token(self, expires=600):
         return jwt.encode({'reset_password': self.id, 'exp': time() + expires},
