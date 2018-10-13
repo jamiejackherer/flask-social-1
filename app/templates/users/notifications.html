@@ -13,12 +13,7 @@
   {% if notifications.items %}
   <ul class="notification-list">
   {% for n in notifications.items %}
-    {% if n.read %}
-      {% set read_status = 'read' %}
-    {% else %}
-      {% set read_status = 'unread' %}
-    {% endif %}
-    <li class="{{ read_status }}">
+    <li>
 
     {% if n.name == 'follow' %}
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
@@ -85,6 +80,7 @@
     {{ render_pagination(notifications, 'users.notifications') }}
   {% endif %}
 
+  {#
   <br><br><br><br>
 
   <table>
@@ -109,5 +105,6 @@
     </tr>
     {% endfor %}
   </table>
+  #}
 </div><!--//END .notification-container-->
 {% endblock %}

@@ -866,15 +866,7 @@ input[type=submit]:active {
 .notification-list > li {
   margin-bottom: 5px;
   padding: 10px;
-  position: relative;
-}
-
-.notification-list > .read {
   background-color: var(--light-gray);
-}
-
-.notification-list > .unread {
-  background-color: var(--dark-gray);
 }
 
 .new-notifications {
