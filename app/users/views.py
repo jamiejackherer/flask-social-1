@@ -159,11 +159,13 @@ def user_action(username, action):
     # Follow user.
     if action == 'follow':
         current_user.follow(user)
+        N.follow_notification(current_user, user)
         current_user.commit()
         flash('You are now following {}.'.format(user.full_name))
     # Unfollow user.
     if action == 'unfollow':
         current_user.unfollow(user)
+        N.delete_follow_notification(current_user, user)
         current_user.commit()
         flash('You are no longer following {}.'.format(user.full_name))
     return redirect(request.referrer)

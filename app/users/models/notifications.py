@@ -80,6 +80,18 @@ class Notification:
                 comment.post.recipient.id, comment.post.id, comment.id)
 
     @classmethod
+    def follow_notification(self, current_user, user):
+        n = FollowNotification(
+            name='follow', notifier_id=current_user.id, notified_id=user.id)
+        db.session.add(n)
+
+    @classmethod
+    def delete_follow_notification(self, current_user, user):
+        n = FollowNotification.query.filter_by(
+            notifier_id=current_user.id, notified_id=user.id)
+        n.delete()
+
+    @classmethod
     def delete_comment_like_notification(self, current_user, comment):
         n = CommentNotification.query.filter_by(
             comment_id=comment.id, notifier_id=current_user.id).filter(or_(
@@ -117,6 +129,9 @@ class NotificationBaseModel:
     def notified_id(cls):
         return db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def __repr__(self):
+        return '<PostNotification {}>'.format(self.name)
+
 
 class PostNotification(AbstractNotification, NotificationBaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
@@ -126,9 +141,6 @@ class PostNotification(AbstractNotification, NotificationBaseModel):
         'polymorphic_identity': 'post_notification',
         'concrete': True
         }
-
-    def __repr__(self):
-        return '<PostNotification {}>'.format(self.name)
 
 
 class CommentNotification(AbstractNotification, NotificationBaseModel):
@@ -140,5 +152,9 @@ class CommentNotification(AbstractNotification, NotificationBaseModel):
         'concrete': True
         }
 
-    def __repr__(self):
-        return '<CommentNotification {}>'.format(self.name)
+
+class FollowNotification(AbstractNotification, NotificationBaseModel):
+    __mapper_args__ = {
+        'polymorphic_identity': 'follow_notification',
+        'concrete': True
+        }

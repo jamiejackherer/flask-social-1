@@ -68,6 +68,10 @@ class User(UserMixin, db.Model, BaseModel):
         'CommentNotification',
         foreign_keys='CommentNotification.notifier_id',
         lazy='dynamic', backref='notifier')
+    follow_notification_notifier = db.relationship(
+        'FollowNotification',
+        foreign_keys='FollowNotification.notifier_id',
+        lazy='dynamic', backref='notifier')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(

@@ -20,7 +20,13 @@
     {% endif %}
     <li class="{{ read_status }}">
 
-    {% if n.name == 'comment' %}
+    {% if n.name == 'follow' %}
+      <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
+      started
+      <a href="{{ url_for('users.followers', username=current_user.username) }}">following</a>
+      you
+
+    {% elif n.name == 'comment' %}
       <a href="{{ url_for('users.profile', username=n.notifier.username) }}">{{ n.notifier.full_name }}</a>
       <a href="{{ url_for('users.comment', comment_id=n.comment.id, notification='comment') }}">commented</a>
       on your
@@ -79,7 +85,6 @@
     {{ render_pagination(notifications, 'users.notifications') }}
   {% endif %}
 
-  {#
   <br><br><br><br>
 
   <table>
@@ -104,6 +109,5 @@
     </tr>
     {% endfor %}
   </table>
-  #}
 </div><!--//END .notification-container-->
 {% endblock %}
