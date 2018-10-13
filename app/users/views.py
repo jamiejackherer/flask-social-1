@@ -369,7 +369,7 @@ def settings_password():
 def settings_delete_account():
     form = SettingsDeleteAccountForm()
     if form.validate_on_submit():
-        current_user.active = False
+        current_user.delete()
         current_user.commit()
         flash('Your account has been removed.')
         return redirect(url_for('users.home'))
