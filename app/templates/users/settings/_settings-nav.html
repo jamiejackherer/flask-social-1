@@ -22,6 +22,13 @@
       {% endif %}
     </li>
     <li>
+      {% if request.endpoint == 'users.settings_miscellaneous' %}
+      <span class="active-page">Miscellaneous</span>
+      {% else %}
+      <a href="{{ url_for('users.settings_miscellaneous') }}">Miscellaneous</a>
+      {% endif %}
+    </li>
+    <li>
       {% if request.endpoint == 'users.settings_delete_account' %}
       <span class="active-page">Delete Account</span>
       {% else %}

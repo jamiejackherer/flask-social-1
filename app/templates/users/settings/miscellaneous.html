@@ -1,0 +1,24 @@
+{% extends "/base.html" %}
+
+
+{% block content %}
+<div class="grid-settings-container">
+  {% include "/users/settings/_settings-nav.html" %}
+  <div class="settings-content-container">
+    <h3 class="page-sub-title">Miscellaneous settings</h3>
+    <form method="post" novalidate>
+      <div class="input-container">
+        {{ form.posts_per_page.label }}
+        {% if form.posts_per_page.errors %}
+        {{ form.posts_per_page(class="input-error") }}
+        <p>{{ form.posts_per_page.errors[0] }}</p>
+        {% else %}
+        {{ form.posts_per_page }}
+        {% endif %}
+      </div>
+      {{ form.submit }}
+      {{ form.hidden_tag() }}
+    </form>
+  </div><!--//END .settings-content-container-->
+</div><!--//END .settings-container-->
+{% endblock %}

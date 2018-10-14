@@ -16,7 +16,7 @@ from app.users.models.posts import (
 from app.users.models.notification import NotificationHelper
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
-    SearchForm, SettingsDeleteAccountForm
+    SearchForm, SettingsMiscellaneousForm, SettingsDeleteAccountForm
 )
 
 
@@ -246,6 +246,8 @@ def comment_edit():
     comment = PostComment.comment_by_id(comment_id).first_or_404()
     form = PostForm()
     if form.validate_on_submit():
+        # Check to make sure the comment was actually edited, and that the
+        # user is authorized to make edits on the comment.
         if (current_user == comment.author and
                 not form.body.data == comment.body):
             old_comment = comment.body
@@ -386,6 +388,21 @@ def settings_password():
         flash('Your password has been changed.')
         return redirect(url_for('users.settings_password'))
     return render_template('users/settings/password.html', form=form)
+
+
+@users.route('/settings/miscellaneous', methods=['GET', 'POST'])
+@login_required
+def settings_miscellaneous():
+    form = SettingsMiscellaneousForm()
+    if form.validate_on_submit():
+        current_user.posts_per_page = int(form.posts_per_page.data)
+        current_user.commit()
+        flash('Your settings have been updated.')
+        return redirect(url_for('users.settings_miscellaneous'))
+    elif request.method == 'GET':
+        form.posts_per_page.default = str(current_user.posts_per_page)
+        form.process()
+    return render_template('users/settings/miscellaneous.html', form=form)
 
 
 @users.route('/settings/delete-account', methods=['GET', 'POST'])

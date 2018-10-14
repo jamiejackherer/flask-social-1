@@ -2,7 +2,7 @@ import re
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField, SubmitField, TextAreaField, PasswordField
+    StringField, SubmitField, TextAreaField, PasswordField, SelectField
 )
 from wtforms.validators import (
     ValidationError, DataRequired, Email, Length, EqualTo
@@ -77,6 +77,20 @@ class SettingsPasswordForm(FlaskForm):
     def validate_current_password(self, current_password):
         if not current_user.check_password(current_password.data):
             raise ValidationError('Incorrect password.')
+
+
+class SettingsMiscellaneousForm(FlaskForm):
+    posts_per_page = SelectField(
+        'Items per page to display',
+        choices=[
+            ('5', '5'),
+            ('10', '10'), 
+            ('20', '20'), 
+            ('50', '50'), 
+            ('75', '75'), 
+            ('100', '100')
+        ])
+    submit = SubmitField('Update Miscellaneous')
 
 
 class SettingsDeleteAccountForm(FlaskForm):
