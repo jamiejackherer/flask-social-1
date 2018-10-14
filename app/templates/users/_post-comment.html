@@ -20,6 +20,9 @@
     {% if current_user == post.author %}
     <a href="{{ url_for('users.comment_edit', comment_id=post.id) }}">Edit</a>
     {% endif %}
+    {% if post.edits.count() %}
+    <a class="comment-edits" href="{{ url_for('users.comment_edit', comment_id=post.id) }}">edited</a>
+    {% endif %}
   </div><!--//END .comment-control-->
 </div><!--//END .post-comment-->
 
