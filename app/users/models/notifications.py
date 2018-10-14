@@ -4,157 +4,149 @@
 
     Notifications model.
 """
+import json
 from sqlalchemy import or_
-from sqlalchemy.ext.declarative import declared_attr, AbstractConcreteBase
 from datetime import datetime
 from app.extensions import db
 
 
-class Notification:
-    @classmethod
-    def _post_notification(self, name, notifier_id, notified_id, post_id):
-        if notifier_id != notified_id:
-            n = PostNotification(
-                name=name, notifier_id=notifier_id, notified_id=notified_id,
-                post_id=post_id)
-            db.session.add(n)
-
-    @classmethod
-    def post_notification(self, post):
-        self._post_notification(
-            'post', post.author_id, post.recipient_id,
-            post.id)
-
-    @classmethod
-    def post_like_notification(self, current_user, post):
-        self._post_notification(
-            'post_like', current_user.id, post.author.id,
-            post.id)
-        # If a user posts on their own wall, don't notify them twice
-        # when someone likes their post.
-        if post.author != post.recipient:
-            self._post_notification(
-                'post_like_wall', current_user.id, post.recipient.id,
-                post.id)
-
-    @classmethod
-    def delete_post_like_notification(self, current_user, post):
-        n = PostNotification.query.filter_by(
-            post_id=post.id, notifier_id=current_user.id).filter(or_(
-                PostNotification.name == 'post_like',
-                PostNotification.name == 'post_like_wall'))
-        n.delete()
-
-    @classmethod
-    def _comment_notification(self, name, notifier_id, notified_id, post_id,
-                              comment_id):
-        if notifier_id != notified_id:
-            n = CommentNotification(
-                name=name, notifier_id=notifier_id, notified_id=notified_id,
-                post_id=post_id, comment_id=comment_id)
-            db.session.add(n)
-
-    @classmethod
-    def comment_notification(self, current_user, comment):
-        self._comment_notification(
-            'comment', current_user.id, comment.post.author.id,
-            comment.post.id, comment.id)
-        if comment.post.author != comment.post.recipient:
-            self._comment_notification(
-                'comment_wall', current_user.id, comment.post.recipient.id,
-                comment.post.id, comment.id)
-
-    @classmethod
-    def comment_like_notification(self, current_user, comment):
-        self._comment_notification(
-            'comment_like', current_user.id, comment.author.id,
-            comment.post.id, comment.id)
-        if comment.author != comment.post.author:
-            self._comment_notification(
-                'comment_like_post', current_user.id, comment.post.author.id,
-                comment.post.id, comment.id)
-        if comment.post.author != comment.post.recipient and \
-                comment.author != comment.post.recipient:
-            self._comment_notification(
-                'comment_like_wall', current_user.id,
-                comment.post.recipient.id, comment.post.id, comment.id)
-
-    @classmethod
-    def follow_notification(self, current_user, user):
-        n = FollowNotification(
-            name='follow', notifier_id=current_user.id, notified_id=user.id)
-        db.session.add(n)
-
-    @classmethod
-    def delete_follow_notification(self, current_user, user):
-        n = FollowNotification.query.filter_by(
-            notifier_id=current_user.id, notified_id=user.id)
-        n.delete()
-
-    @classmethod
-    def delete_comment_like_notification(self, current_user, comment):
-        n = CommentNotification.query.filter_by(
-            comment_id=comment.id, notifier_id=current_user.id).filter(or_(
-                CommentNotification.name == 'comment_like',
-                CommentNotification.name == 'comment_like_post',
-                CommentNotification.name == 'comment_like_wall'))
-        n.delete()
-
-    @classmethod
-    def delete_comment_notification(self, comment):
-        n = CommentNotification.query.filter_by(comment_id=comment.id)
-        n.delete()
-
-    @classmethod
-    def delete_all_post_notifications(self, post):
-        PostNotification.query.filter_by(post_id=post.id).delete()
-        CommentNotification.query.filter_by(post_id=post.id).delete()
-
-
-class AbstractNotification(AbstractConcreteBase, db.Model):
-    __table__ = None
-
-
-class NotificationBaseModel:
+class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    read = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    payload_json = db.Column(db.Text)
     created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
-    @declared_attr
-    def notifier_id(cls):
-        return db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    @declared_attr
-    def notified_id(cls):
-        return db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return '<PostNotification {}>'.format(self.name)
+    def get_data(self):
+        return json.loads(str(self.payload_json))
 
 
-class PostNotification(AbstractNotification, NotificationBaseModel):
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    comment_id = db.Column(db.Integer)
+class NotificationHelper:
+    _payload = dict()
 
-    __mapper_args__ = {
-        'polymorphic_identity': 'post_notification',
-        'concrete': True
-        }
+    def __init__(self, notified=None, notifier=None, post=None, comment=None):
+        if notified:
+            self._payload['notified_id'] = notified.id
+        if notifier:
+            self._payload['notifier_id'] = notifier.id
+        if post:
+            self._payload.update({
+                'post_id': post.id,
+                'post': post
+            })
+        if comment:
+            self._payload.update({
+                'comment_id': comment.id,
+                'comment': comment
+            })
 
+    def follow(self):
+        self._payload['name'] = 'follow'
+        self.add()
 
-class CommentNotification(AbstractNotification, NotificationBaseModel):
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
+    def post(self):
+        self._payload['name'] = 'post'
+        del self._payload['post']
+        self.add()
 
-    __mapper_args__ = {
-        'polymorphic_identity': 'comment_notification',
-        'concrete': True
-        }
+    def post_like(self):
+        self._payload['name'] = 'post_like'
+        post = self._payload.get('post')
+        del self._payload['post']
+        self.add()
+        if post.author != post.recipient:
+            self._payload.update({
+                'name': 'post_like_wall',
+                'notified_id': post.recipient.id
+            })
+            self.add()
 
+    def comment(self):
+        self._payload['name'] = 'comment'
+        comment = self._payload.get('comment')
+        del self._payload['comment']
+        self.add()
+        if comment.post.author != comment.post.recipient:
+            self._payload.update({
+                'name': 'comment_wall',
+                'notified_id': comment.post.recipient.id
+            })
+            self.add()
 
-class FollowNotification(AbstractNotification, NotificationBaseModel):
-    __mapper_args__ = {
-        'polymorphic_identity': 'follow_notification',
-        'concrete': True
-        }
+    def comment_like(self):
+        self._payload['name'] = 'comment_like'
+        comment = self._payload.get('comment')
+        del self._payload['post']
+        del self._payload['comment']
+        self.add()
+        if comment.author != comment.post.author:
+            self._payload.update({
+                'name': 'comment_like_post',
+                'notified_id': comment.post.author.id
+            })
+            self.add()
+        if comment.post.author != comment.post.recipient and \
+                comment.author != comment.post.recipient:
+            self._payload.update({
+                'name': 'comment_like_wall',
+                'notified_id': comment.post.recipient.id
+            })
+            self.add()
+
+    def delete_follow(self):
+        s_name = '%"name": "follow"%'
+        notification = Notification.query.filter(
+            Notification.payload_json.like(s_name),
+            Notification.user_id == self._payload.get('notified_id'))
+        notification.delete(synchronize_session=False)
+
+    def delete_post(self):
+        s_post_id = '%"post_id": {}%'.format(self._payload.get('post_id'))
+        notifications = Notification.query.filter(
+            Notification.payload_json.like(s_post_id))
+        notifications.delete(synchronize_session=False)
+
+    def delete_post_like(self):
+        post_id = self._payload.get('post_id')
+        notifier_id = self._payload.get('notifier_id')
+        s_post_id = '%"post_id": {}%'.format(post_id)
+        s_notifier_id = '%"notifier_id": {}%'.format(notifier_id)
+        s_post_like = '%"name": "post_like"%'
+        s_post_like_wall = '%"name": "post_like_wall"%'
+        notifications = Notification.query.filter(
+            Notification.payload_json.like(s_post_id),
+            Notification.payload_json.like(s_notifier_id),
+            or_(Notification.payload_json.like(s_post_like),
+                Notification.payload_json.like(s_post_like_wall)))
+        notifications.delete(synchronize_session=False)
+
+    def delete_comment(self):
+        s_comment_id = '%"comment_id": {}%'.\
+            format(self._payload.get('comment_id'))
+        notifications = Notification.query.filter(
+            Notification.payload_json.like(s_comment_id))
+        notifications.delete(synchronize_session=False)
+
+    def delete_comment_like(self):
+        comment_id = self._payload.get('comment_id')
+        notifier_id = self._payload.get('notifier_id')
+        s_comment_id = '%"comment_id": {}%'.format(comment_id)
+        s_notifier_id = '%"notifier_id": {}%'.format(notifier_id)
+        s_comment_like = '%"name": "comment_like"%'
+        s_comment_like_post = '%"name": "comment_like_post"%'
+        s_comment_like_wall = '%"name": "comment_like_wall"%'
+        notifications = Notification.query.filter(
+            Notification.payload_json.like(s_comment_id),
+            Notification.payload_json.like(s_notifier_id),
+            or_(Notification.payload_json.like(s_comment_like),
+                Notification.payload_json.like(s_comment_like_post),
+                Notification.payload_json.like(s_comment_like_wall)))
+        notifications.delete(synchronize_session=False)
+
+    def add(self):
+        payload = self._payload
+        if payload.get('notifier_id') == payload.get('notified_id'):
+            return
+        user_id = payload.get('notified_id')
+        del payload['notified_id']
+        n = Notification(user_id=user_id, payload_json=json.dumps(payload))
+        db.session.add(n)

@@ -5,6 +5,12 @@
 from hashlib import sha256, md5
 
 
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
+
 def register_user(User, email, first_name, last_name, password):
     user = User(email=email, first_name=first_name, last_name=last_name)
     user.set_password(password)

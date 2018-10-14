@@ -15,7 +15,7 @@ from flask import current_app
 from flask_login import UserMixin
 from app.extensions import db, login
 from app.models import BaseModel
-from app.helpers import hash_list
+from app.helpers import hash_list, AttrDict
 # Import other models from bottom of file to avoid circular dependencies.
 
 
@@ -41,37 +41,24 @@ class User(UserMixin, db.Model, BaseModel):
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic')
     post_author = db.relationship(
-        'Post',
-        foreign_keys='Post.author_id',
-        backref='author', lazy='dynamic')
+        'Post', foreign_keys='Post.author_id', backref='author',
+        lazy='dynamic')
     post_recipient = db.relationship(
-        'Post',
-        foreign_keys='Post.recipient_id',
-        backref='recipient', lazy='dynamic')
+        'Post', foreign_keys='Post.recipient_id', backref='recipient',
+        lazy='dynamic')
     post_likes = db.relationship(
-        'PostLike',
-        foreign_keys='PostLike.user_id',
-        backref='user', lazy='dynamic')
+        'PostLike', foreign_keys='PostLike.user_id', backref='user',
+        lazy='dynamic')
     post_comments = db.relationship(
         'PostComment',
         foreign_keys='PostComment.author_id',
         backref='author', lazy='dynamic')
     post_comment_likes = db.relationship(
         'PostCommentLike',
-        foreign_keys='PostCommentLike.user_id',
-        backref='user', lazy='dynamic')
-    post_notification_notifier = db.relationship(
-        'PostNotification',
-        foreign_keys='PostNotification.notifier_id',
-        lazy='dynamic', backref='notifier')
-    comment_notification_notifier = db.relationship(
-        'CommentNotification',
-        foreign_keys='CommentNotification.notifier_id',
-        lazy='dynamic', backref='notifier')
-    follow_notification_notifier = db.relationship(
-        'FollowNotification',
-        foreign_keys='FollowNotification.notifier_id',
-        lazy='dynamic', backref='notifier')
+        foreign_keys='PostCommentLike.user_id', backref='user',
+        lazy='dynamic')
+    notification = db.relationship(
+        'Notification', order_by='desc(Notification.created)', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {} ({})>'.format(
@@ -273,24 +260,43 @@ class User(UserMixin, db.Model, BaseModel):
             return
         return User.query.get(id)
 
-    @property
-    def notifications(self):
-        """ Return user notifications. """
-        return AbstractNotification.query.\
-            join(User, User.id == AbstractNotification.notifier_id).filter(
-                User.active == True, # noqa
-                AbstractNotification.notified_id == self.id)
-
     def new_notifications(self):
-        """ Return count of unseen notifications.
-
-        The count is reset when the user visits endpoint :func:`notifications`.
-        See: :mod:`app.users.views` :func:`notifications`.
-        """
         last_read_time = (
             self.notification_last_read_time or datetime(1900, 1, 1))
-        return self.notifications.filter(
-            AbstractNotification.created > last_read_time).count()
+        return self.notification.filter(
+            Notification.created > last_read_time).count()
+
+    def get_notifications(self):
+        result = []
+        for n in self.notification:
+            attrdict = AttrDict()
+            # Set timestamp to ``attrdict``.
+            attrdict.created = n.created
+            # Loop through json payload and set attributes to ``attrdict``.
+            data = n.get_data()
+            for key, value in data.items():
+                setattr(attrdict, key, value)
+
+            if hasattr(attrdict, 'notifier_id'):
+                notifier = User.query.filter_by(
+                    id=attrdict.notifier_id).first()
+                setattr(attrdict, 'notifier', notifier)
+
+            needs_post = ['post_like', 'post_like_wall']
+            if attrdict.name in needs_post:
+                attrdict.post = Post.query.\
+                    filter_by(id=attrdict.post_id).first()
+
+            needs_comment = [
+                'comment', 'comment_wall', 'comment_like',
+                'comment_like_post', 'comment_like_wall'
+            ]
+            if attrdict.name in needs_comment:
+                attrdict.comment = PostComment.query.\
+                    filter_by(id=attrdict.comment_id).first()
+
+            result.append(attrdict)
+        return result
 
 
 @login.user_loader
@@ -304,5 +310,7 @@ def load_user(id):
 
 # Import other models here to avoid circular dependencies.
 from app.users.models.followers import followers # noqa
-from app.users.models.posts import Post, PostLike, PostCommentLike # noqa
-from app.users.models.notifications import AbstractNotification # noqa
+from app.users.models.posts import ( # noqa
+    Post, PostLike, PostComment, PostCommentLike
+)
+from app.users.models.notifications import Notification # noqa

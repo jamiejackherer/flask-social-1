@@ -10,9 +10,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.users.models.user import User
 from app.users.models.posts import Post, PostLike, PostComment, PostCommentLike
-from app.users.models.notifications import (
-    Notification as N, AbstractNotification
-)
+from app.users.models.notifications import NotificationHelper
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm, SettingsDeleteAccountForm
@@ -76,7 +74,8 @@ def profile(username):
         post = Post(body=form.body.data, author=current_user,
                     recipient=user)
         post = post.commit()
-        N.post_notification(post)
+        NotificationHelper(notified=user, notifier=current_user,
+                           post=post).post()
         post.commit()
         flash('Your post is now live!')
         return redirect(url_for('users.profile', username=username))
@@ -158,13 +157,13 @@ def user_action(username, action):
     # Follow user.
     if action == 'follow':
         current_user.follow(user)
-        N.follow_notification(current_user, user)
+        NotificationHelper(notified=user, notifier=current_user).follow()
         current_user.commit()
         flash('You are now following {}.'.format(user.full_name))
     # Unfollow user.
     if action == 'unfollow':
         current_user.unfollow(user)
-        N.delete_follow_notification(current_user, user)
+        NotificationHelper(notified=user).delete_follow()
         current_user.commit()
         flash('You are no longer following {}.'.format(user.full_name))
     return redirect(request.referrer)
@@ -191,7 +190,8 @@ def post():
         post_comment = PostComment(body=form.body.data, author=current_user,
                                    post_id=post_id)
         comment = post_comment.commit()
-        N.comment_notification(current_user, comment)
+        NotificationHelper(notified=comment.post.author,
+                           notifier=current_user, comment=comment).comment()
         comment.commit()
         flash('Your post is now live!')
         return redirect(url_for('users.post', post_id=post_id))
@@ -204,7 +204,6 @@ def post():
 def comment():
     comment_id = request.args.get('comment_id')
     posts = PostComment.comment_by_id(comment_id).first_or_404()
-
     page = request.args.get('page', 1, type=int)
     likes = posts.active_likes.order_by(
         PostCommentLike.created.desc()).paginate(
@@ -226,18 +225,21 @@ def post_action(post_id, action):
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
             post.delete()
-            N.delete_all_post_notifications(post)
+            NotificationHelper(post=post).delete_post()
             post.commit()
             flash('Post was deleted.')
     # Like post.
     if action == 'like':
         current_user.like_post(post)
-        N.post_like_notification(current_user, post)
+        NotificationHelper(notified=post.author, notifier=current_user,
+                           post=post).post_like()
         current_user.commit()
     # Unlike post.
     if action == 'unlike':
         current_user.unlike_post(post)
-        N.delete_post_like_notification(current_user, post)
+        NotificationHelper(
+            notifier=current_user,
+            post=post).delete_post_like()
         current_user.commit()
     return redirect(request.referrer)
 
@@ -255,18 +257,22 @@ def comment_action(comment_id, action):
     if action == 'delete-comment':
         if current_user == comment.author:
             comment.delete()
-            N.delete_comment_notification(comment)
+            NotificationHelper(comment=comment).delete_comment()
             comment.commit()
             flash('Comment was deleted.')
     # Like comment.
     if action == 'like-comment':
         current_user.like_comment(comment)
-        N.comment_like_notification(current_user, comment)
+        NotificationHelper(notified=comment.author, notifier=current_user,
+                           comment=comment, post=comment.post).comment_like()
         current_user.commit()
     # Unlike comment.
     if action == 'unlike-comment':
         current_user.unlike_comment(comment)
-        N.delete_comment_like_notification(current_user, comment)
+
+        NotificationHelper(notifier=current_user,
+                           comment=comment).delete_comment_like()
+
         current_user.commit()
     return redirect(request.referrer)
 
@@ -276,10 +282,7 @@ def comment_action(comment_id, action):
 def notifications():
     current_user.notification_last_read_time = datetime.utcnow()
     current_user.commit()
-    page = request.args.get('page', 1, type=int)
-    notifications = current_user.notifications.order_by(
-        AbstractNotification.created.desc()).paginate(
-            page, current_user.posts_per_page, False)
+    notifications = current_user.get_notifications()
     return render_template('users/notifications.html',
                            notifications=notifications)
 

@@ -17,9 +17,6 @@ class Post(db.Model, BaseModel):
 
     likes = db.relationship('PostLike', backref='post', lazy='dynamic')
     comments = db.relationship('PostComment', backref='post', lazy='dynamic')
-    post_notification = db.relationship(
-        'PostNotification', foreign_keys='PostNotification.post_id',
-        lazy='dynamic', backref='post')
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -79,9 +76,6 @@ class PostComment(db.Model, BaseModel):
 
     likes = db.relationship('PostCommentLike', backref='post_comment',
                             lazy='dynamic')
-    comment_notification = db.relationship(
-        'CommentNotification', foreign_keys='CommentNotification.comment_id',
-        lazy='dynamic', backref='comment')
 
     @property
     def active_likes(self):
