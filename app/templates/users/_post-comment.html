@@ -17,6 +17,9 @@
     {% if current_user == post.author %}
     <a href="{{ url_for('users.comment_action', comment_id=post.id, action='delete-comment') }}">Delete</a>
     {% endif %}
+    {% if current_user == post.author %}
+    <a href="{{ url_for('users.comment_edit', comment_id=post.id) }}">Edit</a>
+    {% endif %}
   </div><!--//END .comment-control-->
 </div><!--//END .post-comment-->
 

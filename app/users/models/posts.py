@@ -32,9 +32,9 @@ class Post(db.Model, BaseModel):
         """
         return self.likes.\
             join(Post, Post.id == PostLike.post_id).\
-            join(User, User.id == PostLike.user_id).filter(
-                Post.active == True, # noqa
-                User.active == True)
+            join(User, User.id == PostLike.user_id).\
+            filter(Post.active == True,
+                   User.active == True) # noqa
 
     @property
     def active_comments(self):
@@ -45,9 +45,9 @@ class Post(db.Model, BaseModel):
         """
         return self.comments.\
             join(Post, Post.id == PostComment.post_id).\
-            join(User, User.id == PostComment.author_id).filter(
-                Post.active == True, PostComment.active == True,
-                User.active == True) # noqa
+            join(User, User.id == PostComment.author_id).\
+            filter(Post.active == True, PostComment.active == True,
+                   User.active == True) # noqa
 
     @classmethod
     def post_by_id(self, post_id):
@@ -58,10 +58,10 @@ class Post(db.Model, BaseModel):
             :param post_id: ID of post to return
         """
         return self.query.\
-            join(User, User.id == Post.author_id).filter(
-                Post.active == True, # noqa
-                User.active == True,
-                Post.id == post_id)
+            join(User, User.id == Post.author_id).\
+            filter(Post.active == True, # noqa
+                   User.active == True,
+                   Post.id == post_id)
 
 
 class PostLike(db.Model):
@@ -79,14 +79,17 @@ class PostComment(db.Model, BaseModel):
 
     likes = db.relationship('PostCommentLike', backref='post_comment',
                             lazy='dynamic')
+    edits = db.relationship(
+        'PostCommentEdit', backref='post_comment', lazy='dynamic',
+        order_by='asc(PostCommentEdit.created)')
 
     @property
     def active_likes(self):
         return self.likes.\
             join(PostComment, PostComment.id == PostCommentLike.comment_id).\
-            join(User, User.id == PostCommentLike.user_id).filter(
-                PostComment.active == True, # noqa
-                User.active == True)
+            join(User, User.id == PostCommentLike.user_id).\
+            filter(PostComment.active == True,
+                   User.active == True) # noqa
 
     @classmethod
     def comment_by_id(self, comment_id):
@@ -97,10 +100,10 @@ class PostComment(db.Model, BaseModel):
             :param comment_id: ID of comment to return
         """
         return self.query.\
-            join(User, User.id == PostComment.author_id).filter(
-                PostComment.active == True, # noqa
-                User.active == True,
-                PostComment.id == comment_id)
+            join(User, User.id == PostComment.author_id).\
+            filter(PostComment.active == True,
+                   User.active == True,
+                   PostComment.id == comment_id) # noqa
 
     def __repr__(self):
         return '<PostComment {}>'.format(self.body)
@@ -120,6 +123,15 @@ class PostEdit(db.Model):
     body = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class PostCommentEdit(db.Model):
+    __tablename__ = 'post_comment_edit'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
     created = db.Column(db.DateTime, default=datetime.utcnow)
 
 

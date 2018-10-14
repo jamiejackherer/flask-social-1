@@ -11,7 +11,7 @@ from flask_login import login_required, current_user
 from app.extensions import db
 from app.users.models.user import User
 from app.users.models.posts import (
-    Post, PostLike, PostComment, PostCommentLike, PostEdit
+    Post, PostLike, PostComment, PostCommentLike, PostEdit, PostCommentEdit
 )
 from app.users.models.notification import NotificationHelper
 from app.users.forms import (
@@ -219,7 +219,7 @@ def post_edit():
             post.created = datetime.utcnow()
             db.session.add(post_edit)
             post.commit()
-            flash('Your post has been edited.')
+            flash('Your post has been updated.')
             return redirect(url_for('users.post_edit', post_id=post_id))
     elif request.method == 'GET':
         form.body.data = post.body
@@ -237,6 +237,32 @@ def comment():
             page, current_user.posts_per_page, False)
     return render_template('users/comment.html', posts=posts,
                            likes=likes)
+
+
+@users.route('/posts/comment-edit', methods=['GET', 'POST'])
+@login_required
+def comment_edit():
+    comment_id = request.args.get('comment_id')
+    comment = PostComment.comment_by_id(comment_id).first_or_404()
+    form = PostForm()
+    if form.validate_on_submit():
+        if (current_user == comment.author and
+                not form.body.data == comment.body):
+            old_comment = comment.body
+            comment.body = form.body.data
+            comment_edit = PostCommentEdit(
+                body=old_comment, user_id=current_user.id,
+                comment_id=comment.id, created=comment.created)
+            comment.created = datetime.utcnow()
+            db.session.add(comment_edit)
+            comment.commit()
+            flash('Your comment has been updated.')
+            return redirect(url_for('users.comment_edit',
+                                    comment_id=comment_id))
+    elif request.method == 'GET':
+        form.body.data = comment.body
+    return render_template('users/comment-edit.html', post=comment,
+                           form=form)
 
 
 @users.route('/post-action/<int:post_id>/<action>')
