@@ -313,4 +313,4 @@ from app.users.models.followers import followers # noqa
 from app.users.models.posts import ( # noqa
     Post, PostLike, PostComment, PostCommentLike
 )
-from app.users.models.notifications import Notification # noqa
+from app.users.models.notification import Notification # noqa

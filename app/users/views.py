@@ -10,7 +10,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.users.models.user import User
 from app.users.models.posts import Post, PostLike, PostComment, PostCommentLike
-from app.users.models.notifications import NotificationHelper
+from app.users.models.notification import NotificationHelper
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
     SearchForm, SettingsDeleteAccountForm

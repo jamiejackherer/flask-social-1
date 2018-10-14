@@ -10,7 +10,7 @@ from app.app_factory import create_app
 from app.extensions import db
 from app.users.models.user import User
 from app.users.models.posts import Post, PostComment
-from app.users.models.notifications import Notification
+from app.users.models.notification import Notification
 from testing.default_user_content import DefaultUserContent
 
 
