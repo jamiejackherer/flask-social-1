@@ -1,0 +1,31 @@
+{% extends "/base.html" %}
+
+
+{% block content %}
+<h2 class="page-sub-title">Post Edit</h2>
+    {% if current_user == post.author %}
+    <form class="post-form" method="post" novalidate>
+      <div class="input-container">
+        {% if form.body.errors %}
+        {{ form.body.value('testing') }}
+        <p>{{ form.body.errors[0] }}</p>
+        {% else %}
+        {{ form.body }}
+        {% endif %}
+      </div>
+      {{ form.submit(value='Apply Edit') }}
+      {{ form.hidden_tag() }}
+    </form>
+    {% endif %}
+
+    {% if post.edits.count() %}
+    <ul>
+      {% for edit in post.edits %}
+      <li>
+        <p>{{ edit.body }}</p>
+        <p>{{ edit.created }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

@@ -19,6 +19,12 @@
     {% endif %}
     <a class="like-count" href="{{ url_for('users.post', post_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
     <a href="{{ url_for('users.post', post_id=post.id) }}">{{ post.active_comments.count() }} comments</a>
+    {% if current_user == post.author %}
+    <a href="{{ url_for('users.post_edit', post_id=post.id) }}">Edit</a>
+    {% endif %}
+    {% if post.edits.count() %}
+    <a class="post-edits" href="{{ url_for('users.post_edit', post_id=post.id) }}">edited</a>
+    {% endif %}
   </div><!--//END .post-control-container-->
 </div><!--//END .post-->
 

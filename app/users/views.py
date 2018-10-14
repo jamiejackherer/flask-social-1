@@ -8,8 +8,11 @@ from datetime import datetime
 from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
+from app.extensions import db
 from app.users.models.user import User
-from app.users.models.posts import Post, PostLike, PostComment, PostCommentLike
+from app.users.models.posts import (
+    Post, PostLike, PostComment, PostCommentLike, PostEdit
+)
 from app.users.models.notification import NotificationHelper
 from app.users.forms import (
     PostForm, SettingsAccountForm, SettingsProfileForm, SettingsPasswordForm,
@@ -197,6 +200,30 @@ def post():
         return redirect(url_for('users.post', post_id=post_id))
     return render_template('users/post.html', posts=posts, form=form,
                            comments=comments, likes=likes)
+
+
+@users.route('/posts/post-edit', methods=['GET', 'POST'])
+@login_required
+def post_edit():
+    post_id = request.args.get('post_id')
+    post = Post.post_by_id(post_id).first_or_404()
+    form = PostForm()
+    if form.validate_on_submit():
+        # Check to make sure the post was actually edited, and that the
+        # user is authorized to make edits on the post.
+        if current_user == post.author and not form.body.data == post.body:
+            old_post = post.body
+            post.body = form.body.data
+            post_edit = PostEdit(body=old_post, user_id=current_user.id,
+                                 post_id=post.id, created=post.created)
+            post.created = datetime.utcnow()
+            db.session.add(post_edit)
+            post.commit()
+            flash('Your post has been edited.')
+            return redirect(url_for('users.post_edit', post_id=post_id))
+    elif request.method == 'GET':
+        form.body.data = post.body
+    return render_template('users/post-edit.html', post=post, form=form)
 
 
 @users.route('/posts/comment')

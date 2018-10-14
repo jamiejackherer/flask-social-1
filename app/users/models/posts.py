@@ -17,6 +17,9 @@ class Post(db.Model, BaseModel):
 
     likes = db.relationship('PostLike', backref='post', lazy='dynamic')
     comments = db.relationship('PostComment', backref='post', lazy='dynamic')
+    edits = db.relationship(
+        'PostEdit', backref='post', lazy='dynamic',
+        order_by='asc(PostEdit.created)')
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -59,6 +62,9 @@ class Post(db.Model, BaseModel):
                 Post.active == True, # noqa
                 User.active == True,
                 Post.id == post_id)
+
+    def has_edits(self):
+        return self.edits.count() > 0
 
 
 class PostLike(db.Model):
@@ -109,6 +115,15 @@ class PostCommentLike(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('post_comment.id'))
     created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+
+class PostEdit(db.Model):
+    __tablename__ = 'post_edit'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    created = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 from app.users.models.user import User # noqa
