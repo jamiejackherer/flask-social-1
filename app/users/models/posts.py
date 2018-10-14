@@ -63,9 +63,6 @@ class Post(db.Model, BaseModel):
                 User.active == True,
                 Post.id == post_id)
 
-    def has_edits(self):
-        return self.edits.count() > 0
-
 
 class PostLike(db.Model):
     __tablename__ = 'post_like'
