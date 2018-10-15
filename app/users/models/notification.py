@@ -142,6 +142,13 @@ class NotificationHelper:
                 Notification.payload_json.like(s_comment_like_wall)))
         notifications.delete(synchronize_session=False)
 
+    def delete_by_user(self):
+        notifier_id = self._payload.get('notifier_id')
+        s_notifier_id = '%"notifier_id": {}%'.format(notifier_id)
+        notifications = Notification.query.filter(
+            Notification.payload_json.like(s_notifier_id))
+        notifications.delete(synchronize_session=False)
+
     def add(self):
         payload = self._payload
         if payload.get('notifier_id') == payload.get('notified_id'):

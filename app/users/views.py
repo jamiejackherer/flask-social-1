@@ -411,6 +411,7 @@ def settings_delete_account():
     form = SettingsDeleteAccountForm()
     if form.validate_on_submit():
         current_user.delete()
+        NotificationHelper(notifier=current_user).delete_by_user()
         current_user.commit()
         flash('Your account has been removed.')
         return redirect(url_for('users.home'))
