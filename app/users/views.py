@@ -275,10 +275,12 @@ def post_action(post_id, action):
     :param post_id: ID of the post to take action upon
     :param action: Action to take on post
     """
+    referrer = request.referrer
     post = Post.query.filter_by(id=post_id).first_or_404()
     # Delete post.
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
+            referrer = url_for('users.home', username=current_user.username)
             post.delete()
             NotificationHelper(post=post).delete_post()
             post.commit()
@@ -296,7 +298,7 @@ def post_action(post_id, action):
             notifier=current_user,
             post=post).delete_post_like()
         current_user.commit()
-    return redirect(request.referrer)
+    return redirect(referrer)
 
 
 @users.route('/comment-action/<int:comment_id>/<action>')
@@ -307,10 +309,12 @@ def comment_action(comment_id, action):
     :param comment_id: ID of the comment to take action upon
     :param action: Action to take on comment
     """
+    referrer = request.referrer
     comment = PostComment.query.filter_by(id=comment_id).first_or_404()
     # Delete comment.
     if action == 'delete-comment':
         if current_user == comment.author:
+            referrer = url_for('users.post', post_id=comment.post.id)
             comment.delete()
             NotificationHelper(comment=comment).delete_comment()
             comment.commit()
@@ -329,7 +333,7 @@ def comment_action(comment_id, action):
                            comment=comment).delete_comment_like()
 
         current_user.commit()
-    return redirect(request.referrer)
+    return redirect(referrer)
 
 
 @users.route('/notifications')
