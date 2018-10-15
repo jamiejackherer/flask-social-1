@@ -22,6 +22,8 @@ class Notification(db.Model):
 
 class NotificationHelper:
     _payload = dict()
+    _post = None
+    _comment = None
 
     def __init__(self, notified=None, notifier=None, post=None, comment=None):
         if notified:
@@ -29,15 +31,11 @@ class NotificationHelper:
         if notifier:
             self._payload['notifier_id'] = notifier.id
         if post:
-            self._payload.update({
-                'post_id': post.id,
-                'post': post
-            })
+            self._payload['post_id'] = post.id
+            self._post = post
         if comment:
-            self._payload.update({
-                'comment_id': comment.id,
-                'comment': comment
-            })
+            self._payload['comment_id'] = comment.id
+            self._comment = comment
 
     def follow(self):
         self._payload['name'] = 'follow'
@@ -45,13 +43,11 @@ class NotificationHelper:
 
     def post(self):
         self._payload['name'] = 'post'
-        del self._payload['post']
         self.add()
 
     def post_like(self):
         self._payload['name'] = 'post_like'
-        post = self._payload.get('post')
-        del self._payload['post']
+        post = self._post
         self.add()
         if post.author != post.recipient:
             self._payload.update({
@@ -62,8 +58,7 @@ class NotificationHelper:
 
     def comment(self):
         self._payload['name'] = 'comment'
-        comment = self._payload.get('comment')
-        del self._payload['comment']
+        comment = self._comment
         self.add()
         if comment.post.author != comment.post.recipient:
             self._payload.update({
@@ -74,9 +69,7 @@ class NotificationHelper:
 
     def comment_like(self):
         self._payload['name'] = 'comment_like'
-        comment = self._payload.get('comment')
-        del self._payload['post']
-        del self._payload['comment']
+        comment = self._comment
         self.add()
         if comment.author != comment.post.author:
             self._payload.update({
