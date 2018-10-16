@@ -2,8 +2,13 @@
 {% from "/_macros.html" import render_pagination %}
 {% block page_title %}{{ APP_NAME }}{% endblock %}
 
-
 {% block content %}
+<div class="responsive-container">
+  Testing
+</div>
+
+
+{#
 <div class="grid-profile-container">
   {% include "/users/_profile-info.html" %} 
   <div class="profile-content-container">
@@ -34,4 +39,5 @@
     {% endif %}
   </div><!--//END .profile-content-container-->
 </div><!--//END .grid-container-->
+#}
 {% endblock %}
