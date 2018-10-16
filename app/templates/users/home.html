@@ -1,11 +1,36 @@
 {% extends "base.html" %}
-{% from "/_macros.html" import render_pagination %}
+{% from "_macros.html" import render_pagination %}
 {% block page_title %}{{ APP_NAME }}{% endblock %}
 
 {% block content %}
-<div class="responsive-container">
-  Testing
-</div>
+<div class="profile-and-home grid responsive-container">
+  <div class="grid-profile-info main-container">
+    {% include "users/_profile-info.html" %}
+  </div><!--//END .grid-profile-info .main-container-->
+  <div class="grid-recent-posts main-container">
+    {% include "users/_recent-posts.html" %}
+  </div><!--//END .grid-recent-posts .main-container-->
+  <div class="grid-main">
+    {% include "users/_post-form.html" %}
+    {% if posts.items %}
+    <ul class="post-list">
+      {% for post in posts.items %}
+      {% include "users/_post.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">
+      No posts to show. Post something, or start 
+      <a href="{{ url_for('users.search') }}">following</a>
+      some people.
+    </p><!--//END .card-->
+    {% endif %}
+  </div><!--//END .grid-main-->
+  <div class="grid-who-to-follow main-container">
+    {% include "users/_who-to-follow.html" %}
+  </div><!--//END .grid-who-to-follow .main-container-->
+</div><!--//END .profile-and-home .grid .responsive-container-->
+{% endblock %}
 
 
 {#
@@ -40,4 +65,3 @@
   </div><!--//END .profile-content-container-->
 </div><!--//END .grid-container-->
 #}
-{% endblock %}

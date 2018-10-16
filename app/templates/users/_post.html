@@ -1,4 +1,47 @@
 
+  <li>
+    <a class="profile-picture" href="{{ url_for('users.profile', username=post.author.username) }}">
+      <img src="{{ post.author.avatar(45) }}">
+    </a>
+    <div class="post-controls">
+      <div class="post-likes">
+        {% if current_user.has_liked_post(post) %}
+        <a href="{{ url_for('users.post_action', post_id=post.id, action='unlike') }}"><i class="fa fa-heart"></i></a>
+        {% else %}
+        <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}"><i class="far fa-heart"></i></a>
+        {% endif %}
+        <a class="post-like-count" href="{{ url_for('users.post', post_id=post.id) }}">
+          {{ post.active_likes.count() }}
+        </a>
+      </div><!--//END .post-likes-->
+      <a href="{{ url_for('users.post', post_id=post.id) }}">
+        <i class="far fa-comment"></i>
+        <span class="post-comment-count">{{ post.active_comments.count() }}</span>
+      </a>
+      {% if current_user == post.author %}
+      <a href="{{ url_for('users.post_edit', post_id=post.id) }}"><i class="far fa-edit"></i></a>
+      {% endif %}
+      {% if current_user == post.author or post.recipient_id == current_user.id %}
+      <a class="delete-post" href="{{ url_for('users.post_action', post_id=post.id, action='delete') }}">
+        <i class="fa fa-trash-alt"></i>
+      </a>
+      {% endif %}
+    </div><!--//END .post-controls-->
+    {% if post.edits.count() %}
+    <a class="post-edits" href="{{ url_for('users.post_edit', post_id=post.id) }}">edited</a>
+    {% endif %}
+    <div class="main-container">
+      <div class="post-header">
+        <a href="{{ url_for('users.profile', username=post.author.username) }}">
+          {{ post.author.full_name }}
+        </a>
+        {{ moment(post.created).fromNow() }}
+      </div><!--//END .post-header-->
+      <p>{{ post.body }}</p>
+    </div><!--//END .main-container-->
+  </li>
+
+{#
 <div class="post">
   <div class="post-header">
     <img src="{{ post.author.avatar(40) }}">
@@ -27,4 +70,4 @@
     {% endif %}
   </div><!--//END .post-control-container-->
 </div><!--//END .post-->
-
+#}

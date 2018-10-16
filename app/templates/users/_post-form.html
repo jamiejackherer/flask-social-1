@@ -1,0 +1,19 @@
+{% if request.endpoint == 'users.home' %}
+  {% set placeholder = 'What\'s on your mind?' %}
+{% elif request.endpoint == 'users.profile' %}
+  {% set placeholder = 'Write on {}\'s wall!'.format(user.first_name) %}
+{% endif %}
+
+<form class="post-form" method="post" novalidate>
+  <div class="input-container">
+    {% if form.body.errors %}
+    {{ form.body(class="input-error", placeholder=placeholder) }}
+    <p>{{ form.body.errors[0] }}</p>
+    {% else %}
+    {{ form.body(placeholder=placeholder) }}
+    {% endif %}
+  </div>
+  {{ form.submit(class='btn btn-gradient-gray', value='Submit Post') }}
+  {{ form.csrf_token }}
+</form><!--//END .post-form-->
+

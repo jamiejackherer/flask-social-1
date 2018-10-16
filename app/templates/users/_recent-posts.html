@@ -1,0 +1,19 @@
+<div class="header-group">
+  <i class="fa fa-info-circle"></i>
+  <h3>Recent posts you may be interested in</h3>
+</div>
+{% if unfollowed_posts %}
+<ul class="recent-posts">
+  {% for post in unfollowed_posts %}
+  <li>
+    <a class="recent-posts-header" href="#">
+      <img src="{{ post.author.avatar(30) }}">
+      <span>{{ post.author.full_name }}</span>
+    </a>
+    <p>{{ post.body|truncate }}</p>
+  </li>
+  {% endfor %}
+</ul><!--//END .recent-posts-->
+{% else %}
+<p>No unfollowed recent posts to show. You are following everyone!</p>
+{% endif %}

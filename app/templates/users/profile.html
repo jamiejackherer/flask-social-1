@@ -1,8 +1,41 @@
-{% extends "/base.html" %}
-{% from "/_macros.html" import render_pagination %}
+{% extends "base.html" %}
+{% from "_macros.html" import render_pagination %}
 {% block page_title %}{{ current_user.full_name }} | {{ APP_NAME }}{% endblock %}
 
+{% block content %}
+<div class="profile-and-home grid responsive-container">
+  <div class="grid-profile-info main-container">
+    {% include "users/_profile-info.html" %}
+  </div><!--//END .grid-profile-info .main-container-->
+  <div class="grid-extra-profile-info">
+    {% include "users/_extra-profile-info.html" %}
+  </div><!--//END .grid-extra-profile-info-->
+  <div class="grid-main">
+    {% include "users/_post-form.html" %}
+    {% if posts.items %}
+    <ul class="post-list">
+      {% for post in posts.items %}
+      {% include "users/_post.html" %}
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="card">
+      {% if current_user == user %}
+      You do not have any posts to show.
+      {% else %}
+      {{ user.first_name }} doesn't have any posts to show.
+      {% endif %}
+    </p><!--//END .card-->
+    {% endif %}
+  </div><!--//END .grid-main-->
+  <div class="grid-who-to-follow main-container">
+    {% include "users/_who-to-follow.html" %}
+  </div><!--//END .grid-who-to-folow .main-container-->
+</div><!--//END .profile-and-home .grid .responsive-container-->
+{% endblock %}
 
+
+{#
 {% block content %}
 <div class="grid-profile-container">
   {% include "/users/_profile-info.html" %}
@@ -43,3 +76,4 @@
   </div><!--//END .profile-content-container-->
 </div><!--//END .grid-profile-container-->
 {% endblock %}
+#}

@@ -1,0 +1,23 @@
+
+{% if current_user != user %}
+  {% if current_user.is_following(user) %}
+  <a class="profile-follow-btn btn btn-gradient-green" href="{{ url_for('users.user_action', username=user.username, action='unfollow') }}">
+    <i class="fa fa-user-minus"></i> Unfollow
+  </a>
+  {% else %}
+  <a class="profile-follow-btn btn btn-gradient-gray" href="{{ url_for('users.user_action', username=user.username, action='follow') }}">
+    <i class="fa fa-user-plus"></i> Follow
+  </a>
+  {% endif %}
+{% endif %}
+{% if user.location or user.bio %}
+<div class="extra-profile-info main-container">
+  {% if user.location %}
+  <p class="profile-user-location"><i class="fa fa-map-marker-alt"></i> {{ user.location }}</p>
+  {% endif %}
+  {% if user.bio %}
+  <p class="profile-bio">{{ user.bio }}</p>
+  {% endif %}
+</div><!--//END .extra-info .main-container-->
+{% endif %}
+

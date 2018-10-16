@@ -1,4 +1,21 @@
 
+<a class="name-and-profile-picture" href="{{ url_for('users.profile', username=user.username) }}">
+  <img src="{{ user.avatar(55) }}">
+  <h2>{{ user.full_name }}</h2>
+</a>
+<div class="post-and-follow-count">
+  <a href="{{ url_for('users.my_posts', username=user.username) }}">
+    Posts <span>{{ user.my_posts.count() }}</span>
+  </a>
+  <a href="{{ url_for('users.followers', username=user.username) }}">
+     Followers <span>{{ user.get_followers.count() }}</span>
+  </a>
+  <a href="{{ url_for('users.following', username=user.username) }}">
+    Following <span>{{ user.get_followed.count() }}</span>
+  </a>
+</div><!--//END .post-and-follow-count-->
+
+{#
   <div class="profile-info-container">
     <div class="name-followers-container">
       <a class="name-avatar" href="{{ url_for('users.profile', username=user.username) }}">
@@ -65,4 +82,4 @@
     </div><!--//END .recent-posts-container-->
     {% endif %}
   {% endif %}
-
+#}
