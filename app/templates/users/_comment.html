@@ -1,0 +1,39 @@
+
+<li>
+  <div class="post-controls">
+    <div class="post-likes">
+      {% if current_user.has_liked_comment(comment) %}
+      <a href="{{ url_for('users.comment_action', comment_id=comment.id, action='unlike-comment') }}"><i class="fa fa-heart"></i></a>
+      {% else %}
+      <a href="{{ url_for('users.comment_action', comment_id=comment.id, action='like-comment') }}"><i class="far fa-heart"></i></a>
+      {% endif %}
+      <a class="post-like-count" href="{{ url_for('users.comment', comment_id=comment.id) }}">
+        {{ comment.active_likes.count() }}
+      </a>
+    </div><!--//END .post-likes-->
+    {% if current_user == comment.author %}
+    <a href="{{ url_for('users.comment_edit', comment_id=comment.id) }}"><i class="far fa-edit"></i></a>
+    {% endif %}
+    {% if current_user == comment.author or comment.recipient_id == current_user.id %}
+    <a class="delete-post" href="{{ url_for('users.comment_action', comment_id=comment.id, action='delete-comment') }}">
+      <i class="fa fa-trash-alt"></i>
+    </a>
+    {% endif %}
+    {% if comment.edits.count() %}
+    <a class="comment-edits" href="{{ url_for('users.comment_edit', comment_id=comment.id) }}">
+      <span>&mdash;</span>
+      edited
+    </a>
+    {% endif %}
+  </div><!--//END .post-controls-->
+  <a class="profile-picture" href="{{ url_for('users.profile', username=comment.author.username) }}">
+    <img src="{{ comment.author.avatar(30) }}">
+  </a>
+  <p class="comment-body">
+    <a href="{{ url_for('users.profile', username=comment.author.username) }}">
+      {{ comment.author.full_name }}
+    </a>
+    {{ comment.body }}
+  </p>
+</li>
+

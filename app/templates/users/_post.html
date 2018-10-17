@@ -41,33 +41,3 @@
     </div><!--//END .main-container-->
   </li>
 
-{#
-<div class="post">
-  <div class="post-header">
-    <img src="{{ post.author.avatar(40) }}">
-    <p class="post-info">
-      <a href="{{ url_for('users.profile', username=post.author.username) }}">{{ post.author.full_name }}</a>
-      <time>{{ moment(post.created).fromNow() }}</time>
-    </p>
-    {% if current_user == post.author or post.recipient_id == current_user.id %}
-    <a class="delete-post" href="{{ url_for('users.post_action', post_id=post.id, action='delete') }}" title="Delete post">X</a>
-    {% endif %}
-  </div><!--//END .post-header-->
-  <p class="post-body">{{ post.body }}</p>
-  <div class="post-control-container">
-    {% if current_user.has_liked_post(post) %}
-    <a href="{{ url_for('users.post_action', post_id=post.id, action='unlike') }}">Unlike</a>
-    {% else %}
-    <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">Like</a>
-    {% endif %}
-    <a class="like-count" href="{{ url_for('users.post', post_id=post.id) }}">{{ post.active_likes.count() }} likes</a>
-    <a href="{{ url_for('users.post', post_id=post.id) }}">{{ post.active_comments.count() }} comments</a>
-    {% if current_user == post.author %}
-    <a href="{{ url_for('users.post_edit', post_id=post.id) }}">Edit</a>
-    {% endif %}
-    {% if post.edits.count() %}
-    <a class="post-edits" href="{{ url_for('users.post_edit', post_id=post.id) }}">edited</a>
-    {% endif %}
-  </div><!--//END .post-control-container-->
-</div><!--//END .post-->
-#}

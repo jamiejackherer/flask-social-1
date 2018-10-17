@@ -6,10 +6,22 @@
 <div class="post-and-comment grid responsive-container">
   <div class="grid-post-and-comment">
     <ul class="post-list">
-      {% for post in [posts] %}
       {% include "users/_post.html" %}
-      {% endfor %}
     </ul><!--//END .post-list-->
+    <div class="form-wrapper">
+      {% include "users/_post-form.html" %}
+    </div><!--//END .form-wrapper-->
+    {% if comments.items %}
+    <ul class="comment-list">
+      {% for comment in comments.items %}
+      {% include "users/_comment.html" %}
+      {% endfor %}
+    </ul><!--//END .comment-list-->
+    {% else %}
+    <div class="card-wrapper">
+      <p class="card">Nobody has commented on this post yet!</p>
+    </div><!--//END .card-wrapper-->
+    {% endif %}
   </div><!--//END .grid-post-and-comment-->
   <div class="grid-post-likes main-container">
     <div class="header-group">
@@ -17,29 +29,16 @@
       <h3>Users who like this post</h3>
     </div><!--//END .header-group-->
     {% if likes.items %}
-    <ul class="comment-and-post-likes-list">
+    <ul class="list-users-bulky">
       {% for like in likes.items %}
-      <li>
-        <a class="profile-picture" href="{{ url_for('users.profile', username=like.user.username) }}">
-          <img src="{{ like.user.avatar(45) }}">
-        </a>
-        <div class="name-and-follow-btn">
-          <a class="user-name" href="{{ url_for('users.profile', username=like.user.username) }}">{{ like.user.full_name }}</a>
-          {% if current_user != like.user %}
-            {% if current_user.is_following(like.user) %}
-            <a class="btn btn-unfollow" href="{{ url_for('users.user_action', username=like.user.username, action='unfollow') }}">Unfollow</a>
-            {% else %}
-            <a class="btn btn-follow" href="{{ url_for('users.user_action', username=like.user.username, action='follow') }}">Follow</a>
-            {% endif %}
-          {% endif %}
-        </div><!--//END .name-and-follow-button-->
-      </li>
+      {% set list_user = like.user %}
+      {% include "users/_list-user_bulky.html" %}
       {% endfor %}
     </ul><!--//END .who-to-follow-list-->
     {% else %}
     <p>
       Nobody has liked this post yet.
-      <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
+      <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">
         Be the first to like it!
       </a>
     </p>
@@ -47,68 +46,3 @@
   </div><!--//END .grid-post-likes .main-container-->
 </div><!--//END .post-and-comment grid responsive-container-->
 {% endblock %}
-
-
-{#
-{% block content %}
-<div class="grid-comments-container">
-  <div class="post-and-comments">
-    {% for post in [posts] %}
-    {% include "/users/_post.html" %}
-    {% endfor %}
-    <form class="post-form" method="post" novalidate>
-      <div class="input-container">
-        {% if form.body.errors %}
-        {{ form.body(class="input-error", placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
-        <p>{{ form.body.errors[0] }}</p>
-        {% else %}
-        {{ form.body(placeholder="Comment on {}'s post".format(posts.author.first_name)) }}
-        {% endif %}
-      </div>
-      {{ form.submit }}
-      {{ form.csrf_token }}
-    </form>
-    <h3 class="page-sub-title">Comments</h3>
-    {% if comments.pages > 1 %}
-    {{ render_comment_pagination(comments, 'users.post', request.args.get('post_id'), request.args.get('likes_page')) }}
-    {% endif %}
-    {% if comments.items %}
-    <ul class="list-users">
-      {% for post in comments.items %}
-      {% include "/users/_post-comment.html" %}
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p class="card">No comments to show.</p>
-    {% endif %}
-    {% if comments.pages > 1 %}
-    {{ render_comment_pagination(comments, 'users.post', request.args.get('post_id'), request.args.get('likes_page')) }}
-    {% endif %}
-  </div><!--//END .post-and-comments-->
-  <div class="post-likes">
-    <h3 class="page-sub-title">Liked by</h3>
-    {% if likes.pages > 1 %}
-    {{ render_like_pagination(likes, 'users.post', request.args.get('post_id'), request.args.get('comments_page'))}}
-    {% endif %}
-    {% if likes.items %}
-    <ul class="list-users">
-      {% for like in likes.items %}
-      {% set list_user = like.user %}
-      {% include "/users/_list-user.html" %}
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p class="card">
-      Nobody has liked this post yet.
-      <a href="{{ url_for('users.post_action', post_id=posts.id, action='like') }}">
-        Be the first to like it!
-      </a>
-    </p>
-    {% endif %}    
-    {% if likes.pages > 1 %}
-    {{ render_like_pagination(likes, 'users.post', request.args.get('post_id'), request.args.get('comments_page'))}}
-    {% endif %}
-  </div><!--//END .post-likes-->
-</div><!--//END .grid-comments-container-->
-{% endblock %}
-#}

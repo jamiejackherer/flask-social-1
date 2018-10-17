@@ -4,17 +4,10 @@
   <h3>Who to follow</h3>
 </div><!--//END .header-group-->
 {% if current_user.unfollowed_users.count() %}
-<ul class="who-to-follow-list">
+<ul class="list-users-bulky">
   {% for unfollowed_user in current_user.unfollowed_users %}
-  <li>
-    <a class="profile-picture" href="{{ url_for('users.profile', username=unfollowed_user.username) }}">
-      <img src="{{ unfollowed_user.avatar(45) }}">
-    </a>
-    <div class="name-and-follow-btn">
-      <a class="user-name" href="{{ url_for('users.profile', username=unfollowed_user.username) }}">{{ unfollowed_user.full_name }}</a>
-      <a class="btn btn-follow" href="{{ url_for('users.user_action', username=unfollowed_user.username, action='follow') }}">Follow</a>
-    </div><!--//END .name-and-follow-button-->
-  </li>
+  {% set list_user = unfollowed_user %}
+  {% include "users/_list-user_bulky.html" %}
   {% endfor %}
 </ul><!--//END .who-to-follow-list-->
 {% else %}

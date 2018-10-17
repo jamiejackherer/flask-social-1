@@ -2,6 +2,13 @@
   {% set placeholder = 'What\'s on your mind?' %}
 {% elif request.endpoint == 'users.profile' %}
   {% set placeholder = 'Write on {}\'s wall!'.format(user.first_name) %}
+{% elif request.endpoint == 'users.post' %}
+  {% set placeholder = 'Write a comment!' %}
+  {% set submit_value = 'Submit Comment' %}
+{% endif %}
+
+{% if not submit_value %}
+  {% set submit_value = 'Submit Post' %}
 {% endif %}
 
 <form class="post-form" method="post" novalidate>
@@ -13,7 +20,7 @@
     {{ form.body(placeholder=placeholder) }}
     {% endif %}
   </div>
-  {{ form.submit(class='btn btn-gradient-gray', value='Submit Post') }}
+  {{ form.submit(class='btn btn-gradient-gray', value=submit_value) }}
   {{ form.csrf_token }}
 </form><!--//END .post-form-->
 

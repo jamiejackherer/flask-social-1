@@ -176,15 +176,15 @@ def user_action(username, action):
 @login_required
 def post():
     post_id = request.args.get('post_id')
-    posts = Post.post_by_id(post_id).first_or_404()
+    post = Post.post_by_id(post_id).first_or_404()
 
     comments_page = request.args.get('comments_page', 1, type=int)
-    comments = posts.active_comments.order_by(
+    comments = post.active_comments.order_by(
         PostComment.created.asc()).paginate(
             comments_page, current_user.posts_per_page, False)
 
     likes_page = request.args.get('likes_page', 1, type=int)
-    likes = posts.active_likes.order_by(
+    likes = post.active_likes.order_by(
         PostLike.created.desc()).paginate(
             likes_page, current_user.posts_per_page, False)
 
@@ -198,7 +198,7 @@ def post():
         comment.commit()
         flash('Your post is now live!')
         return redirect(url_for('users.post', post_id=post_id))
-    return render_template('users/post.html', posts=posts, form=form,
+    return render_template('users/post.html', post=post, form=form,
                            comments=comments, likes=likes)
 
 
@@ -230,12 +230,12 @@ def post_edit():
 @login_required
 def comment():
     comment_id = request.args.get('comment_id')
-    posts = PostComment.comment_by_id(comment_id).first_or_404()
+    comment = PostComment.comment_by_id(comment_id).first_or_404()
     page = request.args.get('page', 1, type=int)
-    likes = posts.active_likes.order_by(
+    likes = comment.active_likes.order_by(
         PostCommentLike.created.desc()).paginate(
             page, current_user.posts_per_page, False)
-    return render_template('users/comment.html', posts=posts,
+    return render_template('users/comment.html', comment=comment,
                            likes=likes)
 
 

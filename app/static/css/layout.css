@@ -11,6 +11,7 @@
  * - Header / Primary Nav (s:header) (s:primary-nav)
  * - Flash messages (s:flash-messages)
  * - Forms (s:forms)
+ * - List Users (s:list-users)
  * - Home / Profile (s:home) (s:profile)
  * - Post / Comment (s:post) (s:comment)
  */
@@ -318,6 +319,45 @@ textarea {
 }
 /* //END Forms (s:forms) */
 
+/* List Users (s:list-users) */
+.list-users > li {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.list-users-bulky > li {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.list-users > li,
+.list-users-bulky > li {
+  align-items: center;
+  display: flex;
+  position: relative;
+
+  border-bottom: 1px dotted #c8c9ca;
+}
+
+.list-users > li:last-child,
+.list-users-bulky > li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  border-bottom: none;
+}
+
+.list-users .profile-picture,
+.list-users-bulky .profile-picture {
+  margin-right: 10px;
+}
+
+.list-users .btn {
+  position: absolute;
+  right: 0;
+}
+/* //END List Users (s:list-users) */
+
 /* Home / Profile (s:home) (s:profile) */
 .profile-and-home {
   margin-top: 20px;
@@ -420,10 +460,10 @@ textarea {
 }
 
 .post-list > li {
-  padding-left: 55px;
-  position: relative;
   margin-bottom: 30px;
   padding-bottom: 20px;
+  padding-left: 55px;
+  position: relative;
 }
 
 .post-list > li:last-child {
@@ -504,29 +544,6 @@ textarea {
 
 .post-header > span:before {
   content: "- ";
-}
-
-.who-to-follow-list > li,
-.comment-and-post-likes-list > li {
-  align-items: center;
-  display: flex;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-
-  border-bottom: 1px dotted #c8c9ca;
-}
-
-.who-to-follow-list > li:last-child,
-.comment-and-post-likes-list > li:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-
-  border-bottom: none;
-}
-
-.who-to-follow-list .profile-picture,
-.comment-and-post-likes-list .profile-picture {
-  margin-right: 10px;
 }
 
 .name-and-follow-btn > .user-name {
@@ -616,8 +633,54 @@ textarea {
 /* //END Home / Profile (s:home) (s:profile) */
 
 /* Post / Comment (s:post) (s:comment) */
-.post-and-comment {
+.post-and-comment,
+.comment {
   margin-top: 20px;
+}
+
+.post-and-comment .post-list {
+  margin-bottom: 20px;
+}
+
+.form-wrapper,
+.card-wrapper,
+.comment-likes-wrapper {
+  padding-left: 55px;
+}
+
+.post-and-comment .post-form {
+  padding-top: 20px;
+
+  border-top: 1px dotted #c8c9ca;
+}
+
+.comment-list > li {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  padding-left: 55px;
+  position: relative;
+}
+
+.comment-list .profile-picture {
+  left: 15px;
+  position: absolute;
+  top: 0;
+}
+
+.comment-list .comment-body {
+  display: inline-block;
+  padding: 7px 20px;
+  background: #ffffff;
+  border: 1px solid #d8dee2;
+  border-radius: 6px;
+}
+
+.comment-list .comment-edits {
+  color: #5a5a5a;
+}
+
+.comment-list .comment-edits:hover span {
+  color: #5a5a5a;
 }
 
 @media (min-width: 1200px) {
@@ -627,6 +690,10 @@ textarea {
 
   .grid > .grid-post-likes {
     grid-column: 8 / span 3;
+  }
+
+  .grid > .grid-comment {
+    grid-column: 3 / span 6;
   }
 }
 /* //END Post / Comment (s:post) (s:comment) */

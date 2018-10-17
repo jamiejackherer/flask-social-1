@@ -1,10 +1,61 @@
 {% extends "/base.html" %}
 {% from "/_macros.html" import render_comment_pagination %}
 
+{% block content %}
+<div class="comment grid responsive-container">
+  <div class="grid-comment">
+    <ul class="comment-list">
+      {% include "users/_comment.html" %}
+    </ul><!--//END .comment-list-->
+    <div class="comment-likes-wrapper">
+      <div class="main-container">
+        <div class="header-group">
+          <i class="fas fa-heart"></i>
+          <h3>Users who like this comment</h3>
+        </div><!--//END .header-group-->
+        {% if likes.items %}
+        <ul class="list-users">
+          {% for like in likes.items %}
+          {% set list_user = like.user %}
+          <li>
+            <a class="profile-picture" href="{{ url_for('users.profile', username=list_user.username) }}">
+              <img src="{{ list_user.avatar(30) }}">
+            </a>
+            <a href="{{ url_for('users.profile', username=list_user.username) }}">
+              {{ list_user.full_name }}
+            </a>
+            {% if current_user != list_user %}
+              {% if current_user.is_following(list_user) %}
+              <a class="btn btn-unfollow" href="{{ url_for('users.user_action', username=list_user.username, action='unfollow') }}">
+                Unfollow
+              </a>
+              {% else %}
+              <a class="btn btn-follow" href="{{ url_for('users.user_action', username=list_user.username, action='follow') }}">
+                Follow
+              </a>
+              {% endif %}
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul><!--//END .list-users-->
+        {% else %}
+        <p>
+          Nobody has liked this comment yet.
+          <a href="{{ url_for('users.comment_action', comment_id=comment.id, action='like-comment') }}">
+            Be the first to like it!
+          </a>
+        </p>
+        {% endif %}
+      </div><!--//END .main-container-->
+    </div><!--//END .comment-likes-wrapper-->
+  </div><!--//END .grid-comment-->
+</div><!--//END .comment .grid .responsive-container-->
+{% endblock %}
 
+
+{#
 {% block content %}
 <div class="centered-content-container">
-  {# `posts` is a single post. Define as a list so it's iterable #}
   {% for post in [posts] %}
   {% include "/users/_post-comment.html" %}
   {% endfor %}
@@ -32,3 +83,4 @@
   {% endif %}
 </div><!--//END .centered-content-container-->
 {% endblock %}
+#}
