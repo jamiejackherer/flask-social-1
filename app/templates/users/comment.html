@@ -17,25 +17,7 @@
         <ul class="list-users">
           {% for like in likes.items %}
           {% set list_user = like.user %}
-          <li>
-            <a class="profile-picture" href="{{ url_for('users.profile', username=list_user.username) }}">
-              <img src="{{ list_user.avatar(30) }}">
-            </a>
-            <a href="{{ url_for('users.profile', username=list_user.username) }}">
-              {{ list_user.full_name }}
-            </a>
-            {% if current_user != list_user %}
-              {% if current_user.is_following(list_user) %}
-              <a class="btn btn-unfollow" href="{{ url_for('users.user_action', username=list_user.username, action='unfollow') }}">
-                Unfollow
-              </a>
-              {% else %}
-              <a class="btn btn-follow" href="{{ url_for('users.user_action', username=list_user.username, action='follow') }}">
-                Follow
-              </a>
-              {% endif %}
-            {% endif %}
-          </li>
+          {% include "users/_list-user.html" %}
           {% endfor %}
         </ul><!--//END .list-users-->
         {% else %}
@@ -52,35 +34,3 @@
 </div><!--//END .comment .grid .responsive-container-->
 {% endblock %}
 
-
-{#
-{% block content %}
-<div class="centered-content-container">
-  {% for post in [posts] %}
-  {% include "/users/_post-comment.html" %}
-  {% endfor %}
-  <h3 class="page-sub-title">Liked by</h3>
-  {% if likes.pages > 1 %}
-  {{ render_comment_pagination(likes, 'users.comment', request.args.get('comment_id')) }}
-  {% endif %}
-  {% if likes.items %}
-  <ul class="list-users">
-    {% for like in likes.items %}
-    {% set list_user = like.user %}
-    {% include "/users/_list-user.html" %}
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p class="card">
-    Nobody has liked this comment yet.
-    <a href="{{ url_for('users.post_action', post_id=posts.id, action='like-comment') }}">
-      Be the first to like it!
-    </a>
-  </p>
-  {% endif %}
-  {% if likes.pages > 1 %}
-  {{ render_comment_pagination(likes, 'users.comment', request.args.get('comment_id')) }}
-  {% endif %}
-</div><!--//END .centered-content-container-->
-{% endblock %}
-#}

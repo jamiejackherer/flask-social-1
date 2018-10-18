@@ -1,7 +1,53 @@
 {% extends "/base.html" %}
 {% from "/_macros.html" import render_search_pagination %}
 
+{% block content %}
+<div class="search grid responsive-container">
+  <div class="grid-search main-container">
+    <div class="header-group">
+      <i class="fa fa-search"></i>
+      <h3>Search for friends</h3>
+    </div><!--//END .header-group-->
+    <form class="search-form" method="get" novalidate>
+      {% if request.args.get('search') %}
+      {{ form.search(value=request.args.get('search')) }}
+      {% else %}
+      {{ form.search(placeholder="Name of the person you are searching for") }}
+      {% endif %}
+      {{ form.submit }}
+      {{ form.hidden_tag() }}
+    </form>
+    {% if request.args.get('search') %}
+      <h4 class="page-sub-title">
+        Displaying {{ search_result_count }} results for: {{ request.args.get('search') }}
+      </h4>
+      {% if search_result.items %}
+      <ul class="list-users">
+        {% for list_user in search_result.items %}
+        {% include "/users/_list-user.html" %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="card">Sorry, no results were found.</p>
+      {% endif %}
+    {% else %}
+      <h4 class="page-sub-title">Recently active users</h4>
+      {% if recent_users %}
+      <ul class="list-users">
+        {% for list_user in recent_users %}
+        {% include "/users/_list-user.html" %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="card">Sorry, nothing to display.</p>
+      {% endif %}
+    {% endif %}
+  </div><!--//END .grid-search .main-container-->
+</div><!--//END .search .grid .responsive-container-->
+{% endblock %}
 
+
+{#
 {% block content %}
 <div class="search-container">
   <h2 class="page-sub-title">Search for friends</h2>
@@ -47,3 +93,4 @@
   {% endif %}
 </div>
 {% endblock %}
+#}

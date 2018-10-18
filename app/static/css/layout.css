@@ -14,6 +14,7 @@
  * - List Users (s:list-users)
  * - Home / Profile (s:home) (s:profile)
  * - Post / Comment (s:post) (s:comment)
+ * - Search (s:search)
  */
 
 /* Fonts (s:fonts) */
@@ -697,3 +698,15 @@ textarea {
   }
 }
 /* //END Post / Comment (s:post) (s:comment) */
+
+/* Search (s:search) */
+.search {
+  margin-top: 20px;
+}
+
+@media (min-width: 1200px) {
+  .grid > .grid-search {
+    grid-column: 3 / span 6;
+  }
+}
+/* //END Search (s:search) */
