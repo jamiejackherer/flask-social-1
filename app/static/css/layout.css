@@ -13,9 +13,9 @@
  * - Forms (s:forms)
  * - List Users (s:list-users)
  * - Home / Profile (s:home) (s:profile)
- * - My Posts / Followers / Follwing (s:my-posts) (s:followers) (s:following)
  * - Post / Comment (s:post) (s:comment)
  * - Search (s:search)
+ * - Settings (s:settings)
  */
 
 /* Fonts (s:fonts) */
@@ -314,7 +314,8 @@ a:hover {
 
 /* Forms (s:forms) */
 input,
-textarea {
+textarea,
+select {
   display: inline-block;
   padding: 7px 20px;
 
@@ -332,6 +333,16 @@ input[type=submit] {
   outline: 0;
 }
 
+select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
 textarea:focus {
   background-color: #ffffff;
 }
@@ -339,6 +350,17 @@ textarea:focus {
 textarea {
   padding: 20px;
   resize: vertical;
+}
+
+label {
+  display: block;
+  
+  color: #262b30;
+  font-weight: bold;
+}
+
+.field-container > label {
+  margin-bottom: 10px;
 }
 /* //END Forms (s:forms) */
 
@@ -657,12 +679,6 @@ textarea {
 }
 /* //END Home / Profile (s:home) (s:profile) */
 
-/* My Posts / Followers / Follwing (s:my-posts) (s:followers) (s:following) */
-.posts-and-follow {
-  margin-top: 20px;
-}
-/* //END My Posts / Followers / Follwing (s:my-posts) (s:followers) (s:following) */
-
 /* Post / Comment (s:post) (s:comment) */
 .post-and-comment,
 .comment {
@@ -772,3 +788,76 @@ textarea {
   }
 }
 /* //END Notifications (s:notifications) */
+
+/* Settings (s:settings) */
+.settings {
+  margin-top: 20px;
+}
+
+.grid-settings-nav.main-container {
+  padding: 0;
+}
+
+.settings .header-group {
+  padding: 20px 20px 0 20px;
+  margin-bottom: 20px;
+}
+
+.settings-nav > li {
+  padding: 15px 20px;
+
+  border-bottom: 1px dotted #c8c9ca;
+}
+
+.settings-nav > li:first-child {
+  border-top: 1px dotted #c8c9ca;
+}
+
+.settings-nav > li:last-child {
+  margin-bottom: 0;
+
+  border-bottom: none;
+}
+
+.settings-nav > .active {
+  background-color: #f9f9f9;
+  border-right: 6px solid #de4c4a;
+  color: #262b30;
+  font-weight: bold;
+}
+
+.settings input[type=text],
+.settings input[type=password],
+.settings select,
+.settings textarea {
+  margin-bottom: 20px;
+}
+
+.settings textarea {
+  min-height: 90px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
+
+.settings .card.warning {
+  margin-bottom: 20px;
+
+  font-size: 14px;
+}
+
+@media (min-width: 1200px) {
+  .grid > .grid-settings-nav {
+    grid-column: 1 / span 3;
+  }
+
+  .grid > .grid-settings-content {
+    grid-column: 4 / span 8;
+  }
+
+  .settings input[type=text],
+  .settings input[type=password],
+  .settings textarea {
+    width: 50%;
+  }
+}
+/* //END Settings (s:settings) */

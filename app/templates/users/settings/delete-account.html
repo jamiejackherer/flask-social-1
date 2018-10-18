@@ -1,17 +1,17 @@
 {% extends "/base.html" %}
 
-
 {% block content %}
-<div class="grid-settings-container">
-  {% include "/users/settings/_settings-nav.html" %}
-  <div class="settings-content-container">
-    <h3 class="page-sub-title">Delete account</h3>
-    <p class="card">
+<div class="settings grid responsive-container">
+  <div class="grid-settings-nav main-container">
+    {% include "users/settings/_settings-nav.html" %}
+  </div><!--//END .grid-settings-nav .main-container-->
+  <div class="grid-settings-content main-container">
+    <p class="card warning">
       Once you delete your account, there is no going back. Please be absolutely
       sure this is what you want to do.
     </p>
     <form method="post" novalidate>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.username.label }}
         {% if form.username.errors %}
         {{ form.username(class="input-error", placeholder=current_user.username) }}
@@ -20,7 +20,7 @@
         {{ form.username(placeholder=current_user.username) }}
         {% endif %}
       </div>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.password.label }}
         {% if form.password.errors %}
         {{ form.password(class="input-error", placeholder=form.password.label.text) }}
@@ -32,6 +32,6 @@
       {{ form.submit }}
       {{ form.hidden_tag() }}
     </form>
-  </div><!--//END .settings-content-container-->
-</div><!--//END .settings-container-->
+  </div><!--//END .grid-settings-content .main-containre-->
+</div><!--//END .settings .grid .responsive-container-->
 {% endblock %}

@@ -1,13 +1,14 @@
-{% extends "/base.html" %}
-
+{% extends "base.html" %}
 
 {% block content %}
-<div class="grid-settings-container">
-  {% include "/users/settings/_settings-nav.html" %}
-  <div class="settings-content-container">
+<div class="settings grid responsive-container">
+  <div class="grid-settings-nav main-container">
+    {% include "users/settings/_settings-nav.html" %}
+  </div><!--//END .grid-settings-nav .main-container-->
+  <div class="grid-settings-content main-container">
     <h3 class="page-sub-title">Profile settings</h3>
     <form method="post" novalidate>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.first_name.label }}
         {% if form.first_name.errors %}
         {{ form.first_name(class="input-error", placeholder=form.first_name.label.text) }}
@@ -16,7 +17,7 @@
         {{ form.first_name(placeholder=form.first_name.label.text) }}
         {% endif %}
       </div>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.last_name.label }}
         {% if form.last_name.errors %}
         {{ form.last_name(class="input-error", placeholder=form.last_name.label.text) }}
@@ -25,7 +26,7 @@
         {{ form.last_name(placeholder=form.last_name.label.text) }}
         {% endif %}
       </div>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.bio.label }}
         {% if form.bio.errors %}
         {{ form.bio(class="input-error", placeholder="Write a little bit about yourself") }}
@@ -34,7 +35,7 @@
         {{ form.bio(placeholder="Write a little bit about yourself") }}
         {% endif %}
       </div>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.location.label }}
         {% if form.location.errors %}
         {{ form.location(class="input-error", placeholder="Example: Atlanta, Georgia") }}
@@ -43,9 +44,9 @@
         {{ form.location(placeholder="Example: Atlanta, Georgia") }}
         {% endif %}
       </div>
-      {{ form.submit }}
+      {{ form.submit(class="btn btn-gradient-green") }}
       {{ form.hidden_tag() }}
     </form>
-  </div><!--//END .settings-content-container-->
-</div><!--//END .settings-container-->
+  </div><!--//END .grid-settings-content .main-containre-->
+</div><!--//END .settings .grid .responsive-container-->
 {% endblock %}

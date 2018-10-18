@@ -1,13 +1,14 @@
 {% extends "/base.html" %}
 
-
 {% block content %}
-<div class="grid-settings-container">
-  {% include "/users/settings/_settings-nav.html" %}
-  <div class="settings-content-container">
-    <h3 class="page-sub-title">Account settings</h3>
+<div class="settings grid responsive-container">
+  <div class="grid-settings-nav main-container">
+    {% include "users/settings/_settings-nav.html" %}
+  </div><!--//END .grid-settings-nav .main-container-->
+  <div class="grid-settings-content main-container">
+    <h3 class="page-sub-title">Account Settings</h3>
     <form method="post" novalidate>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.username.label }}
         {% if form.username.errors %}
         {{ form.username(class="input-error", placeholder=form.username.label.text) }}
@@ -15,8 +16,8 @@
         {% else %}
         {{ form.username(placeholder=form.username.label.text) }}
         {% endif %}
-      </div>
-      <div class="input-container">
+      </div><!--//END .field-container-->
+      <div class="field-container">
         {{ form.email.label }}
         {% if form.email.errors %}
         {{ form.email(class="input-error", placeholder=form.email.label.text) }}
@@ -24,10 +25,10 @@
         {% else %}
         {{ form.email(placeholder=form.email.label.text) }}
         {% endif %}
-      </div>
-      {{ form.submit }}
+      </div><!--//END .field-container-->
+      {{ form.submit(class="btn btn-gradient-green") }}
       {{ form.hidden_tag() }}
     </form>
-  </div><!--//END .settings-content-container-->
-</div><!--//END .settings-container-->
+  </div><!--//END .grid-settings-content .main-containre-->
+</div><!--//END .settings .grid .responsive-container-->
 {% endblock %}

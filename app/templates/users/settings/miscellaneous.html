@@ -1,13 +1,14 @@
-{% extends "/base.html" %}
-
+{% extends "base.html" %}
 
 {% block content %}
-<div class="grid-settings-container">
-  {% include "/users/settings/_settings-nav.html" %}
-  <div class="settings-content-container">
+<div class="settings grid responsive-container">
+  <div class="grid-settings-nav main-container">
+    {% include "users/settings/_settings-nav.html" %}
+  </div><!--//END .grid-settings-nav .main-container-->
+  <div class="grid-settings-content main-container">
     <h3 class="page-sub-title">Miscellaneous settings</h3>
     <form method="post" novalidate>
-      <div class="input-container">
+      <div class="field-container">
         {{ form.posts_per_page.label }}
         {% if form.posts_per_page.errors %}
         {{ form.posts_per_page(class="input-error") }}
@@ -16,9 +17,9 @@
         {{ form.posts_per_page }}
         {% endif %}
       </div>
-      {{ form.submit }}
+      {{ form.submit(class="btn btn-gradient-green") }}
       {{ form.hidden_tag() }}
     </form>
-  </div><!--//END .settings-content-container-->
-</div><!--//END .settings-container-->
+  </div><!--//END .grid-settings-content .main-containre-->
+</div><!--//END .settings .grid .responsive-container-->
 {% endblock %}

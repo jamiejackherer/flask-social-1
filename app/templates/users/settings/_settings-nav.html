@@ -1,39 +1,37 @@
-<div class="settings-nav-container">
-  <ul>
-    <li>
-      {% if request.endpoint == 'users.settings_account' %}
-      <span class="active-page">Account</span>
-      {% else %}
-      <a href="{{ url_for('users.settings_account') }}">Account</a>
-      {% endif %}
-    </li>
-    <li>
-      {% if request.endpoint == 'users.settings_profile' %}
-      <span class="active-page">Profile</span>
-      {% else %}
-      <a href="{{ url_for('users.settings_profile') }}">Profile</a>
-      {% endif %}
-    </li>
-    <li>
-      {% if request.endpoint == 'users.settings_password' %}
-      <span class="active-page">Password</span>
-      {% else %}
-      <a href="{{ url_for('users.settings_password') }}">Password</a>
-      {% endif %}
-    </li>
-    <li>
-      {% if request.endpoint == 'users.settings_miscellaneous' %}
-      <span class="active-page">Miscellaneous</span>
-      {% else %}
-      <a href="{{ url_for('users.settings_miscellaneous') }}">Miscellaneous</a>
-      {% endif %}
-    </li>
-    <li>
-      {% if request.endpoint == 'users.settings_delete_account' %}
-      <span class="active-page">Delete Account</span>
-      {% else %}
-      <a href="{{ url_for('users.settings_delete_account') }}">Delete Account</a>
-      {% endif %}
-    </li>
-  </ul>
-</div><!--//END .settings-nav-container-->
+
+<div class="header-group">
+  <i class="fas fa-cog"></i>
+  <h3>Settings</h3>
+</div><!--//END .header-group-->
+<ul class="settings-nav">
+  {% if request.endpoint == 'users.settings_account' %}
+  <li class="active">Account</li>
+  {% else %}
+  <li><a href="{{ url_for('users.settings_account') }}">Account</a></li>
+  {% endif %}
+
+  {% if request.endpoint == 'users.settings_profile' %}
+  <li class="active">Profile</li>
+  {% else %}
+  <li><a href="{{ url_for('users.settings_profile') }}">Profile</a></li>
+  {% endif %}
+      
+  {% if request.endpoint == 'users.settings_password' %}
+  <li class="active">Password</li>
+  {% else %}
+  <li><a href="{{ url_for('users.settings_password') }}">Password</a></li>
+  {% endif %}
+
+  {% if request.endpoint == 'users.settings_miscellaneous' %}
+  <li class="active">Miscellaneous</li>
+  {% else %}
+  <li><a href="{{ url_for('users.settings_miscellaneous') }}">Miscellaneous</a></li>
+  {% endif %}
+      
+  {% if request.endpoint == 'users.settings_delete_account' %}
+  <li class="active">Delete Account</li>
+  {% else %}
+  <li><a href="{{ url_for('users.settings_delete_account') }}">Delete Account</a></li>
+  {% endif %}
+</ul><!--//END .settings-nav-->
+
