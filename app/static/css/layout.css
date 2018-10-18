@@ -13,6 +13,7 @@
  * - Forms (s:forms)
  * - List Users (s:list-users)
  * - Home / Profile (s:home) (s:profile)
+ * - My Posts / Followers / Follwing (s:my-posts) (s:followers) (s:following)
  * - Post / Comment (s:post) (s:comment)
  * - Search (s:search)
  */
@@ -73,12 +74,17 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0;
 
   color: #262b30;
   font-size: 18px;
   line-height: 1.2;
+}
+
+h4 {
+  font-size: 16px;
 }
 
 p,
@@ -122,6 +128,13 @@ a:hover {
   border-radius: 6px;
 }
 
+.page-sub-title {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px dotted #c8c9ca;
+}
+
 .card {
   color: #262b30;
 }
@@ -130,9 +143,11 @@ a:hover {
   align-items: flex-start;
   display: flex;
   margin-bottom: 30px;
+  position: relative;
 
   color: #262b30;
   font-size: 18px;
+
 }
 
 .header-group > i {
@@ -141,6 +156,13 @@ a:hover {
 
 .header-group > h3 {
   margin-top: -2px;
+}
+
+.header-group .back-to-page {
+  position: absolute;
+  right: 0;
+
+  font-size: 14px;
 }
 
 .btn {
@@ -354,6 +376,8 @@ textarea {
 }
 
 .list-users .btn {
+  padding-left: 15px;
+  padding-right: 15px;
   position: absolute;
   right: 0;
 }
@@ -633,6 +657,12 @@ textarea {
 }
 /* //END Home / Profile (s:home) (s:profile) */
 
+/* My Posts / Followers / Follwing (s:my-posts) (s:followers) (s:following) */
+.posts-and-follow {
+  margin-top: 20px;
+}
+/* //END My Posts / Followers / Follwing (s:my-posts) (s:followers) (s:following) */
+
 /* Post / Comment (s:post) (s:comment) */
 .post-and-comment,
 .comment {
@@ -704,9 +734,41 @@ textarea {
   margin-top: 20px;
 }
 
+.search .search-form input {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
 @media (min-width: 1200px) {
   .grid > .grid-search {
     grid-column: 3 / span 6;
   }
 }
 /* //END Search (s:search) */
+
+/* Notifications (s:notifications) */
+.notifications {
+  margin-top: 20px;
+}
+
+.notification-list > li {
+  margin-bottom: 5px;
+  padding: 12px 20px;
+
+  background-color: #f9f9f9;
+}
+
+.notification-list > li span {
+  color: #c8c9ca;
+}
+
+.notification-list > li span:before {
+  content: "- ";
+}
+
+@media (min-width: 1200px) {
+  .grid > .grid-notifications {
+    grid-column: 2 / span 8;
+  }
+}
+/* //END Notifications (s:notifications) */

@@ -130,12 +130,13 @@ def search():
             User.last_seen.desc()).limit(10)
     searchable = '%{}%'.format(request.args.get('search'))
     page = request.args.get('page', 1, type=int)
-    search_result = User.query.filter(or_(
-        User.first_name.like(searchable),
-        User.last_name.like(searchable),
-        User.username.like(searchable),
-        User.full_name.like(searchable),
-        User.email.like(searchable)))
+    search_result = User.query.filter(
+        or_(User.first_name.like(searchable),
+            User.last_name.like(searchable),
+            User.username.like(searchable),
+            User.full_name.like(searchable),
+            User.email.like(searchable)),
+        User.active == True)
     search_result_count = search_result.count()
     search_result = search_result.paginate(
         page, current_user.posts_per_page, False)

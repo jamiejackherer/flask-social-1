@@ -1,26 +1,28 @@
-{% extends "/base.html" %}
-{% from "/_macros.html" import render_pagination %}
-
+{% extends "base.html" %}
+{% from "_macros.html" import render_pagination %}
 
 {% block content %}
-<div class="grid-profile-container">
-  {% include "/users/_profile-info.html" %}
-  <div class="profile-content-container">
-    <span class="back-to-previous">
-      <a href="{{ url_for('users.profile', username=user.username) }}">
-        Back to {{ user.first_name }}'s feed
+<div class="profile-and-home grid responsive-container">
+  <div class="grid-profile-info main-container">
+    {% include "users/_profile-info.html" %}
+  </div><!--//END .grid-profile-info .main-container-->
+  <div class="grid-extra-profile-info">
+    {% include "users/_extra-profile-info.html" %}
+  </div><!--//END .grid-extra-profile-info-->
+  <div class="grid-main main-container">
+    <div class="header-group">
+      <i class="fas fa-user"></i>
+      <h3>Followers</h3>
+      <a class="back-to-page" href="{{ url_for('users.profile', username=user.username) }}">
+        <i class="fa fa-chevron-left"></i> Back to {{ user.first_name }}'s profile
       </a>
-    </span>
-    <h3 class="page-sub-title">Followers</h3>
-    {% if followers.pages > 1 %}
-      {{ render_pagination(followers, 'users.followers', user.username) }}
-    {% endif %}
+    </div><!--//END .header-group-->
     {% if followers.items %}
     <ul class="list-users">
       {% for list_user in followers.items %}
       {% include "/users/_list-user.html" %}
       {% endfor %}
-    </ul>
+    </ul><!--//END .list-users-->
     {% else %}
     <p class="card">
       {% if current_user == user %}
@@ -30,9 +32,9 @@
       {% endif %}
     </p>
     {% endif %}
-    {% if followers.pages > 1 %}
-      {{ render_pagination(followers, 'users.followers', user.username) }}
-    {% endif %}
-  </div><!--//END .follow-content-->
-</div><!--//END .grid-container-->
+  </div><!--//END .grid-main-->
+  <div class="grid-who-to-follow main-container">
+    {% include "users/_who-to-follow.html" %}
+  </div><!--//END .grid-who-to-folow .main-container-->
+</div><!--//END .profile-and-home .grid .responsive-container-->
 {% endblock %}

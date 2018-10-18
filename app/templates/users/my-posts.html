@@ -1,24 +1,28 @@
-{% extends "/base.html" %}
-{% from "/_macros.html" import render_pagination %}
-
+{% extends "base.html" %}
+{% from "_macros.html" import render_pagination %}
 
 {% block content %}
-<div class="grid-profile-container">
-  {% include "/users/_profile-info.html" %}
-  <div class="profile-content-container">
-    <span class="back-to-previous">
-      <a href="{{ url_for('users.profile', username=user.username) }}">
-        Back to {{ user.first_name }}'s feed
+<div class="posts-and-follow grid responsive-container">
+  <div class="grid-profile-info main-container">
+    {% include "users/_profile-info.html" %}
+  </div><!--//END .grid-profile-info .main-container-->
+  <div class="grid-extra-profile-info">
+    {% include "users/_extra-profile-info.html" %}
+  </div><!--//END .grid-extra-profile-info-->
+  <div class="grid-main">
+    <div class="header-group page-sub-title">
+      <i class="fas fa-book"></i>
+      <h3>Posts</h3>
+      <a class="back-to-page" href="{{ url_for('users.profile', username=user.username) }}">
+        <i class="fa fa-chevron-left"></i> Back to {{ user.first_name }}'s profile
       </a>
-    </span>
-    <h3 class="page-sub-title">Posts</h3>
-    {% if posts.pages > 1 %}
-    {{ render_pagination(posts, 'users.my_posts') }}
-    {% endif %}
+    </div><!--//END .header-group-->
     {% if posts.items %}
+    <ul class="post-list">
       {% for post in posts.items %}
       {% include "/users/_post.html" %}
       {% endfor %}
+    </ul><!--//END .post-list-->
     {% else %}
     <p class="card">
       {% if user == current_user %}
@@ -29,9 +33,9 @@
       posted anything yet.
     </p>
     {% endif %}
-    {% if posts.pages > 1 %}
-    {{ render_pagination(posts, 'users.my_posts') }}
-    {% endif %}
-  </div><!--//END .profile-content-container-->
-</div><!--//END .grid-profile-container-->
+  </div><!--//END .grid-main-->
+  <div class="grid-who-to-follow main-container">
+    {% include "users/_who-to-follow.html" %}
+  </div><!--//END .grid-who-to-follow .main-container-->
+</div><!--//END .posts-and-follow .grid .responsive-container-->
 {% endblock %}

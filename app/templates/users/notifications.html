@@ -1,7 +1,83 @@
-{% extends "/base.html" %}
+{% extends "base.html" %}
+{% from "_macros.html" import render_pagination %}
 
-{% from "/_macros.html" import render_pagination %}
+{% block content %}
+<div class="notifications grid responsive-container">
+  <div class="grid-notifications main-container">
+    <div class="header-group">
+      <i class="fas fa-bell"></i>
+      <h3>Notifications</h3>
+    </div><!--//END .header-group-->
+    {% if notifications %}
+    <ul class="notification-list">
+      {% for n in notifications %}
+      {% set notifier_url = url_for('users.profile', username=n.notifier.username) %}
+      <li>
+        {% if n.name == 'follow' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        started following you
 
+        {% elif n.name == 'post' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        posted on your wall
+
+        {% elif n.name == 'post_like' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        liked your
+        <a href="{{ url_for('users.post', post_id=n.post.id) }}">post</a>
+
+        {% elif n.name == 'post_like_wall' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        liked a
+        <a href="{{ url_for('users.post', post_id=n.post.id) }}">post</a>
+        on your wall
+
+        {% elif n.name == 'comment' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">commented</a>
+        on your
+        <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
+
+        {% elif n.name == 'comment_wall' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">commented</a>
+        on a
+        <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
+        on your wall
+
+        {% elif n.name == 'comment_like' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        liked your
+        <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
+
+        {% elif n.name == 'comment_like_post' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        liked a
+        <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
+        on your
+        <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
+
+        {% elif n.name == 'comment_like_wall' %}
+        <a href="{{ notifier_url }}">{{ n.notifier.full_name }}</a>
+        liked a
+        <a href="{{ url_for('users.comment', comment_id=n.comment.id) }}">comment</a>
+        of a
+        <a href="{{ url_for('users.post', post_id=n.comment.post.id) }}">post</a>
+        on your wall
+        {% endif %}
+
+        {{ moment(n.created).fromNow() }}
+      </li>
+      {% endfor %}
+    </ul><!--//END .notification-list-->
+    {% else %}
+    <p>You do not have any notifications to show.</p>
+    {% endif %}
+  </div><!--//END .grid-notifications .main-container-->
+</div><!--//END .notifications .grid .responsive-container-->
+{% endblock %}
+
+{#
 {% block content %}
 <div class="notification-container">
   <h2 class="page-sub-title">Notifications</h2>
@@ -71,3 +147,4 @@
   {% endif %}
 </div><!--//END .notification-container-->
 {% endblock %}
+#}
