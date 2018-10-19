@@ -238,6 +238,27 @@ a:hover {
   color: #ffffff;
 }
 
+.alert {
+  padding: 20px;
+  margin-bottom: 20px;
+
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.alert.danger {
+  background-color: #f9d8da;
+  border-color: #f7c7cc;
+  color: #742027;
+}
+
+.alert.warning {
+  background-color: #fff1d0;
+  border-color: #ffedbf;
+  color: #87621c;
+}
+
 /* //END Defaults (s:defaults) */
 
 /* Responsive / Grid (s:responsive) (s:grid) */
