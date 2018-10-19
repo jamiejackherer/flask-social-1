@@ -216,8 +216,7 @@ def post_edit():
             old_post = post.body
             post.body = form.body.data
             post_edit = PostEdit(body=old_post, user_id=current_user.id,
-                                 post_id=post.id, created=post.created)
-            post.created = datetime.utcnow()
+                                 post_id=post.id, created=post.updated)
             db.session.add(post_edit)
             post.commit()
             flash('Your post has been updated.')
@@ -255,8 +254,7 @@ def comment_edit():
             comment.body = form.body.data
             comment_edit = PostCommentEdit(
                 body=old_comment, user_id=current_user.id,
-                comment_id=comment.id, created=comment.created)
-            comment.created = datetime.utcnow()
+                comment_id=comment.id, created=comment.updated)
             db.session.add(comment_edit)
             comment.commit()
             flash('Your comment has been updated.')
