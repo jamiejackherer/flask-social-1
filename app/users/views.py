@@ -136,7 +136,7 @@ def search():
             User.username.like(searchable),
             User.full_name.like(searchable),
             User.email.like(searchable)),
-        User.active == True)
+        User.active == True) # noqa
     search_result_count = search_result.count()
     search_result = search_result.paginate(
         page, current_user.posts_per_page, False)
