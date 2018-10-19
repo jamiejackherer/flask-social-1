@@ -264,6 +264,7 @@ a:hover {
 /* Responsive / Grid (s:responsive) (s:grid) */
 .responsive-container {
   margin: 0 auto;
+  padding: 0 10px;
   width: 100%;
 }
 
@@ -277,6 +278,7 @@ a:hover {
 @media (min-width: 576px) {
   .responsive-container {
     max-width: 540px;
+    padding: 0;
   }
 }
 
@@ -512,7 +514,8 @@ label {
 /* //END List Users (s:list-users) */
 
 /* Home / Profile (s:home) (s:profile) */
-.profile-and-home {
+.home,
+.profile {
   margin-top: 20px;
 }
 
@@ -762,6 +765,50 @@ label {
   font-size: 14px;
 }
 
+.grid-who-to-follow {
+  margin-bottom: 20px;
+}
+
+.home .grid-profile-info {
+  grid-column: 1 / span 11;
+  grid-row: 1;
+}
+
+.home .grid-main {
+  grid-column: 1 / span 11;
+  grid-row: 2;
+}
+
+.home .grid-recent-posts {
+  grid-column: 1 / span 11;
+  grid-row: 3;
+}
+
+.home .grid-who-to-follow {
+  grid-column: 1 / span 11;
+  grid-row: 4;
+}
+
+.profile .grid-profile-info {
+  grid-column: 1 / span 11;
+  grid-row: 1;
+}
+
+.profile .grid-extra-profile-info {
+  grid-column: 1 / span 11;
+  grid-row: 2;
+}
+
+.profile .grid-main {
+  grid-column: 1 / span 11;
+  grid-row: 3;
+}
+
+.profile .grid-who-to-follow {
+  grid-column: 1 / span 11;
+  grid-row: 4;
+}
+
 @media (min-width: 1200px) {
   .grid > .grid-profile-info {
     grid-column: 1 / span 3;
@@ -858,7 +905,8 @@ label {
 
 /* Search (s:search) */
 .search {
-  margin: 20px auto 0 auto;
+  margin: 20px auto;
+  padding: 0 10px;
 }
 
 .search .search-form input {
@@ -866,7 +914,7 @@ label {
   width: 100%;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   .search {
     max-width: 650px;
   }
@@ -875,7 +923,8 @@ label {
 
 /* Notifications (s:notifications) */
 .notifications {
-  margin: 20px auto 0 auto;
+  margin: 20px auto;
+  padding: 0 10px;
 }
 
 .notification-list > li {
@@ -893,7 +942,7 @@ label {
   content: "- ";
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   .notifications {
     max-width: 650px;
   }
