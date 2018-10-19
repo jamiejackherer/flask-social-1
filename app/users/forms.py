@@ -90,7 +90,7 @@ class SettingsMiscellaneousForm(FlaskForm):
             ('75', '75'), 
             ('100', '100')
         ])
-    submit = SubmitField('Update Miscellaneous')
+    submit = SubmitField('Update')
 
 
 class SettingsDeleteAccountForm(FlaskForm):
