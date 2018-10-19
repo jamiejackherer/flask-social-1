@@ -187,7 +187,8 @@ class User(UserMixin, db.Model, BaseModel):
                  isouter=True).\
             filter(followers.c.follower_id == None,
                    User.id != self.id,
-                   User.active == True) # noqa
+                   User.active == True).\
+            limit(5) # noqa
 
     @property
     def home_posts(self):

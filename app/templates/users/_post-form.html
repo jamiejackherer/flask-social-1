@@ -12,7 +12,7 @@
 {% endif %}
 
 <form class="post-form" method="post" novalidate>
-  <div class="input-container">
+  <div class="field-container">
     {% if form.body.errors %}
     {{ form.body(class="input-error", placeholder=placeholder) }}
     <p>{{ form.body.errors[0] }}</p>

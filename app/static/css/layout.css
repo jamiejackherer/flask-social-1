@@ -141,6 +141,11 @@ a:hover {
   color: #262b30;
 }
 
+.back-to-page {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
 .header-group {
   align-items: flex-start;
   display: flex;
@@ -165,6 +170,7 @@ a:hover {
 }
 
 .header-group .back-to-page {
+  margin-bottom: 0;
   position: absolute;
   right: 0;
 
@@ -546,7 +552,6 @@ label {
 
 .post-form textarea {
   height: 85px;
-  margin-bottom: 20px;
   width: 100%;
 
   background-color: #ffffff;
@@ -793,7 +798,7 @@ label {
 
 /* Search (s:search) */
 .search {
-  margin-top: 20px;
+  margin: 20px auto 0 auto;
 }
 
 .search .search-form input {
@@ -802,15 +807,15 @@ label {
 }
 
 @media (min-width: 1200px) {
-  .grid > .grid-search {
-    grid-column: 3 / span 6;
+  .search {
+    max-width: 650px;
   }
 }
 /* //END Search (s:search) */
 
 /* Notifications (s:notifications) */
 .notifications {
-  margin-top: 20px;
+  margin: 20px auto 0 auto;
 }
 
 .notification-list > li {
@@ -829,8 +834,8 @@ label {
 }
 
 @media (min-width: 1200px) {
-  .grid > .grid-notifications {
-    grid-column: 2 / span 8;
+  .notifications {
+    max-width: 650px;
   }
 }
 /* //END Notifications (s:notifications) */
@@ -903,7 +908,7 @@ label {
 
 /* Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
 .post-and-comment-edit {
-  margin-top: 20px;
+  margin: 20px auto 0 auto;
 }
 
 .post-and-comment-edit .post-form {
@@ -917,12 +922,12 @@ label {
   height: auto;
 }
 
-.grid-post-and-comment-edit > * {
+.post-and-comment-edit .main-container > * {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-.grid-post-and-comment-edit > *:last-child {
+.post-and-comment-edit .main-container > *:last-child {
   margin-bottom: 0;
   padding-bottom: 0;
 }
@@ -950,8 +955,8 @@ label {
 }
 
 @media (min-width: 1200px) {
-  .grid > .grid-post-and-comment-edit {
-    grid-column: 4 / span 5;
+  .post-and-comment-edit {
+    max-width: 550px;
   }
 }
 /* //END Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
@@ -962,3 +967,29 @@ label {
   background-color: #f9f9f9;
 }
 /* //END Login (s:login) */
+
+/* Errors (s:errors) */
+.page-error {
+  margin: 20px auto 0 auto;
+}
+
+.page-error h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  
+  color: #262b30;
+  font-size: 120px;
+}
+
+.page-error h2 > span {
+  display: block;
+
+  font-size: 22px;
+}
+
+@media (min-width: 1200px) {
+  .page-error {
+    max-width: 550px;
+  }
+}
+/* //END Errors (s:errors) */

@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="post-and-comment-edit grid responsive-container">
-  <div class="grid-post-and-comment-edit main-container">
+<div class="post-and-comment-edit">
+  <a class="back-to-page" href="{{ url_for('users.post', post_id=post.id) }}">
+    <i class="fa fa-chevron-left"></i>
+    Back to post
+  </a>
+  <div class="main-container">
     {% if current_user == post.author %}
-    <div class="edit-form-wrappers">
+    <div class="edit-form-wrapper">
       <div class="header-group">
         <i class="fa fa-edit"></i>
         <h3>Edit Post</h3>
@@ -36,9 +40,9 @@
           {{ moment(edit.created).fromNow() }}
         </li>
         {% endfor %}
-      </ul><!--//END .edit-history-->
+    </ul><!--//END .edit-history-->
     </div><!--//END .edit-history-wrapper-->
     {% endif %}
-  </div><!--//END .grid-post-and-comment-edit .main-container-->
-</div><!--//END .post-and-comment-edit .grid .responsive-container-->
+  </div><!--//END .main-container-->
+</div><!--//END .post-and-comment-edit-->
 {% endblock %}

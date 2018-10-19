@@ -1,8 +1,12 @@
 {% extends "/base.html" %}
 
 {% block content %}
-<div class="post-and-comment-edit grid responsive-container">
-  <div class="grid-post-and-comment-edit main-container">
+<div class="post-and-comment-edit">
+  <a class="back-to-page" href="{{ url_for('users.comment', comment_id=comment.id) }}">
+    <i class="fa fa-chevron-left"></i>
+    Back to comment
+  </a>
+  <div class="main-container">
     {% if current_user == comment.author %}
     <div class="edit-form-wrappers">
       <div class="header-group">
@@ -39,6 +43,6 @@
       </ul><!--//END .edit-history-->
     </div><!--//END .edit-history-wrapper-->
     {% endif %}
-  </div><!--//END .grid-post-and-comment-edit .main-container-->
-</div><!--//END .post-and-comment-edit .grid .responsive-container-->
+  </div><!--//END .main-container-->
+</div><!--//END .post-and-comment-edit-->
 {% endblock %}

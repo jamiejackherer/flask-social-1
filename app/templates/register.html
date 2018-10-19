@@ -1,10 +1,13 @@
-{% extends "/base.html" %}
+{% extends "base.html" %}
 {% block page_title %}Sign up for {{ APP_NAME }}{% endblock %}
 
-
 {% block content %}
-<div class="form-container">
-  <p class="form-header">Sign up for {{ APP_NAME }}</p>
-  {% include "/_register-form.html" %}
-</div>
+<div class="lonely-form">
+  <h2 class="form-header">Sign up for {{ APP_NAME }}!</h2>
+  {% include "_register-form.html" %}
+  <div class="register-link main-container">
+    Already a member?
+    <a href="{{ url_for('static_views.login') }}">Log in</a>
+  </div><!--//END .register-link .main-container-->
+</div><!--//END .loneley-form-->
 {% endblock %}
