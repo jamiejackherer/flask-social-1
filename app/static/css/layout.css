@@ -16,6 +16,7 @@
  * - Post / Comment (s:post) (s:comment)
  * - Search (s:search)
  * - Settings (s:settings)
+ * - Post Edit / Comment Edit (s:post-edit) (s:comment-edit)
  */
 
 /* Fonts (s:fonts) */
@@ -861,3 +862,32 @@ label {
   }
 }
 /* //END Settings (s:settings) */
+
+/* Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
+.post-and-comment-edit {
+  margin-top: 20px;
+}
+
+.post-and-comment-edit .post-form {
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  border-bottom: none;
+}
+
+.grid-post-and-comment-edit > * {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.grid-post-and-comment-edit > *:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+@media (min-width: 1200px) {
+  .grid > .grid-post-and-comment-edit {
+    grid-column: 4 / span 5;
+  }
+}
+/* //END Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
