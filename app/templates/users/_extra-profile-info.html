@@ -10,14 +10,23 @@
   </a>
   {% endif %}
 {% endif %}
-{% if user.location or user.bio %}
 <div class="extra-profile-info main-container">
-  {% if user.location %}
-  <p class="profile-user-location"><i class="fa fa-map-marker-alt"></i> {{ user.location }}</p>
-  {% endif %}
   {% if user.bio %}
   <p class="profile-bio">{{ user.bio }}</p>
   {% endif %}
+  {% if user.location %}
+  <p class="profile-user-location"><i class="fa fa-map-marker-alt"></i> {{ user.location }}</p>
+  {% endif %}
+  {% if user.website_url %}
+  <p class="profile-website-url">
+    <i class="fa fa-link"></i>
+    <a href="{{ user.website_url|prepend_url }}">{{ user.website_url|truncate(28) }}</a>
+  </p>
+  {% endif %}
+  <p class="profile-joined">
+    <i class="fa fa-calendar-alt"></i>
+    Joined
+    {{ moment(user.created).format('MMMM YYYY') }}
+  </p>
 </div><!--//END .extra-info .main-container-->
-{% endif %}
 

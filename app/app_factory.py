@@ -9,7 +9,7 @@ import logging
 from logging.handlers import RotatingFileHandler, SMTPHandler
 from flask import Flask
 from config import DefaultConfig
-from app.helpers import truncate
+from app.helpers import truncate, prepend_url
 
 
 def create_app(config=None):
@@ -56,6 +56,7 @@ def configure_jinja(app):
 
     # Filters
     app.jinja_env.filters['truncate'] = truncate
+    app.jinja_env.filters['prepend_url'] = prepend_url
 
 
 def configure_logging(app):

@@ -698,8 +698,14 @@ label {
   padding-bottom: 0;
 }
 
-.profile-user-location > i {
+.profile-user-location > i,
+.profile-joined > i,
+.profile-website-url > i {
   margin-right: 10px;
+}
+
+.profile-website-url {
+  font-size: 14px;
 }
 
 @media (min-width: 1200px) {

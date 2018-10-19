@@ -3,6 +3,7 @@
     ~~~~~~~~~~~
 """
 from hashlib import sha256, md5
+from urllib.parse import urlparse, ParseResult
 
 
 class AttrDict(dict):
@@ -72,3 +73,10 @@ def grammar_posession(text):
     else:
         text = '{}\'s'.format(text)
     return text
+
+def prepend_url(url):
+    p = urlparse(url, 'http')
+    netloc = p.netloc or p.path
+    path = p.path if p.netloc else ''
+    p = ParseResult('http', netloc, path, *p[3:])
+    return p.geturl()

@@ -370,6 +370,7 @@ def settings_profile():
         current_user.last_name = form.last_name.data
         current_user.bio = form.bio.data
         current_user.location = form.location.data
+        current_user.website_url = form.website_url.data
         current_user.commit()
         flash('Your profile settings have been updated.')
         return redirect(url_for('users.settings_profile'))
@@ -378,6 +379,7 @@ def settings_profile():
         form.last_name.data = current_user.last_name
         form.bio.data = current_user.bio
         form.location.data = current_user.location
+        form.website_url.data = current_user.website_url
     return render_template('users/settings/profile.html', form=form)
 
 

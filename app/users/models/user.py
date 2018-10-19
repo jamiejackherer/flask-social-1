@@ -26,6 +26,7 @@ class User(UserMixin, db.Model, BaseModel):
     first_name = db.Column(db.String(35), nullable=False)
     last_name = db.Column(db.String(35), nullable=False)
     bio = db.Column(db.Text)
+    website_url = db.Column(db.String(500))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     posts_per_page = db.Column(db.Integer, default=10, nullable=False)
     location = db.Column(db.String(255))

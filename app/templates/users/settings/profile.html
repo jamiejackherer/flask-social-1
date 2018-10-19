@@ -44,6 +44,15 @@
         {{ form.location(placeholder="Example: Atlanta, Georgia") }}
         {% endif %}
       </div>
+      <div class="field-container">
+        {{ form.website_url.label }}
+        {% if form.website_url.errors %}
+        {{ form.website_url(class="input-error", placeholder="http://") }}
+        <p>{{ form.location.errors[0] }}</p>
+        {% else %}
+        {{ form.website_url(placeholder="http://") }}
+        {% endif %}
+      </div>
       {{ form.submit(class="btn btn-gradient-green") }}
       {{ form.hidden_tag() }}
     </form>

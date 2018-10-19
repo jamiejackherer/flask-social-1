@@ -60,6 +60,7 @@ class SettingsProfileForm(FlaskForm):
                             validators=[DataRequired(), Length(max=35)])
     bio = TextAreaField('Bio', validators=[Length(max=500)])
     location = StringField('Location', validators=[Length(max=255)])
+    website_url = StringField('Website', validators=[Length(max=500)])
     submit = SubmitField('Update Profile')
 
 
