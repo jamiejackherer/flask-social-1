@@ -43,6 +43,7 @@
  * ~~~~~~~~~
  * #27a44e - #31c961 - green
  * #eff3f6 - #fafbfc - gray
+ * #bf4140 - #de4c4a - red
  */
 
 /* Defaults (s:defaults) */
@@ -221,6 +222,22 @@ a:hover {
   border-color: #267340;
   color: #ffffff;
 }
+
+.btn-gradient-red {
+  background: #de4c4a; /* Old browsers */
+  background: -moz-linear-gradient(top, #de4c4a 0%, #bf4140 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #de4c4a 0%,#bf4140 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #de4c4a 0%,#bf4140 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  border-color: #9f3635;
+  color: #fff;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#de4c4a', endColorstr='#bf4140',GradientType=0 ); /* IE6-9 */
+}
+
+.btn-gradient-red:hover {
+  background: #de4c4a;
+  color: #ffffff;
+}
+
 /* //END Defaults (s:defaults) */
 
 /* Responsive / Grid (s:responsive) (s:grid) */
