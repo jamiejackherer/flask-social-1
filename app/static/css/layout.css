@@ -17,6 +17,7 @@
  * - Search (s:search)
  * - Settings (s:settings)
  * - Post Edit / Comment Edit (s:post-edit) (s:comment-edit)
+ * - Login (s:login)
  */
 
 /* Fonts (s:fonts) */
@@ -364,8 +365,48 @@ label {
   font-weight: bold;
 }
 
-.field-container > label {
+.field-container {
+  margin-bottom: 20px;
+}
+
+.field-container label {
   margin-bottom: 10px;
+}
+
+.field-container p {
+  margin-top: 5px;
+
+  color: #de4c4a;
+  font-size: 12px;
+}
+
+.field-container .label-group {
+  align-items: flex-start;
+  display: flex;
+}
+
+.field-container .label-group > *:nth-child(2) {
+  margin-left: auto;
+
+  font-size: 14px;
+}
+
+.lonely-form {
+  margin: 20px auto 0 auto;
+  width: 350px;
+}
+
+.lonely-form form {
+  margin-bottom: 20px;
+}
+
+.lonely-form input {
+  width: 100%;
+}
+
+.form-header {
+  margin-bottom: 20px;
+  text-align: center;
 }
 /* //END Forms (s:forms) */
 
@@ -831,13 +872,6 @@ label {
   font-weight: bold;
 }
 
-.settings input[type=text],
-.settings input[type=password],
-.settings select,
-.settings textarea {
-  margin-bottom: 20px;
-}
-
 .settings textarea {
   min-height: 90px;
   padding-bottom: 7px;
@@ -921,3 +955,10 @@ label {
   }
 }
 /* //END Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
+
+/* Login (s:login) */
+.register-link {
+  text-align: center;
+  background-color: #f9f9f9;
+}
+/* //END Login (s:login) */

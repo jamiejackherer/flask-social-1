@@ -24,7 +24,10 @@
 </head>
 <body>
 {% set no_header = [
-  'static_views.login'
+  'static_views.login',
+  'static_views.reset_password_request',
+  'static_views.reset_password',
+  'static_views.register',
 ]%}
 {% if not request.endpoint in no_header %}
 <div class="primary-header-wrapper">

@@ -1,39 +1,43 @@
 {% extends "base.html" %}
 {% block page_title %}Login to {{ APP_NAME }}{% endblock %}
 
-
 {% block content %}
-<div class="form-container">
-  <p class="form-header">Log into {{ APP_NAME }}</p>
-  <form class="small-form" method="post" novalidate>
-    <div class="input-container">
+<div class="lonely-form">
+  <h2 class="form-header">Sign in to {{ APP_NAME }}</h2>
+  <form class="main-container" method="post" novalidate>
+    <div class="field-container">
+      {{ form.email.label }}
       {% if form.email.errors %}
-      {{ form.email(class="input-error", placeholder=form.email.label.text) }}
+      {{ form.email(class="input-error", placeholder=form.email.label.text, tabindex='1') }}
       <p>{{ form.email.errors[0] }}</p>
       {% else %}
-      {{ form.email(placeholder=form.email.label.text) }}
+      {{ form.email(placeholder=form.email.label.text, tabindex='2') }}
       {% endif %}
-    </div>
-    <div class="input-container">
+    </div><!--//END .field-container-->
+    <div class="field-container">
+      <div class="label-group">
+        {{ form.password.label }}
+        <a href="{{ url_for('static_views.reset_password_request') }}">
+          Forgot password?
+        </a>
+      </div><!--//END .label-group-->
       {% if form.password.errors %}
-      {{ form.password(class="input-error", placeholder=form.password.label.text) }}
+      {{ form.password(class="input-error", placeholder=form.password.label.text, tabindex='2') }}
       <p>{{ form.password.errors[0] }}</p>
       {% else %}
-      {{ form.password(placeholder=form.password.label.text) }}
+      {{ form.password(placeholder=form.password.label.text, tabindex='2') }}
       {% endif %}
-    </div>
-    {{ form.submit }}
+    </div><!--//END .field-container-->
+    {{ form.submit(class='btn btn-gradient-green') }}
     {{ form.hidden_tag() }}
-  </form>
-  <p class="push no-margin">
-    <a href="{{ url_for('static_views.register') }}">
-      Not a member? Register for {{ APP_NAME }}.
-    </a>
-  </p>
-  <p class="no-margin">
-    <a href="{{ url_for('static_views.reset_password_request') }}">
-      Forgot your password?
-    </a>
-  </p>
-</div><!--//END .login-form-container-->
+  </form><!--//END .main-container-->
+  <div class="register-link main-container">
+    <p>
+      Not a member?
+      <a href="{{ url_for('static_views.register') }}">
+        Register for {{ APP_NAME }}.
+      </a>
+    </p>
+  </div><!--//END .register-link .main-container-->
+</div><!--//END .lonely-form-->
 {% endblock %}
