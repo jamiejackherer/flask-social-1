@@ -151,6 +151,10 @@ a:hover {
 
 }
 
+.header-group.page-sub-title {
+  margin-bottom: 20px;
+}
+
 .header-group > i {
   margin-right: 10px;
 }
@@ -875,6 +879,10 @@ label {
   border-bottom: none;
 }
 
+.post-and-comment-edit textarea {
+  height: auto;
+}
+
 .grid-post-and-comment-edit > * {
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -883,6 +891,28 @@ label {
 .grid-post-and-comment-edit > *:last-child {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+
+.edit-history > li {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px dotted #c8c9ca;
+}
+
+.edit-history > li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  border-bottom: none;
+}
+
+.edit-history > li span {
+  display: block;
+  margin-top: 10px;
+
+  font-size: 14px;
+  font-style: italic;
 }
 
 @media (min-width: 1200px) {

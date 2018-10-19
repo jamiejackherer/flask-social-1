@@ -4,73 +4,41 @@
 <div class="post-and-comment-edit grid responsive-container">
   <div class="grid-post-and-comment-edit main-container">
     {% if current_user == post.author %}
-    <div class="post-and-comment-form-wrapper">
+    <div class="edit-form-wrappers">
       <div class="header-group">
         <i class="fa fa-edit"></i>
-        <h3>Post Edit</h3>
+        <h3>Edit Post</h3>
       </div><!--//END .header-group-->
       <form class="post-form" method="post" novalidate>
-        <div class="input-container">
+        <div class="field-container">
           {% if form.body.errors %}
-          {{ form.body.value('testing') }}
+          {{ form.body(rows="3") }}
           <p>{{ form.body.errors[0] }}</p>
           {% else %}
-          {{ form.body }}
+          {{ form.body(rows="3") }}
           {% endif %}
         </div>
         {{ form.submit(class="btn btn-gradient-green", value='Update') }}
         {{ form.hidden_tag() }}
       </form>
-    </div>
+    </div><!--//END .edit-form-wrapper-->
     {% endif %}
     {% if post.edits.count() %}
     <div class="edit-history-wrapper">
-      <div class="header-group">
+      <div class="header-group page-sub-title">
         <i class="fa fa-history"></i>
         <h4>History</h4>
       </div>
-      <ul>
+      <ul class="edit-history">
         {% for edit in post.edits %}
         <li>
           <p>{{ edit.body }}</p>
-          <p>{{ edit.created }}</p>
+          {{ moment(edit.created).fromNow() }}
         </li>
         {% endfor %}
-      </ul>
-    </div>
+      </ul><!--//END .edit-history-->
+    </div><!--//END .edit-history-wrapper-->
     {% endif %}
   </div><!--//END .grid-post-and-comment-edit .main-container-->
 </div><!--//END .post-and-comment-edit .grid .responsive-container-->
 {% endblock %}
-
-
-{#
-{% block content %}
-<h2 class="page-sub-title">Post Edit</h2>
-    {% if current_user == post.author %}
-    <form class="post-form" method="post" novalidate>
-      <div class="input-container">
-        {% if form.body.errors %}
-        {{ form.body.value('testing') }}
-        <p>{{ form.body.errors[0] }}</p>
-        {% else %}
-        {{ form.body }}
-        {% endif %}
-      </div>
-      {{ form.submit(value='Update') }}
-      {{ form.hidden_tag() }}
-    </form>
-    {% endif %}
-
-    {% if post.edits.count() %}
-    <ul>
-      {% for edit in post.edits %}
-      <li>
-        <p>{{ edit.body }}</p>
-        <p>{{ edit.created }}</p>
-      </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-{% endblock %}
-#}

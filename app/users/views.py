@@ -264,7 +264,7 @@ def comment_edit():
                                     comment_id=comment_id))
     elif request.method == 'GET':
         form.body.data = comment.body
-    return render_template('users/comment-edit.html', post=comment,
+    return render_template('users/comment-edit.html', comment=comment,
                            form=form)
 
 
