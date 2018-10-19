@@ -330,6 +330,7 @@ a:hover {
 
 .primary-nav > li {
   padding: 0 10px;
+  position: relative;
 }
 
 .primary-nav > li:nth-child(2) {
@@ -349,6 +350,21 @@ a:hover {
 .primary-nav > li > a:hover {
   color: #c8c9ca;
   text-decoration: none;
+}
+
+.new-notifications {
+  padding: 3px;
+  position: absolute;
+  left: 20px;
+  top: -6px;
+
+  background-color: #de4c4a;
+  border-radius: 4px;
+  font-size: 9px;
+}
+
+.primary-nav > li > a:hover .new-notifications {
+  color: #ffffff;
 }
 /* //END Header / Primary Nav (s:header) (s:primary-nav) */
 
