@@ -15,7 +15,11 @@
         </a>
       </div><!--//END .post-likes-->
       <a href="{{ url_for('users.post', post_id=post.id) }}">
+        {% if current_user.has_commented_post(post) %}
+        <i class="fas fa-comment"></i>
+        {% else %}
         <i class="far fa-comment"></i>
+        {% endif %}
         <span class="post-comment-count">{{ post.active_comments.count() }}</span>
       </a>
       {% if current_user == post.author %}

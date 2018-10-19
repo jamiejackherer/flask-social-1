@@ -178,6 +178,11 @@ class User(UserMixin, db.Model, BaseModel):
             PostCommentLike.user_id == self.id,
             PostCommentLike.comment_id == comment.id).count() > 0
 
+    def has_commented_post(self, post):
+        return PostComment.query.\
+            filter_by(author_id=self.id, post_id=post.id, active=True).\
+            count() > 0
+
     @property
     def unfollowed_users(self):
         """ Return users `User` is not following. """

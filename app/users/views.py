@@ -279,7 +279,7 @@ def post_action(post_id, action):
     # Delete post.
     if action == 'delete':
         if current_user == post.author or current_user.id == post.recipient_id:
-            referrer = url_for('users.home', username=current_user.username)
+            referrer = url_for('users.profile', username=current_user.username)
             post.delete()
             NotificationHelper(post=post).delete_post()
             post.commit()

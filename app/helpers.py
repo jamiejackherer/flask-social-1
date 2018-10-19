@@ -74,6 +74,7 @@ def grammar_posession(text):
         text = '{}\'s'.format(text)
     return text
 
+
 def prepend_url(url):
     p = urlparse(url, 'http')
     netloc = p.netloc or p.path
