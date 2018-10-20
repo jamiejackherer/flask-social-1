@@ -476,6 +476,7 @@ label {
 .list-users > li {
   margin-bottom: 10px;
   padding-bottom: 10px;
+  position: relative;
 }
 
 .list-users-bulky > li {
@@ -619,10 +620,6 @@ label {
   padding-bottom: 20px;
   padding-left: 55px;
   position: relative;
-}
-
-.post-list > li:last-child {
-  margin-bottom: 0;
 }
 
 .post-list .profile-picture {
@@ -809,6 +806,29 @@ label {
   grid-row: 4;
 }
 
+@media (min-width: 992px) {
+  .grid > .grid-profile-info {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+  }
+
+  .grid > .grid-main {
+    grid-column: 5 / span 8;
+    grid-row: 1 / span 4;
+  }
+
+  .grid > .grid-recent-posts,
+  .grid > .grid-extra-profile-info {
+    grid-column: 1 / span 4;
+    grid-row: 2;
+  }
+
+  .grid > .grid-who-to-follow {
+    grid-column: 1 / span 4;
+    grid-row: 3;
+  }
+}
+
 @media (min-width: 1200px) {
   .grid > .grid-profile-info {
     grid-column: 1 / span 3;
@@ -838,12 +858,16 @@ label {
 /* //END Home / Profile (s:home) (s:profile) */
 
 /* Post / Comment (s:post) (s:comment) */
-.post-and-comment,
-.comment {
+.post {
   margin-top: 20px;
 }
 
-.post-and-comment .post-list {
+.comment {
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+.post .post-list {
   margin-bottom: 20px;
 }
 
@@ -888,17 +912,47 @@ label {
   color: #5a5a5a;
 }
 
+.grid-post-likes {
+  margin-bottom: 20px;
+}
+
+.grid > .grid-post {
+  grid-column: 1 / span 11;
+  grid-row: 1;
+}
+
+.grid > .grid-post-likes {
+  grid-column: 1 / span 11;
+  grid-row: 2;
+}
+
+@media (min-width: 768px) {
+  .grid > .grid-post {
+    grid-column: 1 / span 7;
+    grid-row: 1;
+  }
+
+  .grid > .grid-post-likes {
+    grid-column: 8 / span 4;
+    grid-row: 1;
+  }
+
+  .comment {
+    max-width: 650px;
+  }
+
+  .post .card {
+    margin-bottom: 20px;
+  }
+}
+
 @media (min-width: 1200px) {
-  .grid > .grid-post-and-comment {
+  .grid > .grid-post {
     grid-column: 2 / span 6;
   }
 
   .grid > .grid-post-likes {
     grid-column: 8 / span 3;
-  }
-
-  .grid > .grid-comment {
-    grid-column: 3 / span 6;
   }
 }
 /* //END Post / Comment (s:post) (s:comment) */
@@ -998,15 +1052,39 @@ label {
   font-size: 14px;
 }
 
-@media (min-width: 1200px) {
+.settings input[type=text],
+.settings input[type=password],
+.settings textarea {
+  width: 100%;
+}
+
+.grid-settings-content {
+  margin-bottom: 20px;
+}
+
+.grid > .grid-settings-nav {
+  grid-column: 1 / span 11;
+  grid-row: 1;
+}
+
+.grid > .grid-settings-content {
+  grid-column: 1 / span 11;
+  grid-row: 2;
+}
+
+@media (min-width: 768px) {
   .grid > .grid-settings-nav {
     grid-column: 1 / span 3;
+    grid-row: 1;
   }
 
   .grid > .grid-settings-content {
     grid-column: 4 / span 8;
+    grid-row: 1;
   }
+}
 
+@media (min-width: 992px) {
   .settings input[type=text],
   .settings input[type=password],
   .settings textarea {
@@ -1018,6 +1096,7 @@ label {
 /* Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
 .post-and-comment-edit {
   margin: 20px auto 0 auto;
+  padding: 0 10px;
 }
 
 .post-and-comment-edit .post-form {
@@ -1063,9 +1142,9 @@ label {
   font-style: italic;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   .post-and-comment-edit {
-    max-width: 550px;
+    max-width: 650px;
   }
 }
 /* //END Post Edit / Comment Edit (s:post-edit) (s:comment-edit) */
@@ -1079,7 +1158,8 @@ label {
 
 /* Errors (s:errors) */
 .page-error {
-  margin: 20px auto 0 auto;
+  margin: 20px auto;
+  padding: 0 10px;
 }
 
 .page-error h2 {
@@ -1096,7 +1176,7 @@ label {
   font-size: 22px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 576px) {
   .page-error {
     max-width: 550px;
   }

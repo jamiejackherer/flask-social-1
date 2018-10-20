@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="page-error main-container">
-  <h2>404 <span>Page not found</span></h2>
-  <p>
-    The page you are looking for doesn't exist or another error occurred.
-    Head back to <a href="{{ url_for('static_views.index') }}">home page</a>.
-  </p>
-</div><!--//END .page-error .main-container-->
+<div class="page-error">
+  <div class="main-container">
+    <h2>404 <span>Page not found</span></h2>
+    <p>
+      The page you are looking for doesn't exist or another error occurred.
+      Head back to <a href="{{ url_for('static_views.index') }}">home page</a>.
+    </p>
+  </div><!--//END .main-container-->
+</div><!--//END .page-error-->
 {% endblock %}
