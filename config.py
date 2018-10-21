@@ -27,6 +27,7 @@ class BaseConfig:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ast.literal_eval(os.environ.get('ADMINS', ''))
+    USER_DIR = '{}/app/static/img/user'.format(basedir)
 
 
 class DefaultConfig(BaseConfig):

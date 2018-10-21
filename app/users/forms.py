@@ -1,6 +1,7 @@
 import re
 from flask_login import current_user
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileRequired, FileField, FileAllowed
 from wtforms import (
     StringField, SubmitField, TextAreaField, PasswordField, SelectField
 )
@@ -58,6 +59,11 @@ class SettingsProfileForm(FlaskForm):
                              validators=[DataRequired(), Length(max=35)])
     last_name = StringField('Last name',
                             validators=[DataRequired(), Length(max=35)])
+    profile_picture = FileField(
+        'Profile picture',
+        validators=[
+            FileAllowed(['jpg', 'png'], '.jpg or .png extensions only')
+        ])
     bio = TextAreaField('Bio', validators=[Length(max=500)])
     location = StringField('Location', validators=[Length(max=255)])
     website_url = StringField('Website', validators=[Length(max=500)])
