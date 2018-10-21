@@ -7,7 +7,7 @@
   </div><!--//END .grid-settings-nav .main-container-->
   <div class="grid-settings-content main-container">
     <h3 class="page-sub-title">Profile settings</h3>
-    <form method="post" novalidate>
+    <form method="post" enctype="multipart/form-data" novalidate>
       <div class="field-container">
         {{ form.first_name.label }}
         {% if form.first_name.errors %}
@@ -24,6 +24,15 @@
         <p>{{ form.last_name.errors[0] }}</p>
         {% else %}
         {{ form.last_name(placeholder=form.last_name.label.text) }}
+        {% endif %}
+      </div>
+      <div class="field-container">
+        {{ form.profile_picture.label }}
+        {% if form.profile_picture.errors %}
+        {{ form.profile_picture(class="input-error", placeholder=form.profile_picture.label.text) }}
+        <p>{{ form.profile_picture.errors[0] }}</p>
+        {% else %}
+        {{ form.profile_picture(placeholder=form.profile_picture.label.text) }}
         {% endif %}
       </div>
       <div class="field-container">

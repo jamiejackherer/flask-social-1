@@ -2,14 +2,39 @@
     app.helpers
     ~~~~~~~~~~~
 """
+import os
 from hashlib import sha256, md5
 from urllib.parse import urlparse, ParseResult
+from flask import current_app
+from PIL import Image, ImageOps
 
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
+
+
+class ProfilePictureHelper:
+    def __init__(self, user):
+        self.user_id = user.id
+
+    @property
+    def filename(self):
+        return hash_list([self.user_id])
+    
+    def resize_image(self, size):
+        img = Image.open(self.filename)
+        method = Image.NEAREST if img.size == size else Image.ANTIALIAS
+        return ImageOps.fit(img, size, method=method)
+
+    def create_image(self):
+        pass
+
+    def save(self, filename):
+        user_dir = current_app.config['USER_DIR']
+        if not os.path.isdir(user_dir):
+            os.makedirs(user_dir)
 
 
 def register_user(User, email, first_name, last_name, password):

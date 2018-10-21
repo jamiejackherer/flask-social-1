@@ -27,7 +27,7 @@
     {% endif %}
   </div><!--//END .post-controls-->
   <a class="profile-picture" href="{{ url_for('users.profile', username=comment.author.username) }}">
-    <img src="{{ comment.author.avatar(30) }}">
+    <img src="{{ url_for('static', filename='img/user/' + comment.author.profile_picture) }}" width="30" height="30">
   </a>
   <p class="comment-body">
     <a href="{{ url_for('users.profile', username=comment.author.username) }}">

@@ -4,6 +4,7 @@
 
     User model.
 """
+import os
 import jwt
 from time import time
 from datetime import datetime
@@ -97,6 +98,13 @@ class User(UserMixin, db.Model, BaseModel):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=monsterid&s={}'.format(
             digest, size)
+
+    @property
+    def profile_picture(self):
+        user_dir = current_app.config['USER_DIR']
+        filename = '{}.jpg'.format(hash_list([self.id]))
+        full_path = '{}/{}'.format(user_dir, filename)
+        return filename if os.path.exists(full_path) else 'default.jpg'
 
     def follow(self, user):
         """ Follow `user`.
