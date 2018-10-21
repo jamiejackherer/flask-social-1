@@ -1,5 +1,4 @@
-{% extends "/base.html" %}
-
+{% extends "base.html" %}
 
 {% block content %}
 <div class="grid-index-container">
@@ -17,7 +16,7 @@
   </div>
   <div class="index-registration">
     <span class="sign-up">Sign up for {{ APP_NAME }}!</span>
-    {% include "/_register-form.html" %}
+    {% include "_register-form.html" %}
   </div>
 </div><!--//END .index-container-->
 {% endblock %}
