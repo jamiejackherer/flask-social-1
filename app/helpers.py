@@ -5,6 +5,7 @@
 import os
 from hashlib import sha256, md5
 from urllib.parse import urlparse, ParseResult
+from werkzeug.utils import secure_filename
 from flask import current_app
 from PIL import Image, ImageOps
 
@@ -15,26 +16,24 @@ class AttrDict(dict):
         self.__dict__ = self
 
 
-class ProfilePictureHelper:
-    def __init__(self, user):
-        self.user_id = user.id
-
-    @property
-    def filename(self):
-        return hash_list([self.user_id])
+def create_profile_picture(user, pp_data):
+    user_dir = current_app.config['USER_DIR']
+    if not os.path.isdir(user_dir):
+        os.makedirs(user_dir)
+    og_filename = secure_filename(pp_data.filename)
+    og_full_path = '{}/{}'.format(user_dir, og_filename)
+    pp_data.save(og_full_path)
     
-    def resize_image(self, size):
-        img = Image.open(self.filename)
-        method = Image.NEAREST if img.size == size else Image.ANTIALIAS
-        return ImageOps.fit(img, size, method=method)
+    size = (160, 160)
+    basename = hash_list([user.id])
+    full_path = '{}/{}.jpg'.format(user_dir, basename)
+    img = Image.open(og_full_path)
+    method = Image.NEAREST if img.size == size else Image.ANTIALIAS
+    img = ImageOps.fit(img, size, method=method)
+    img.save(full_path, 'JPEG', quality=95)
 
-    def create_image(self):
-        pass
-
-    def save(self, filename):
-        user_dir = current_app.config['USER_DIR']
-        if not os.path.isdir(user_dir):
-            os.makedirs(user_dir)
+    if os.path.exists(og_full_path):
+        os.remove(og_full_path)
 
 
 def register_user(User, email, first_name, last_name, password):
