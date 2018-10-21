@@ -368,6 +368,10 @@ a:hover {
 .primary-nav > li > a:hover .new-notifications {
   color: #ffffff;
 }
+
+.login {
+  margin-left: auto;
+}
 /* //END Header / Primary Nav (s:header) (s:primary-nav) */
 
 /* Flash messages {s:flash-messages) */
