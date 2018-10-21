@@ -1,7 +1,7 @@
 
 <li>
   <a class="profile-picture" href="{{ url_for('users.profile', username=list_user.username) }}">
-    <img src="{{ list_user.avatar(30) }}">
+    <img src="{{ url_for('static', filename='img/user/' + list_user.profile_picture) }}" width="30" height="30">
   </a>
   <a href="{{ url_for('users.profile', username=list_user.username) }}">
     {{ list_user.full_name }}

@@ -3,3 +3,11 @@ env
 *.pyc
 .flaskenv
 .env
+
+.DS_Store
+
+*.jpg
+*.png
+*.gif
+
+!default.jpg

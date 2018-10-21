@@ -7,7 +7,7 @@
   {% for post in unfollowed_posts %}
   <li>
     <a class="recent-posts-header" href="{{ url_for('users.profile', username=post.author.username) }}">
-      <img src="{{ post.author.avatar(30) }}">
+      <img src="{{ url_for('static', filename='img/user/' + post.author.profile_picture) }}" width="30" height="30">
       <span>{{ post.author.full_name }}</span>
     </a>
     <p>{{ post.body|truncate }}</p>
