@@ -12,6 +12,7 @@
   </div><!--//END .grid-extra-profile-info-->
   <div class="grid-main">
     {% include "users/_post-form.html" %}
+    {{ render_pagination(posts, 'users.profile', username=user.username) }}
     {% if posts.items %}
     <ul class="post-list">
       {% for post in posts.items %}
@@ -27,6 +28,7 @@
       {% endif %}
     </p><!--//END .card-->
     {% endif %}
+    {{ render_pagination(posts, 'users.profile', username=user.username) }}
   </div><!--//END .grid-main-->
   <div class="grid-who-to-follow main-container">
     {% include "users/_who-to-follow.html" %}

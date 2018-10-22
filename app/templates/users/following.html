@@ -9,29 +9,33 @@
   <div class="grid-extra-profile-info">
     {% include "users/_extra-profile-info.html" %}
   </div><!--//END .grid-extra-profile-info-->
-  <div class="grid-main main-container">
-    <div class="header-group">
-      <i class="fas fa-user"></i>
-      <h3>Following</h3>
-      <a class="back-to-page" href="{{ url_for('users.profile', username=user.username) }}">
-        <i class="fa fa-chevron-left"></i> Back to {{ user.first_name }}'s profile
-      </a>
-    </div><!--//END .header-group-->
-    {% if following.items %}
-    <ul class="list-users">
-      {% for list_user in following.items %}
-      {% include "users/_list-user.html" %}
-      {% endfor %}
-    </ul><!--//END .list-users-->
-    {% else %}
-    <p class="card">
-      {% if current_user == user %}
-      You are not following anyone.
+  <div class="grid-main">
+    {{ render_pagination(following, 'users.following', username=user.username) }}
+    <div class="main-container">
+      <div class="header-group">
+        <i class="fas fa-user"></i>
+        <h3>Following</h3>
+        <a class="back-to-page" href="{{ url_for('users.profile', username=user.username) }}">
+          <i class="fa fa-chevron-left"></i> Back to {{ user.first_name }}'s profile
+        </a>
+      </div><!--//END .header-group-->
+      {% if following.items %}
+      <ul class="list-users">
+        {% for list_user in following.items %}
+        {% include "users/_list-user.html" %}
+        {% endfor %}
+      </ul><!--//END .list-users-->
       {% else %}
-      {{ user.first_name }} isn't following anyone.
+      <p class="card">
+        {% if current_user == user %}
+        You are not following anyone.
+        {% else %}
+        {{ user.first_name }} isn't following anyone.
+        {% endif %}
+      </p>
       {% endif %}
-    </p>
-    {% endif %}
+    </div><!--//END .main-container-->
+    {{ render_pagination(following, 'users.following', username=user.username) }}
   </div><!--//END .grid-main-->
   <div class="grid-who-to-follow main-container">
     {% include "users/_who-to-follow.html" %}

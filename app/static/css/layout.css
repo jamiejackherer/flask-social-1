@@ -19,6 +19,7 @@
  * - Settings (s:settings)
  * - Post Edit / Comment Edit (s:post-edit) (s:comment-edit)
  * - Login (s:login)
+ * - Pagination (s:pagination)
  */
 
 /* Fonts (s:fonts) */
@@ -571,6 +572,10 @@ label {
   margin-top: 20px;
 }
 
+.profile .grid-main .main-container {
+  margin-bottom: 20px;
+}
+
 .name-and-profile-picture {
   align-items: center;
   display: flex;
@@ -913,6 +918,10 @@ label {
   margin-top: 20px;
 }
 
+.post .grid-post-likes .main-container {
+  margin-bottom: 20px;
+}
+
 .comment {
   margin: 20px auto;
   padding: 0 10px;
@@ -926,6 +935,10 @@ label {
 .card-wrapper,
 .comment-likes-wrapper {
   padding-left: 55px;
+}
+
+.comment-likes-wrapper .main-container {
+  margin-bottom: 20px;
 }
 
 .post-and-comment .post-form {
@@ -1012,6 +1025,10 @@ label {
 .search {
   margin: 20px auto;
   padding: 0 10px;
+}
+
+.search .main-container {
+  margin-bottom: 20px;
 }
 
 .search .search-form input {
@@ -1261,3 +1278,24 @@ label {
   }
 }
 /* //END Errors (s:errors) */
+
+/* Pagination (s:pagination) */
+.pagination {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.pagination .previous-wrapper,
+.pagination .next-wrapper {
+  width: 50%;
+}
+
+.pagination .next-wrapper {
+  text-align: right;
+}
+
+.pagination p,
+.pagination a {
+  line-height: 1;
+}
+/* //END Pagination (s:pagination) */

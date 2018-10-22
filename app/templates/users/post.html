@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% from "_macros.html" import render_comment_pagination %}
-{% from "_macros.html" import render_like_pagination %}
+{% from "_macros.html" import render_pagination %}
+{% from "_macros.html" import render_likes_pagination %}
 
 {% block content %}
 <div class="post grid responsive-container">
@@ -11,6 +11,7 @@
     <div class="form-wrapper">
       {% include "users/_post-form.html" %}
     </div><!--//END .form-wrapper-->
+    {{ render_pagination(comments, 'users.post', post_id=post.id, likes_page=request.args.get('likes_page')) }}
     {% if comments.items %}
     <ul class="comment-list">
       {% for comment in comments.items %}
@@ -23,26 +24,30 @@
     </div><!--//END .card-wrapper-->
     {% endif %}
   </div><!--//END .grid-post-and-comment-->
-  <div class="grid-post-likes main-container">
-    <div class="header-group">
-      <i class="fa fa-heart"></i>
-      <h3>Users who like this post</h3>
-    </div><!--//END .header-group-->
-    {% if likes.items %}
-    <ul class="list-users-bulky">
-      {% for like in likes.items %}
-      {% set list_user = like.user %}
-      {% include "users/_list-user_bulky.html" %}
-      {% endfor %}
-    </ul><!--//END .who-to-follow-list-->
-    {% else %}
-    <p>
-      Nobody has liked this post yet.
-      <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">
-        Be the first to like it!
-      </a>
-    </p>
-    {% endif %}
-  </div><!--//END .grid-post-likes .main-container-->
+  <div class="grid-post-likes">
+    {{ render_likes_pagination(likes, 'users.post', post_id=post.id, page=request.args.get('page')) }}
+    <div class="main-container">
+      <div class="header-group">
+        <i class="fa fa-heart"></i>
+        <h3>Users who like this post</h3>
+      </div><!--//END .header-group-->
+      {% if likes.items %}
+      <ul class="list-users-bulky">
+        {% for like in likes.items %}
+        {% set list_user = like.user %}
+        {% include "users/_list-user_bulky.html" %}
+        {% endfor %}
+      </ul><!--//END .who-to-follow-list-->
+      {% else %}
+      <p>
+        Nobody has liked this post yet.
+        <a href="{{ url_for('users.post_action', post_id=post.id, action='like') }}">
+          Be the first to like it!
+        </a>
+      </p>
+      {% endif %}
+    </div><!--//END .main-container-->
+    {{ render_likes_pagination(likes, 'users.post', post_id=post.id, page=request.args.get('page')) }}
+  </div><!--//END .grid-post-likes-->
 </div><!--//END .post-and-comment grid responsive-container-->
 {% endblock %}
