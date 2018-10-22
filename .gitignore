@@ -6,8 +6,8 @@ env
 
 .DS_Store
 
-*.jpg
-*.png
-*.gif
+app/static/img/user/*.jpg
+app/static/img/user/*.jpeg
+app/static/img/user/*.png
 
-!default.jpg
+!app/static/img/user/default.jpg
