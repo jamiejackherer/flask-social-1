@@ -120,8 +120,7 @@ a {
 }
 
 a:hover {
-  color: #25b734;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .main-container,
@@ -191,6 +190,10 @@ a:hover {
   text-align: center;
   font-family: inherit;
   font-size: inherit;
+}
+
+.btn:hover {
+  text-decoration: none;
 }
 
 .btn-gradient-gray {
@@ -519,41 +522,47 @@ label {
 
 /* Index (s:index) */
 .index-wrapper {
-  background-color: #30343d;
+  margin-bottom: 20px;
+  
+  background: #ededed url("/static/img/japanese-sayagata-bg.png");
+  border-bottom: 1px solid #d8dee2;
 }
 
 .index {
+  align-items: center;
   display: flex;
   padding: 40px 0; 
-
-  color: #ffffff;
 }
 
 .index h1 {
-  color: #ffffff;
-  font-size: 75px;
+  margin-bottom: 40px;
+
+  color: #de4c4a;
+  font-size: 120px;
+  line-height: 1;
 }
 
 .index h1 span {
-  color: #adadad;
+  display: block;
+  margin-top: 10px;
+  
+  color: #262b30;
+  font-size: 30px;
 }
 
 .index h2 {
-  color: #ffffff;
   font-size: 24px;
 }
 
 .index .welcome {
-  padding-right: 20px;
-  width: 65%;
+  padding-right: 80px;
+  width: 70%;
+
+  font-size: 22px;
 }
 
 .index .register-form {
-  width: 35%;
-}
-
-.index .register-form .main-container {
-  border: none;
+  width: 30%;
 }
 
 .index .register-form .btn {
@@ -563,6 +572,37 @@ label {
 
 .index input {
   width: 100%;
+}
+
+.stack {
+  display: flex;
+  justify-content: center;
+
+  font-size: 22px;
+}
+
+.stack > li {
+  margin-right: 15px;
+}
+
+.stack > li:last-child {
+  margin-right: 0;
+}
+
+.stack a {
+  color: #c8c9ca;
+}
+
+.stack .python:hover {
+  color: #ffcb54;
+}
+
+.stack .html5:hover {
+  color: #e9502b;
+}
+
+.stack .css3:hover {
+  color: #0055e2;
 }
 /* //END Index (s:index) */
 

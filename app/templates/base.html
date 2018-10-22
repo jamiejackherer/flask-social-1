@@ -5,17 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block page_title %}{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
-  <link rel="stylesheet" 
-        href="https://use.fontawesome.com/releases/v5.4.1/css/solid.css" 
-        integrity="sha384-osqezT+30O6N/vsMqwW8Ch6wKlMofqueuia2H7fePy42uC05rm1G+BUPSd2iBSJL"
-        crossorigin="anonymous">
-  <link rel="stylesheet" 
-        href="https://use.fontawesome.com/releases/v5.4.1/css/regular.css" 
-        integrity="sha384-4e3mPOi7K1/4SAx8aMeZqaZ1Pm4l73ZnRRquHFWzPh2Pa4PMAgZm8/WNh6ydcygU" 
-        crossorigin="anonymous">
-  <link rel="stylesheet" 
-        href="https://use.fontawesome.com/releases/v5.4.1/css/fontawesome.css" 
-        integrity="sha384-BzCy2fixOYd0HObpx3GMefNqdbA7Qjcc91RgYeDjrHTIEXqiF00jKvgQG0+zY/7I" 
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
         crossorigin="anonymous">
   <link rel="icon" type="image/png" sizes="32x32"
         href="{{ url_for('static', filename='img/favicon/favicon-32x32.png') }}">
@@ -56,7 +48,7 @@
       <li><a href="{{ url_for('static_views.logout') }}"><i class="fa fa-sign-out-alt"></i></a></li>
     </ul><!--//END .primary-nav-->
     {% else %}
-    <a class="login btn btn-gradient-green" href="{{ url_for('static_views.login') }}">Login</a>
+    <a class="login btn btn-gradient-gray" href="{{ url_for('static_views.login') }}">Login</a>
     {% endif %}
   </div><!--//END .primary-header-container-->
 </div><!--//END .primary-header-wrapper-->

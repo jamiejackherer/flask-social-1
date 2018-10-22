@@ -1,20 +1,37 @@
 {% extends "base.html" %}
+{% block page_title %}Welcome to {{ APP_NAME }}, a social media application I wrote for fun!{% endblock %}
 
 {% block content %}
 <div class="index-wrapper">
   <div class="index responsive-container">
     <div class="welcome">
-      <h1>
-        Welcome to {{ APP_NAME }}!
-        <span>
-          A social media app I wrote for fun...
-        </span>
-      </h1>
+      <h1>{{ APP_NAME }}, <span>a social media application I wrote for fun!</span></h1>
+      <p>
+        This application was written in <a href="https://www.python.org">Python</a>
+        using the <a href="http://flask.pocoo.org/">Flask</a> microframework.
+        You can view this application's
+        <a href="https://github.com/onosendi/flask-social">source code</a> on Github.
+      </p>
     </div><!--//END .welcome-->
     <div class="register-form">
-      <h2 class="form-header">Sign up for {{ APP_NAME }}</h2>
+      <h2 class="form-header">Sign up for {{ APP_NAME }}!</h2>
       {% include "_register-form.html" %}
     </div><!--//END .register-form-->
   </div><!--//END .index .responsive-container-->
 </div><!--//END .index-wrapper-->
+<div class="responsive-container">
+  <ul class="stack">
+    <li><a class="python" href="https://www.python.org"><i class="fab fa-python"></i></a></li>
+    <li>
+      <a class="html5" href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fsocial.dlindegren.com">
+        <i class="fab fa-html5"></i>
+      </a>
+    </li>
+    <li>
+      <a class="css3" href="https://jigsaw.w3.org/css-validator/validator?uri=social.dlindegren.com&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en">
+        <i class="fab fa-css3"></i>
+      </a>
+    </li>
+  </ul>
+</div><!--//END .responsive-container-->
 {% endblock %}
