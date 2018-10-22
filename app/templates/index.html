@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="grid-index-container">
-  <div class="index-content">
-    <h2 class="page-title">Welcome</h2>
-    <p>
-      I created this social media website for fun, to test my skills. If you'd like, you
-      can <a href="https://github.com/onosendi/flask-social">view this website's code</a>
-      on github.
-    </p>
-    <p>
-      This website was written in <a href="https://www.python.org/">Python</a>, using the
-      <a href="http://flask.pocoo.org">Flask microframework</a>.
-    </p>
-  </div>
-  <div class="index-registration">
-    <span class="sign-up">Sign up for {{ APP_NAME }}!</span>
-    {% include "_register-form.html" %}
-  </div>
-</div><!--//END .index-container-->
+<div class="index-wrapper">
+  <div class="index responsive-container">
+    <div class="welcome">
+      <h1>
+        Welcome to {{ APP_NAME }}!
+        <span>
+          A social media app I wrote for fun...
+        </span>
+      </h1>
+    </div><!--//END .welcome-->
+    <div class="register-form">
+      <h2 class="form-header">Sign up for {{ APP_NAME }}</h2>
+      {% include "_register-form.html" %}
+    </div><!--//END .register-form-->
+  </div><!--//END .index .responsive-container-->
+</div><!--//END .index-wrapper-->
 {% endblock %}

@@ -35,6 +35,6 @@
     {{ form.password(placeholder=form.password.label.text) }}
     {% endif %}
   </div>
-  {{ form.submit(class='btn btn-gradient-green') }}
+  {{ form.submit(class="btn btn-gradient-green", value='Sign up for ' + APP_NAME) }}
   {{ form.hidden_tag() }}
 </form>

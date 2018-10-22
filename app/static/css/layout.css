@@ -12,6 +12,7 @@
  * - Flash messages (s:flash-messages)
  * - Forms (s:forms)
  * - List Users (s:list-users)
+ * - Index (s:index)
  * - Home / Profile (s:home) (s:profile)
  * - Post / Comment (s:post) (s:comment)
  * - Search (s:search)
@@ -514,6 +515,55 @@ label {
   right: 0;
 }
 /* //END List Users (s:list-users) */
+
+/* Index (s:index) */
+.index-wrapper {
+  background-color: #30343d;
+}
+
+.index {
+  display: flex;
+  padding: 40px 0; 
+
+  color: #ffffff;
+}
+
+.index h1 {
+  color: #ffffff;
+  font-size: 75px;
+}
+
+.index h1 span {
+  color: #adadad;
+}
+
+.index h2 {
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.index .welcome {
+  padding-right: 20px;
+  width: 65%;
+}
+
+.index .register-form {
+  width: 35%;
+}
+
+.index .register-form .main-container {
+  border: none;
+}
+
+.index .register-form .btn {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.index input {
+  width: 100%;
+}
+/* //END Index (s:index) */
 
 /* Home / Profile (s:home) (s:profile) */
 .home,
