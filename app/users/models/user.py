@@ -102,7 +102,7 @@ class User(UserMixin, db.Model, BaseModel):
 
     @property
     def profile_picture(self):
-        user_dir = current_app.config['USER_DIR']
+        user_dir = current_app.config['STATIC_IMG_USER_DIR']
         filename = '{}.jpg'.format(self.profile_photo)
         full_path = '{}/{}'.format(user_dir, filename)
         return filename if os.path.exists(full_path) else 'default.jpg'
