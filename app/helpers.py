@@ -3,6 +3,7 @@
     ~~~~~~~~~~~
 """
 import os
+from datetime import datetime
 from hashlib import sha256, md5
 from urllib.parse import urlparse, ParseResult
 from werkzeug.utils import secure_filename
@@ -16,24 +17,34 @@ class AttrDict(dict):
         self.__dict__ = self
 
 
-def create_profile_picture(user, pp_data):
+def create_profile_photo(user, pp_data):
     user_dir = current_app.config['USER_DIR']
+
     if not os.path.isdir(user_dir):
         os.makedirs(user_dir)
-    og_filename = secure_filename(pp_data.filename)
-    og_full_path = '{}/{}'.format(user_dir, og_filename)
-    pp_data.save(og_full_path)
+        
+    current_photo = user.profile_photo
+    if current_photo:
+        full_path = '{}/{}.jpg'.format(user_dir, current_photo)
+        if os.path.exists(full_path):
+            os.remove(full_path)
     
+    up_filename = secure_filename(pp_data.filename)
+    up_full_path = '{}/{}'.format(user_dir, up_filename)
+    pp_data.save(up_full_path)
+
     size = (160, 160)
-    basename = hash_list([user.id])
+    basename = hash_list([user.id, datetime.utcnow()])
     full_path = '{}/{}.jpg'.format(user_dir, basename)
-    img = Image.open(og_full_path)
+    img = Image.open(up_full_path)
     method = Image.NEAREST if img.size == size else Image.ANTIALIAS
     img = ImageOps.fit(img, size, method=method)
     img.save(full_path, 'JPEG', quality=95)
 
-    if os.path.exists(og_full_path):
-        os.remove(og_full_path)
+    if os.path.exists(up_full_path):
+        os.remove(up_full_path)
+
+    return basename
 
 
 def register_user(User, email, first_name, last_name, password):

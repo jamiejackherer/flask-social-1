@@ -10,7 +10,7 @@ from sqlalchemy import or_
 from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app.extensions import db
-from app.helpers import create_profile_picture
+from app.helpers import create_profile_photo
 from app.users.models.user import User
 from app.users.models.posts import (
     Post, PostLike, PostComment, PostCommentLike, PostEdit, PostCommentEdit
@@ -371,7 +371,9 @@ def settings_profile():
         # Profile picture.
         pp_data = form.profile_picture.data
         if pp_data:
-            create_profile_picture(current_user, pp_data)
+            basename = create_profile_photo(current_user, pp_data)
+            current_user.profile_photo = basename
+            current_user.commit()
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
         current_user.bio = form.bio.data

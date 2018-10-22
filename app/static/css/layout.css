@@ -1091,6 +1091,25 @@ label {
   font-weight: bold;
 }
 
+.settings .profile-settings-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings .profile-settings-wrapper form {
+  order: 2;
+  width: 100%;
+}
+
+.settings .profile-picture {
+  order: 1;
+  width: 100%;
+}
+
+.settings .profile-picture img {
+  margin: 0 auto 20px auto;
+}
+
 .settings textarea {
   min-height: 90px;
   padding-bottom: 7px;
@@ -1137,11 +1156,18 @@ label {
 }
 
 @media (min-width: 992px) {
-  .settings input[type=text],
-  .settings input[type=password],
-  .settings input[type=file],
-  .settings textarea {
-    width: 50%;
+  .settings .profile-settings-wrapper {
+    flex-direction: row;
+  }
+
+  .settings .profile-settings-wrapper form {
+    order: 1;
+    width: 60%;
+  }
+
+  .settings .profile-settings-wrapper .profile-picture {
+    order: 2;
+    width: 40%;
   }
 }
 /* //END Settings (s:settings) */
