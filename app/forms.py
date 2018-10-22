@@ -29,7 +29,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField(
         'Password',
         validators=[DataRequired(), Length(min=8, max=32)])
-    submit = SubmitField('Register')
+    submit = SubmitField('Sign up')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()

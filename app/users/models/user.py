@@ -26,6 +26,7 @@ class User(UserMixin, db.Model, BaseModel):
     password = db.Column(db.String(128), nullable=False)
     first_name = db.Column(db.String(35), nullable=False)
     last_name = db.Column(db.String(35), nullable=False)
+    profile_photo = db.Column(db.String(32))
     bio = db.Column(db.Text)
     website_url = db.Column(db.String(500))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
@@ -102,7 +103,7 @@ class User(UserMixin, db.Model, BaseModel):
     @property
     def profile_picture(self):
         user_dir = current_app.config['USER_DIR']
-        filename = '{}.jpg'.format(hash_list([self.id]))
+        filename = '{}.jpg'.format(self.profile_photo)
         full_path = '{}/{}'.format(user_dir, filename)
         return filename if os.path.exists(full_path) else 'default.jpg'
 

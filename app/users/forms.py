@@ -62,7 +62,10 @@ class SettingsProfileForm(FlaskForm):
     profile_picture = FileField(
         'Profile picture',
         validators=[
-            FileAllowed(['jpg', 'png'], '.jpg or .png extensions only')
+            FileAllowed(
+                ['jpg', 'png', 'jpeg'],
+                '.jpg, .jpeg, and .png file extensions only.'
+            )
         ])
     bio = TextAreaField('Bio', validators=[Length(max=500)])
     location = StringField('Location', validators=[Length(max=255)])
