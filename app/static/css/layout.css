@@ -19,6 +19,7 @@
  * - Settings (s:settings)
  * - Post Edit / Comment Edit (s:post-edit) (s:comment-edit)
  * - Login (s:login)
+ * - Pagination (s:pagination)
  */
 
 /* Fonts (s:fonts) */
@@ -571,6 +572,10 @@ label {
   margin-top: 20px;
 }
 
+.profile .grid-main .main-container {
+  margin-bottom: 20px;
+}
+
 .name-and-profile-picture {
   align-items: center;
   display: flex;
@@ -671,6 +676,10 @@ label {
   padding-bottom: 20px;
   padding-left: 55px;
   position: relative;
+}
+
+.post-list > li:last-child {
+  margin-bottom: 20px;
 }
 
 .post-list .profile-picture {
@@ -913,6 +922,10 @@ label {
   margin-top: 20px;
 }
 
+.post .grid-post-likes .main-container {
+  margin-bottom: 10px;
+}
+
 .comment {
   margin: 20px auto;
   padding: 0 10px;
@@ -926,6 +939,10 @@ label {
 .card-wrapper,
 .comment-likes-wrapper {
   padding-left: 55px;
+}
+
+.comment-likes-wrapper .main-container {
+  margin-bottom: 20px;
 }
 
 .post-and-comment .post-form {
@@ -1012,6 +1029,10 @@ label {
 .search {
   margin: 20px auto;
   padding: 0 10px;
+}
+
+.search .main-container {
+  margin-bottom: 10px;
 }
 
 .search .search-form input {
@@ -1261,3 +1282,26 @@ label {
   }
 }
 /* //END Errors (s:errors) */
+
+/* Pagination (s:pagination) */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.pagination > li {
+  margin-right: 10px;
+  padding-right: 10px;
+
+  border-right: 1px solid #c8c9ca;
+  font-size: 14px;
+}
+
+.pagination > li:last-child {
+  margin-right: 0;
+  padding-right: 10px;
+
+  border-right: none;
+}
+/* //END Pagination (s:pagination) */

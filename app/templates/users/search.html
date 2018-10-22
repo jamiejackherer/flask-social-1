@@ -1,8 +1,9 @@
 {% extends "/base.html" %}
-{% from "/_macros.html" import render_search_pagination %}
+{% from "/_macros.html" import render_pagination %}
 
 {% block content %}
 <div class="search">
+  {{ render_pagination(search_result, 'users.search', search=request.args.get('search')) }}
   <div class="main-container">
     <div class="header-group">
       <i class="fa fa-search"></i>
@@ -43,5 +44,6 @@
       {% endif %}
     {% endif %}
   </div><!--//END .main-container-->
+  {{ render_pagination(search_result, 'users.search', search=request.args.get('search')) }}
 </div><!--//END .search-->
 {% endblock %}

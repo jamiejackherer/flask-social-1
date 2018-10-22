@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_macros.html" import render_comment_pagination %}
+{% from "_macros.html" import render_pagination %}
 
 {% block content %}
 <div class="comment">
@@ -8,6 +8,7 @@
       {% include "users/_comment.html" %}
     </ul><!--//END .comment-list-->
     <div class="comment-likes-wrapper">
+      {{ render_pagination(likes, 'users.comment', comment_id=comment.id) }}
       <div class="main-container">
         <div class="header-group">
           <i class="fas fa-heart"></i>
@@ -29,6 +30,7 @@
         </p>
         {% endif %}
       </div><!--//END .main-container-->
+      {{ render_pagination(likes, 'users.comment', comment_id=comment.id) }}
     </div><!--//END .comment-likes-wrapper-->
   </div><!--//END .grid-comment-->
 </div><!--//END .comment-->
