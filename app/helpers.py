@@ -17,34 +17,72 @@ class AttrDict(dict):
         self.__dict__ = self
 
 
-def create_profile_photo(user, pp_data):
-    user_dir = current_app.config['USER_DIR']
+class ProfilePhoto:
+    """ Manage user profile photo files.
 
-    if not os.path.isdir(user_dir):
-        os.makedirs(user_dir)
-        
-    current_photo = user.profile_photo
-    if current_photo:
-        full_path = '{}/{}.jpg'.format(user_dir, current_photo)
+    - Make sure static img user directory exists.
+    - Query :class:`User` to see if the user has a profile picture. If they do,
+        remove that file from disk.
+    - Save the image the user uploaded to disk.
+    - Resize the image the user uploaded, rename it by hashing the user's
+        ID and the current time, and save it to disk.
+    - Remove the image the user uploaded from disk.
+
+    :NOTE: The new hashed name is added to the user table from the view
+        function this is called from.
+    """
+    def __init__(self, user, pp_data):
+        """ Instantiate and set up variables.
+
+        :param user: User model of :class:`User`
+        :param pp_data: Data from form submission
+            ``form.profile_picture.data``
+        """
+        self.user = user
+        self.pp_data = pp_data
+        self.user_dir = current_app.config['STATIC_IMG_USER_DIR']
+        # Create a new filename by hashing user's ID and the current time.
+        self.new_basename = hash_list([user.id, datetime.utcnow()])
+
+    def manage_files(self):
+        # Make sure ``self.user_dir`` exists before saving any files into it.
+        if not os.path.isdir(self.user_dir):
+            os.makedirs(self.user_dir)
+
+        # Remove old use.
+        profile_photo = self.user.profile_photo
+        if profile_photo:
+            full_path = self.get_full_path(profile_photo)
+            self.remove_photo(full_path)
+
+        # Save the file the user uploaded.
+        up_filename = secure_filename(self.pp_data.filename)
+        up_full_path = self.get_full_path(up_filename, False)
+        self.pp_data.save(up_full_path)
+
+        # Resize the file the user uploaded, and save it with the new name
+        # from ``self.new_basename``.
+        full_path = self.get_full_path(self.new_basename)
+        img = self.resize(up_full_path, (160, 160))
+        img.save(full_path, 'JPEG', quality=95)
+
+        # Remove the file the user uploaded.
+        self.remove_photo(up_full_path)
+
+    def resize(self, full_path, size):
+        img = Image.open(full_path)
+        method = Image.NEAREST if img.size == size else Image.ANTIALIAS
+        return ImageOps.fit(img, size, method=method)
+
+    def remove_photo(self, full_path):
         if os.path.exists(full_path):
             os.remove(full_path)
-    
-    up_filename = secure_filename(pp_data.filename)
-    up_full_path = '{}/{}'.format(user_dir, up_filename)
-    pp_data.save(up_full_path)
 
-    size = (160, 160)
-    basename = hash_list([user.id, datetime.utcnow()])
-    full_path = '{}/{}.jpg'.format(user_dir, basename)
-    img = Image.open(up_full_path)
-    method = Image.NEAREST if img.size == size else Image.ANTIALIAS
-    img = ImageOps.fit(img, size, method=method)
-    img.save(full_path, 'JPEG', quality=95)
-
-    if os.path.exists(up_full_path):
-        os.remove(up_full_path)
-
-    return basename
+    def get_full_path(self, basename, ext=True):
+        full_path = '{}/{}'.format(self.user_dir, basename)
+        if ext:
+            full_path = '{}.jpg'.format(full_path)
+        return full_path
 
 
 def register_user(User, email, first_name, last_name, password):
