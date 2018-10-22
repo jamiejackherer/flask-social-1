@@ -678,6 +678,10 @@ label {
   position: relative;
 }
 
+.post-list > li:last-child {
+  margin-bottom: 20px;
+}
+
 .post-list .profile-picture {
   left: 0;
   position: absolute;
@@ -919,7 +923,7 @@ label {
 }
 
 .post .grid-post-likes .main-container {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .comment {
@@ -1028,7 +1032,7 @@ label {
 }
 
 .search .main-container {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .search .search-form input {
@@ -1282,20 +1286,22 @@ label {
 /* Pagination (s:pagination) */
 .pagination {
   display: flex;
-  margin-bottom: 20px;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
-.pagination .previous-wrapper,
-.pagination .next-wrapper {
-  width: 50%;
+.pagination > li {
+  margin-right: 10px;
+  padding-right: 10px;
+
+  border-right: 1px solid #c8c9ca;
+  font-size: 14px;
 }
 
-.pagination .next-wrapper {
-  text-align: right;
-}
+.pagination > li:last-child {
+  margin-right: 0;
+  padding-right: 10px;
 
-.pagination p,
-.pagination a {
-  line-height: 1;
+  border-right: none;
 }
 /* //END Pagination (s:pagination) */

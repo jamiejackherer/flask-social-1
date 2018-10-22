@@ -23,6 +23,7 @@
       <p class="card">Nobody has commented on this post yet!</p>
     </div><!--//END .card-wrapper-->
     {% endif %}
+    {{ render_pagination(comments, 'users.post', post_id=post.id, likes_page=request.args.get('likes_page')) }}
   </div><!--//END .grid-post-and-comment-->
   <div class="grid-post-likes">
     {{ render_likes_pagination(likes, 'users.post', post_id=post.id, page=request.args.get('page')) }}
