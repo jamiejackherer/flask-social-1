@@ -17,6 +17,7 @@
         <i class="fa fa-chevron-left"></i> Back to {{ user.first_name }}'s profile
       </a>
     </div><!--//END .header-group-->
+    {{ render_pagination(posts, 'users.my_posts', username=user.username) }}
     {% if posts.items %}
     <ul class="post-list">
       {% for post in posts.items %}
@@ -33,6 +34,7 @@
       posted anything yet.
     </p>
     {% endif %}
+    {{ render_pagination(posts, 'users.my_posts', username=user.username) }}
   </div><!--//END .grid-main-->
   <div class="grid-who-to-follow main-container">
     {% include "users/_who-to-follow.html" %}

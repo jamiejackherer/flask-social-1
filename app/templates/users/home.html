@@ -12,6 +12,7 @@
   </div><!--//END .grid-recent-posts .main-container-->
   <div class="grid-main">
     {% include "users/_post-form.html" %}
+    {{ render_pagination(posts, 'users.home') }}
     {% if posts.items %}
     <ul class="post-list">
       {% for post in posts.items %}
@@ -25,6 +26,7 @@
       some people.
     </p><!--//END .card-->
     {% endif %}
+    {{ render_pagination(posts, 'users.home') }}
   </div><!--//END .grid-main-->
   <div class="grid-who-to-follow main-container">
     {% include "users/_who-to-follow.html" %}

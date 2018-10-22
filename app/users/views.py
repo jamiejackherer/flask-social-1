@@ -181,7 +181,7 @@ def post():
     post_id = request.args.get('post_id')
     post = Post.post_by_id(post_id).first_or_404()
 
-    comments_page = request.args.get('comments_page', 1, type=int)
+    comments_page = request.args.get('page', 1, type=int)
     comments = post.active_comments.order_by(
         PostComment.created.asc()).paginate(
             comments_page, current_user.posts_per_page, False)
