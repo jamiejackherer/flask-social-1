@@ -1239,6 +1239,10 @@ label {
 .settings input[type=password],
 .settings input[type=file],
 .settings textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
   width: 100%;
 }
 
