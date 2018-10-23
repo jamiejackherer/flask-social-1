@@ -190,6 +190,10 @@ a:hover {
   text-align: center;
   font-family: inherit;
   font-size: inherit;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .btn:hover {
@@ -410,10 +414,19 @@ input[type=submit] {
   outline: 0;
 }
 
-select {
-  appearance: none;
-  -moz-appearance: none;
+input[type=text],
+input[type=password],
+input[type=submit],
+textarea {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 select::-ms-expand {
@@ -1239,10 +1252,6 @@ label {
 .settings input[type=password],
 .settings input[type=file],
 .settings textarea {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
   width: 100%;
 }
 
