@@ -764,7 +764,7 @@ label {
 
 .post-list > li {
   margin-bottom: 30px;
-  padding-bottom: 20px;
+  padding-bottom: 23px;
   padding-left: 55px;
   position: relative;
 }
@@ -785,11 +785,11 @@ label {
   left: 75px;
   position: absolute;
 
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .post-controls > * {
-  margin-left: 12px;
+  margin-left: 20px;
 }
 
 .post-controls > *:first-child {
@@ -803,6 +803,7 @@ label {
 .post-controls a:hover,
 .post-controls a:hover span {
   color: #006cd1;
+  text-decoration: none;
 }
 
 .post-controls .post-like-count,
