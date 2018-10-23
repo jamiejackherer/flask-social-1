@@ -523,6 +523,8 @@ label {
 /* Index (s:index) */
 .index-wrapper {
   margin-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   
   background: #ededed url("/static/img/japanese-sayagata-bg.png");
   border-bottom: 1px solid #d8dee2;
@@ -531,14 +533,15 @@ label {
 .index {
   align-items: center;
   display: flex;
-  padding: 40px 0; 
+  flex-direction: column;
+  padding: 20px 0; 
 }
 
 .index h1 {
   margin-bottom: 40px;
 
   color: #de4c4a;
-  font-size: 120px;
+  font-size: 75px;
   line-height: 1;
 }
 
@@ -555,14 +558,15 @@ label {
 }
 
 .index .welcome {
-  padding-right: 80px;
-  width: 70%;
+  order: 2;
 
   font-size: 22px;
 }
 
 .index .register-form {
-  width: 30%;
+  margin-bottom: 20px;
+  order: 1;
+  width: 100%;
 }
 
 .index .register-form .btn {
@@ -577,6 +581,7 @@ label {
 .stack {
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 
   font-size: 22px;
 }
@@ -604,16 +609,62 @@ label {
 .stack .css3:hover {
   color: #0055e2;
 }
+
+@media (min-width: 768px) {
+  .index-wrapper {
+    padding: 20px 0;
+  }
+
+  .index {
+    flex-direction: row;
+  }
+
+  .index .welcome {
+    order: 1;
+    padding-right: 40px;
+    width: 55%
+  }
+
+  .index .register-form {
+    margin-bottom: 0;
+    order: 2;
+    width: 45%;
+  }
+}
+
+@media (min-width: 992px) {
+  .index-wrapper {
+    padding: 40px 0;
+  }
+
+  .index .welcome {
+    width: 60%;
+  }
+
+  .index h1 {
+    font-size: 120px;
+  }
+
+  .index .register-form {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .index .welcome {
+    width: 70%;
+  }
+
+  .index .register-form {
+    width: 30%;
+  }
+}
 /* //END Index (s:index) */
 
 /* Home / Profile (s:home) (s:profile) */
 .home,
 .profile {
   margin-top: 20px;
-}
-
-.profile .grid-main .main-container {
-  margin-bottom: 20px;
 }
 
 .name-and-profile-picture {
