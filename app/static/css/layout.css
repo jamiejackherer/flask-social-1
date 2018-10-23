@@ -1346,6 +1346,10 @@ label {
   text-align: center;
   background-color: #f9f9f9;
 }
+
+.login.btn {
+  border-color: #ffffff;
+}
 /* //END Login (s:login) */
 
 /* Errors (s:errors) */
