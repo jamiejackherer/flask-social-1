@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-service=uwsgi@social.service
+service=uwsgi@dlindegren.service
 
 usage() {
 cat <<EOM
