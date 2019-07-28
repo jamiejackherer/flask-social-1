@@ -2,7 +2,7 @@
     social
     ~~~~~~
 
-    Callable `app` instance.
+    uWSGI entry point.
 """
 import os
 import config
@@ -11,7 +11,7 @@ from app.extensions import db
 from app.users.models.user import User
 from app.users.models.posts import Post, PostComment
 from app.users.models.notification import Notification
-from testing.default_user_content import DefaultUserContent
+from app.fake_content import FakeContent
 
 
 if os.environ.get('FLASK_ENV') == 'production':
@@ -22,12 +22,10 @@ else:
 
 @app.shell_context_processor
 def make_shell_context():
-    return {
-        'app': app,
-        'db': db,
-        'DUC': DefaultUserContent,
-        'User': User,
-        'Post': Post,
-        'PostComment': PostComment,
-        'Notification': Notification,
-    }
+    return {'app': app,
+            'db': db,
+            'FC': FakeContent,
+            'User': User,
+            'Post': Post,
+            'PostComment': PostComment,
+            'Notification': Notification}
