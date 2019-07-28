@@ -41,7 +41,7 @@ upgrade() {
     pip install -r requirements.txt
     flask db upgrade
     sudo systemctl start $service
-    #exit 0
+    exit 0
 }
 
 [[ -n "$upgrade" ]] && upgrade
